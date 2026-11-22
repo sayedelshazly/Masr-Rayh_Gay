@@ -2,21 +2,24 @@ import { useEffect, useRef } from 'react';
 import TourImageCard from './TourImageCard';
 
 /**
- * Featured tours — an endless 3D river. Same coverflow idea as
- * before (centre card flat and full-size, neighbours swung back in
- * perspective), but with every control stripped away: no arrows, no
- * dots, no stepping. The ring of cards drifts right at a calm,
- * constant speed and wraps seamlessly — a card that leaves on the
- * right re-enters on the left, so it never jumps back to the start.
- * Positions are computed on a ring (modulo the ring's circumference)
- * and painted directly in a rAF loop; hovering holds the river
- * still, and only the card in the centre is clickable.
- * Reduced-motion visitors get the same coverflow, standing still.
+ * Featured tours — the endless 3D river, moved by hand. Same look
+ * as the auto-drifting version (centre card flat and full-size,
+ * neighbours swung back in perspective, edges fading out), but
+ * nothing moves on its own: you drag with mouse or finger and the
+ * ring follows your hand 1:1, with a short glide of momentum when
+ * you let go. The ring is closed (positions wrap modulo its
+ * circumference), so you can pull it right — or left — forever; it
+ * never reaches an end and never snaps back to the start.
+ * Only the card in the centre is clickable, and a drag that ends
+ * on it does not count as a click.
  */
 export default function ToursCoverflow({ tours }) {
     const stageRef = useRef(null);
     const cardRefs = useRef([]);
-    const pausedRef = useRef(false);
+    const offsetRef = useRef(0);
+    const velocityRef = useRef(0);
+    const dragRef = useRef(null);
+    const draggedRef = useRef(false);
 
     const count = tours.length;
     // The set is doubled on the ring so the stage stays full even
@@ -32,18 +35,23 @@ export default function ToursCoverflow({ tours }) {
             return undefined;
         }
         const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const SPEED = 26; // px per second — a slow, luxurious drift
         let raf = 0;
         let last = performance.now();
-        let offset = 0;
 
         const frame = (now) => {
             const dt = Math.min((now - last) / 1000, 0.05);
             last = now;
-            if (!pausedRef.current && !reduced) {
-                offset += SPEED * dt;
+
+            // momentum glide after the hand lets go
+            if (!dragRef.current && Math.abs(velocityRef.current) > 4) {
+                offsetRef.current += velocityRef.current * dt;
+                velocityRef.current *= reduced ? 0 : Math.pow(0.06, dt); // fast decay
+                if (Math.abs(velocityRef.current) <= 4) {
+                    velocityRef.current = 0;
+                }
             }
 
+            const offset = offsetRef.current;
             const stageW = stage.clientWidth;
             const cardW = stageW < 640 ? 248 : 300;
             const step = cardW * 0.74;
@@ -84,22 +92,53 @@ export default function ToursCoverflow({ tours }) {
         return null;
     }
 
+    const onPointerDown = (event) => {
+        dragRef.current = { x: event.clientX, offset: offsetRef.current, lastX: event.clientX, lastT: performance.now() };
+        draggedRef.current = false;
+        velocityRef.current = 0;
+        stageRef.current?.setPointerCapture?.(event.pointerId);
+    };
+
+    const onPointerMove = (event) => {
+        const drag = dragRef.current;
+        if (!drag) {
+            return;
+        }
+        const dx = event.clientX - drag.x;
+        if (Math.abs(dx) > 6) {
+            draggedRef.current = true;
+        }
+        offsetRef.current = drag.offset + dx;
+
+        const now = performance.now();
+        const dt = (now - drag.lastT) / 1000;
+        if (dt > 0.016) {
+            velocityRef.current = (event.clientX - drag.lastX) / dt;
+            drag.lastX = event.clientX;
+            drag.lastT = now;
+        }
+    };
+
+    const endDrag = () => {
+        dragRef.current = null;
+    };
+
     return (
         <div
             ref={stageRef}
-            className="relative h-[430px] overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] [perspective:1400px] sm:h-[490px]"
-            onMouseEnter={() => {
-                pausedRef.current = true;
+            className="relative h-[430px] cursor-grab touch-pan-y select-none overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] [perspective:1400px] active:cursor-grabbing sm:h-[490px]"
+            onPointerDown={onPointerDown}
+            onPointerMove={onPointerMove}
+            onPointerUp={endDrag}
+            onPointerCancel={endDrag}
+            onClickCapture={(event) => {
+                if (draggedRef.current) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    draggedRef.current = false;
+                }
             }}
-            onMouseLeave={() => {
-                pausedRef.current = false;
-            }}
-            onTouchStart={() => {
-                pausedRef.current = true;
-            }}
-            onTouchEnd={() => {
-                pausedRef.current = false;
-            }}
+            onDragStart={(event) => event.preventDefault()}
         >
             {items.map((tour, k) => (
                 <div
