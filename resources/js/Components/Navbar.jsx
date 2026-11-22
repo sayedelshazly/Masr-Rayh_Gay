@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import { useLocale } from '../i18n/LocaleContext';
-import HieroglyphStrip from './HieroglyphStrip';
 import LanguageSwitcher from './LanguageSwitcher';
 
 /** Inline SVG brand mark: a gold-500 ankh inside a nile-800 ring. */
@@ -20,7 +19,7 @@ export function BrandMark({ className = 'h-11 w-11' }) {
 }
 
 export default function Navbar() {
-    const { t, strings } = useLocale();
+    const { t } = useLocale();
     const { props } = usePage();
     const user = props.auth?.user ?? null;
     const [open, setOpen] = useState(false);
@@ -36,23 +35,6 @@ export default function Navbar() {
 
     return (
         <header className="sticky top-0 z-50 shadow-md shadow-ink-900/5">
-            {/* Top bar */}
-            <div className="bg-nile-950 text-sand-100">
-                <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-x-6 gap-y-1 px-4 py-1.5 text-xs sm:px-6">
-                    <p className="hidden text-gold-300 md:block">{t('topbar.note')}</p>
-                    <div className="flex items-center gap-5" dir="ltr">
-                        <a href={`tel:${strings.topbar.phone.replace(/\s/g, '')}`} className="transition-colors hover:text-gold-300">
-                            ☎ {strings.topbar.phone}
-                        </a>
-                        <a href={`mailto:${strings.topbar.email}`} className="hidden transition-colors hover:text-gold-300 sm:block">
-                            ✉ {strings.topbar.email}
-                        </a>
-                    </div>
-                    <LanguageSwitcher dark />
-                </div>
-                <HieroglyphStrip className="pb-1 text-center text-[10px] text-gold-500/60" />
-            </div>
-
             {/* Main navbar */}
             <nav className="border-b-2 border-gold-500/70 bg-nile-950 backdrop-blur">
                 <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
@@ -82,6 +64,7 @@ export default function Navbar() {
                     </ul>
 
                     <div className="flex items-center gap-3">
+                        <LanguageSwitcher dark />
                         {user ? (
                             <div className="hidden items-center gap-4 md:flex">
                                 <span className="max-w-36 truncate text-sm font-bold text-sand-100" title={user.name}>
@@ -126,12 +109,6 @@ export default function Navbar() {
                                 </Link>
                             </div>
                         )}
-                        <a
-                            href="/tours"
-                            className="font-subhead hidden min-h-[44px] items-center rounded-md bg-gold-500 px-5 py-2.5 text-sm font-bold text-ink-900 shadow-sm transition-colors duration-150 ease-stone hover:bg-gold-300 sm:inline-flex"
-                        >
-                            {t('nav.bookNow')}
-                        </a>
                         <button
                             type="button"
                             onClick={() => setOpen((value) => !value)}
