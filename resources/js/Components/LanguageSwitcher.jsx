@@ -2,41 +2,42 @@ import { useLocale } from '../i18n/LocaleContext';
 import { locales } from '../i18n/translations';
 
 /**
- * AR | EN toggle — compact segmented control. Persists via LocaleContext
- * (localStorage) and flips the document direction between RTL and LTR.
+ * AR | EN toggle — bare text, no box: the active language in gold, the
+ * other dimmed. Persists via LocaleContext (localStorage) and flips the
+ * document direction between RTL and LTR.
  */
 export default function LanguageSwitcher({ dark = false }) {
     const { locale, setLocale } = useLocale();
 
     return (
-        <div
-            className={`inline-flex items-center gap-0.5 rounded-md border p-0.5 text-[10px] font-semibold ${
-                dark
-                    ? 'border-sand-100/25 bg-sand-100/5 text-sand-100'
-                    : 'border-gold-500/40 bg-white/60 text-ink-900'
-            }`}
-            role="group"
-            aria-label="Language / اللغة"
-        >
-            {Object.entries(locales).map(([code, meta]) => {
+        <div className="inline-flex items-center gap-1.5 text-xs" role="group" aria-label="Language / اللغة">
+            {Object.entries(locales).map(([code, meta], index) => {
                 const active = locale === code;
 
                 return (
-                    <button
-                        key={code}
-                        type="button"
-                        onClick={() => setLocale(code)}
-                        aria-pressed={active}
-                        className={`flex h-6 items-center rounded-sm px-2 tracking-wide transition-colors duration-150 ease-stone ${
-                            active
-                                ? 'bg-gold-500 text-ink-900 shadow-sm'
-                                : dark
-                                  ? 'text-sand-100/65 hover:text-sand-100'
-                                  : 'text-ink-900/55 hover:text-ink-900'
-                        }`}
-                    >
-                        {meta.short}
-                    </button>
+                    <span key={code} className="inline-flex items-center gap-1.5">
+                        {index > 0 && (
+                            <span aria-hidden="true" className={dark ? 'text-sand-100/30' : 'text-ink-900/30'}>
+                                |
+                            </span>
+                        )}
+                        <button
+                            type="button"
+                            onClick={() => setLocale(code)}
+                            aria-pressed={active}
+                            className={`py-1 transition-colors duration-150 ease-stone ${
+                                active
+                                    ? dark
+                                        ? 'font-bold text-gold-300'
+                                        : 'font-bold text-gold-deep'
+                                    : dark
+                                      ? 'text-sand-100/55 hover:text-sand-100'
+                                      : 'text-ink-900/50 hover:text-ink-900'
+                            }`}
+                        >
+                            {meta.short}
+                        </button>
+                    </span>
                 );
             })}
         </div>
