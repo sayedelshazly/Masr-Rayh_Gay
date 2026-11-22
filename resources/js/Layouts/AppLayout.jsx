@@ -8,7 +8,7 @@ import Navbar from '../Components/Navbar';
  */
 export default function AppLayout({ children }) {
     return (
-        <div className="flex min-h-screen flex-col bg-ivory font-sans text-ink antialiased">
+        <div className="flex min-h-screen flex-col bg-sand-100 font-sans text-ink-900 antialiased">
             <Navbar />
             <main className="flex-1">{children}</main>
             <Footer />

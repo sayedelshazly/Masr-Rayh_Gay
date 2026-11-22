@@ -12,7 +12,7 @@ export const destinations = [
             en: 'The Pyramids, the Egyptian Museum & the Citadel',
         },
         price: 1800,
-        gradient: 'from-amber-500 via-gold to-gold-deep',
+        gradient: 'from-amber-500 via-gold-500 to-gold-deep',
         glyph: '𓂀',
     },
     {
@@ -34,7 +34,7 @@ export const destinations = [
             en: 'Philae, Abu Simbel & the calm Nubian Nile',
         },
         price: 3900,
-        gradient: 'from-lapis via-sky-600 to-lapis-deep',
+        gradient: 'from-nile-800 via-sky-600 to-nile-950',
         glyph: '𓅃',
     },
     {
@@ -45,7 +45,7 @@ export const destinations = [
             en: 'Hurghada, Sharm El Sheikh & stunning coral reefs',
         },
         price: 2600,
-        gradient: 'from-teal-400 via-cyan-600 to-lapis',
+        gradient: 'from-teal-400 via-cyan-600 to-nile-800',
         glyph: '𓆣',
     },
 ];

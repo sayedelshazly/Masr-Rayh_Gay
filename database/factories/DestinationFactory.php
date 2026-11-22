@@ -23,7 +23,7 @@ class DestinationFactory extends Factory
             'description_ar' => fake()->paragraph(),
             'description_en' => fake()->paragraph(),
             'region' => fake()->randomElement(['nile_valley', 'red_sea', 'cairo', 'desert', 'mediterranean']),
-            'gradient' => 'from-lapis via-sky-600 to-lapis-deep',
+            'gradient' => 'from-nile-800 via-sky-600 to-nile-950',
             'glyph' => '𓂀',
             'is_featured' => false,
             'sort_order' => fake()->numberBetween(0, 100),

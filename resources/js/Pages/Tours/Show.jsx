@@ -6,7 +6,7 @@ import { useLocale } from '../../i18n/LocaleContext';
 import { formatPrice, localized } from '../../lib/format';
 
 function SectionTitle({ children }) {
-    return <h2 className="font-display text-2xl font-bold text-lapis-deep sm:text-3xl">{children}</h2>;
+    return <h2 className="font-display text-2xl font-bold text-nile-950 sm:text-3xl">{children}</h2>;
 }
 
 export default function TourShow({ tour, relatedTours }) {
@@ -33,22 +33,22 @@ export default function TourShow({ tour, relatedTours }) {
     const bookHref = `/tours/${tour.slug}/book?${bookParams.toString()}`;
 
     const miniFieldClass =
-        'w-full rounded-xl border border-gold/40 bg-white px-3 py-2 text-sm font-medium text-ink outline-none transition-colors focus:border-gold-deep';
-    const miniLabelClass = 'mb-1 block text-xs font-bold text-ink/60';
+        'w-full rounded-md border border-gold-500/40 bg-white px-3 py-2 text-sm font-medium text-ink-900 outline-none transition-colors focus:border-gold-deep';
+    const miniLabelClass = 'mb-1 block text-xs font-bold text-ink-900/60';
 
     return (
         <AppLayout>
             <Head title={`${localized(tour, 'title', locale)} — ${t('brand.name')}`} />
 
             {/* Hero band */}
-            <section className={`bg-gradient-to-br ${destination.gradient ?? 'from-lapis via-sky-600 to-lapis-deep'}`}>
+            <section className={`bg-gradient-to-br ${destination.gradient ?? 'from-nile-800 via-sky-600 to-nile-950'}`}>
                 <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
-                    <Link href="/tours" className="text-sm font-semibold text-white/85 transition-colors hover:text-gold-light">
+                    <Link href="/tours" className="text-sm font-semibold text-white/85 transition-colors hover:text-gold-300">
                         ← {t('tours.show.back')}
                     </Link>
                     <div className="mt-6 flex flex-wrap items-start justify-between gap-6">
                         <div className="max-w-3xl">
-                            <p className="font-display text-sm font-bold tracking-wide text-gold-light">
+                            <p className="font-display text-sm font-bold tracking-wide text-gold-300">
                                 <Link href={`/destinations/${destination.slug}`} className="hover:underline">
                                     {localized(destination, 'name', locale)}
                                 </Link>
@@ -60,18 +60,18 @@ export default function TourShow({ tour, relatedTours }) {
                             </h1>
                             <p className="mt-4 leading-loose text-white/85">{localized(tour, 'summary', locale)}</p>
                             <div className="mt-6 flex flex-wrap gap-3 text-sm font-semibold">
-                                <span className="rounded-full bg-lapis-deep/60 px-4 py-2 text-gold-light">
+                                <span className="rounded-sm bg-nile-950/60 px-4 py-2 text-gold-300">
                                     ★ {Number(tour.rating).toFixed(1)} · {tour.reviews_count} {t('common.reviews')}
                                 </span>
-                                <span className="rounded-full bg-lapis-deep/60 px-4 py-2 text-ivory">
+                                <span className="rounded-sm bg-nile-950/60 px-4 py-2 text-sand-100">
                                     <DurationLabel tour={tour} />
                                 </span>
                                 {tour.is_featured && (
-                                    <span className="rounded-full bg-gold px-4 py-2 text-ink">{t('common.featured')}</span>
+                                    <span className="rounded-sm bg-gold-500 px-4 py-2 text-ink-900">{t('common.featured')}</span>
                                 )}
                             </div>
                         </div>
-                        <span aria-hidden="true" className="hidden text-8xl text-white/50 lg:block">
+                        <span aria-hidden="true" className="font-glyph hidden text-8xl text-white/50 lg:block">
                             {destination.glyph ?? '𓂀'}
                         </span>
                     </div>
@@ -81,7 +81,7 @@ export default function TourShow({ tour, relatedTours }) {
             <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
                 <div className="grid gap-10 lg:grid-cols-[1fr_340px]">
                     <div>
-                        <p className="leading-loose text-ink/75">{localized(tour, 'description', locale)}</p>
+                        <p className="leading-loose text-ink-900/75">{localized(tour, 'description', locale)}</p>
 
                         {/* Itinerary */}
                         <div className="mt-12">
@@ -90,16 +90,16 @@ export default function TourShow({ tour, relatedTours }) {
                                 {itinerary.map((day, index) => (
                                     <li key={day.id} className="relative flex gap-5 pb-8 last:pb-0">
                                         {index < itinerary.length - 1 && (
-                                            <span aria-hidden="true" className="absolute start-[22px] top-12 h-[calc(100%-3rem)] w-0.5 bg-gold/40" />
+                                            <span aria-hidden="true" className="absolute start-[22px] top-12 h-[calc(100%-3rem)] w-0.5 bg-gold-500/40" />
                                         )}
-                                        <span className="font-display z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-lapis-deep text-base font-bold text-gold">
+                                        <span className="font-display z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-nile-950 text-base font-bold text-gold-500">
                                             {day.day_number}
                                         </span>
                                         <div className="pt-1.5">
-                                            <h3 className="font-display text-lg font-bold text-lapis-deep">
+                                            <h3 className="font-display text-lg font-bold text-nile-950">
                                                 {t('tours.show.day')} {day.day_number}: {localized(day, 'title', locale)}
                                             </h3>
-                                            <p className="mt-1.5 leading-relaxed text-ink/65">
+                                            <p className="mt-1.5 leading-relaxed text-ink-900/65">
                                                 {localized(day, 'description', locale)}
                                             </p>
                                         </div>
@@ -114,7 +114,7 @@ export default function TourShow({ tour, relatedTours }) {
                                 <SectionTitle>{t('tours.show.includes')}</SectionTitle>
                                 <ul className="mt-5 grid gap-3 sm:grid-cols-2">
                                     {includes.map((item) => (
-                                        <li key={item} className="flex items-start gap-2.5 rounded-2xl bg-white px-4 py-3 text-sm text-ink/75 shadow-sm ring-1 ring-sand">
+                                        <li key={item} className="flex items-start gap-2.5 rounded-lg bg-white px-4 py-3 text-sm text-ink-900/75 shadow-sm ring-1 ring-sand-300">
                                             <span aria-hidden="true" className="mt-0.5 font-bold text-gold-deep">✓</span>
                                             {item}
                                         </li>
@@ -124,8 +124,8 @@ export default function TourShow({ tour, relatedTours }) {
                         )}
 
                         {localized(tour, 'meeting_point', locale) && (
-                            <p className="mt-10 rounded-2xl bg-sand/70 px-5 py-4 text-sm text-ink/75">
-                                <span className="font-display font-bold text-lapis-deep">{t('tours.show.meetingPoint')}: </span>
+                            <p className="mt-10 rounded-lg bg-sand-300/70 px-5 py-4 text-sm text-ink-900/75">
+                                <span className="font-display font-bold text-nile-950">{t('tours.show.meetingPoint')}: </span>
                                 {localized(tour, 'meeting_point', locale)}
                             </p>
                         )}
@@ -133,20 +133,20 @@ export default function TourShow({ tour, relatedTours }) {
 
                     {/* Price card */}
                     <aside className="lg:sticky lg:top-40 lg:self-start">
-                        <div className="rounded-3xl border border-gold/50 bg-white p-6 shadow-xl shadow-ink/5">
-                            <p className="text-sm text-ink/55">{t('common.perPerson')}</p>
+                        <div className="rounded-lg border border-gold-500/50 bg-white p-6 shadow-xl shadow-ink-900/5">
+                            <p className="text-sm text-ink-900/55">{t('common.perPerson')}</p>
                             <p className="mt-1">
                                 {tour.old_price && (
-                                    <span className="me-2 align-middle text-base text-ink/45 line-through">
+                                    <span className="me-2 align-middle text-base text-ink-900/45 line-through">
                                         {formatPrice(tour.old_price, locale)} {t('common.currency')}
                                     </span>
                                 )}
                                 <span className="font-display align-middle text-4xl font-extrabold text-gold-deep">
                                     {formatPrice(tour.price, locale)}
                                 </span>{' '}
-                                <span className="font-semibold text-ink/70">{t('common.currency')}</span>
+                                <span className="font-semibold text-ink-900/70">{t('common.currency')}</span>
                             </p>
-                            <div className="mt-5 space-y-2.5 border-t border-sand pt-5 text-sm text-ink/70">
+                            <div className="mt-5 space-y-2.5 border-t border-sand-300 pt-5 text-sm text-ink-900/70">
                                 <p className="flex justify-between">
                                     <span>{localized(destination, 'name', locale)}</span>
                                     <span aria-hidden="true">{destination.glyph}</span>
@@ -157,7 +157,7 @@ export default function TourShow({ tour, relatedTours }) {
                                 </p>
                             </div>
                             {/* Booking mini-form */}
-                            <div className="mt-5 border-t border-sand pt-5">
+                            <div className="mt-5 border-t border-sand-300 pt-5">
                                 <div>
                                     <label htmlFor="mini_travel_date" className={miniLabelClass}>{t('booking.travelDate')}</label>
                                     <input
@@ -197,20 +197,20 @@ export default function TourShow({ tour, relatedTours }) {
                                 </div>
                                 <p className="mt-1.5 text-[11px] font-medium text-gold-deep">{t('booking.childrenHint')}</p>
                                 <p className="mt-4 flex items-baseline justify-between">
-                                    <span className="font-display text-sm font-bold text-lapis-deep">{t('booking.total')}</span>
+                                    <span className="font-display text-sm font-bold text-nile-950">{t('booking.total')}</span>
                                     <span className="font-display text-2xl font-extrabold text-gold-deep">
                                         {formatPrice(liveTotal, locale)}{' '}
-                                        <span className="text-xs font-semibold text-ink/70">{t('common.currency')}</span>
+                                        <span className="text-xs font-semibold text-ink-900/70">{t('common.currency')}</span>
                                     </span>
                                 </p>
                             </div>
                             <Link
                                 href={bookHref}
-                                className="font-display mt-5 block rounded-full bg-gold px-6 py-3 text-center font-bold text-ink transition-colors hover:bg-gold-deep hover:text-ivory"
+                                className="font-subhead mt-5 flex min-h-[44px] items-center justify-center rounded-md bg-gold-500 px-6 py-3 text-center font-bold text-ink-900 transition-colors duration-150 ease-stone hover:bg-gold-300"
                             >
                                 {t('booking.cta')}
                             </Link>
-                            <p className="mt-3 text-center text-xs leading-relaxed text-ink/50">{t('tours.show.bookNote')}</p>
+                            <p className="mt-3 text-center text-xs leading-relaxed text-ink-900/50">{t('tours.show.bookNote')}</p>
                         </div>
                     </aside>
                 </div>

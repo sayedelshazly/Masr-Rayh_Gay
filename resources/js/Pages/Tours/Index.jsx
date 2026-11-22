@@ -18,7 +18,7 @@ const SORT_LABEL_KEYS = {
 };
 
 const inputClass =
-    'w-full rounded-full border border-gold/40 bg-white px-4 py-2.5 text-sm font-medium text-ink outline-none transition-colors focus:border-gold-deep';
+    'w-full rounded-md border border-gold-500/40 bg-white px-4 py-2.5 text-sm font-medium text-ink-900 outline-none transition-colors focus:border-gold-deep';
 
 export default function ToursIndex({ tours, destinations, types, filters }) {
     const { t, locale } = useLocale();
@@ -50,19 +50,19 @@ export default function ToursIndex({ tours, destinations, types, filters }) {
         <AppLayout>
             <Head title={t('tours.metaTitle')} />
 
-            <section className="bg-gradient-to-b from-sand via-ivory to-ivory">
+            <section className="bg-gradient-to-b from-sand-300 via-sand-100 to-sand-100">
                 <div className="mx-auto max-w-7xl px-4 pb-10 pt-12 text-center sm:px-6">
                     <p className="font-display text-sm font-bold tracking-wide text-gold-deep">{t('tours.kicker')}</p>
-                    <h1 className="font-display mx-auto mt-2 max-w-3xl text-4xl font-extrabold leading-snug text-lapis-deep sm:text-5xl">
+                    <h1 className="font-display mx-auto mt-2 max-w-3xl text-4xl font-extrabold leading-snug text-nile-950 sm:text-5xl">
                         {t('tours.title')}
                     </h1>
-                    <p className="mx-auto mt-4 max-w-2xl leading-loose text-ink/70">{t('tours.subtitle')}</p>
+                    <p className="mx-auto mt-4 max-w-2xl leading-loose text-ink-900/70">{t('tours.subtitle')}</p>
                 </div>
             </section>
 
             <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6">
                 {/* Filters — every change re-queries the server (Inertia, state preserved) */}
-                <div className="grid gap-3 rounded-3xl border border-gold/40 bg-white/80 p-4 shadow-lg shadow-ink/5 backdrop-blur sm:grid-cols-2 lg:grid-cols-5">
+                <div className="grid gap-3 rounded-lg border border-gold-500/40 bg-white/80 p-4 shadow-lg shadow-ink-900/5 backdrop-blur sm:grid-cols-2 lg:grid-cols-5">
                     <input
                         type="search"
                         value={search}
@@ -126,7 +126,7 @@ export default function ToursIndex({ tours, destinations, types, filters }) {
                 </div>
 
                 <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
-                    <p className="text-sm font-medium text-ink/60">
+                    <p className="text-sm font-medium text-ink-900/60">
                         <span className="font-display text-lg font-bold text-gold-deep">{tours.total}</span>{' '}
                         {t('tours.results')}
                     </p>
@@ -137,7 +137,7 @@ export default function ToursIndex({ tours, destinations, types, filters }) {
                                 setSearch('');
                                 apply({ search: '', destination: '', type: '', max_price: '', sort: filters.sort });
                             }}
-                            className="text-sm font-semibold text-lapis transition-colors hover:text-gold-deep"
+                            className="text-sm font-semibold text-lapis-600 transition-colors hover:text-gold-deep"
                         >
                             {t('tours.resetFilters')}
                         </button>
@@ -151,12 +151,12 @@ export default function ToursIndex({ tours, destinations, types, filters }) {
                         ))}
                     </div>
                 ) : (
-                    <div className="mt-6 rounded-3xl bg-white p-12 text-center shadow-sm ring-1 ring-sand">
-                        <p aria-hidden="true" className="text-5xl text-gold/60">𓂀</p>
-                        <h2 className="font-display mt-4 text-2xl font-bold text-lapis-deep">
+                    <div className="mt-6 rounded-lg bg-white p-12 text-center shadow-sm ring-1 ring-sand-300">
+                        <p aria-hidden="true" className="font-glyph text-5xl text-gold-500/60">𓂀</p>
+                        <h2 className="font-display mt-4 text-2xl font-bold text-nile-950">
                             {t('tours.noResultsTitle')}
                         </h2>
-                        <p className="mx-auto mt-2 max-w-md text-ink/60">{t('tours.noResultsText')}</p>
+                        <p className="mx-auto mt-2 max-w-md text-ink-900/60">{t('tours.noResultsText')}</p>
                     </div>
                 )}
 
@@ -169,17 +169,17 @@ export default function ToursIndex({ tours, destinations, types, filters }) {
                                     href={link.url}
                                     preserveState
                                     preserveScroll
-                                    className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+                                    className={`rounded-md px-4 py-2 text-sm font-semibold transition-colors ${
                                         link.active
-                                            ? 'bg-lapis text-ivory'
-                                            : 'bg-white text-ink/70 ring-1 ring-sand hover:text-gold-deep'
+                                            ? 'bg-nile-800 text-sand-100'
+                                            : 'bg-white text-ink-900/70 ring-1 ring-sand-300 hover:text-gold-deep'
                                     }`}
                                     dangerouslySetInnerHTML={{ __html: link.label }}
                                 />
                             ) : (
                                 <span
                                     key={index}
-                                    className="rounded-full px-4 py-2 text-sm text-ink/35"
+                                    className="rounded-md px-4 py-2 text-sm text-ink-900/35"
                                     dangerouslySetInnerHTML={{ __html: link.label }}
                                 />
                             ),

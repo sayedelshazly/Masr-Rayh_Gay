@@ -99,7 +99,7 @@ export default function AcademyNameTool({ glyphMap }) {
                     <div className="flex items-stretch">
                         <div className="flex min-h-24 min-w-64 items-center justify-center rounded-full border-4 border-gold-deep bg-sand px-8 py-4 shadow-inner">
                             {glyphString ? (
-                                <span className="text-center text-4xl leading-relaxed tracking-wide text-lapis-deep">
+                                <span className="font-glyph text-center text-4xl leading-relaxed tracking-wide text-lapis-deep">
                                     {tokens.map((token, index) =>
                                         token.glyph ? <span key={index}>{token.glyph}</span> : <span key={index} className="mx-2" />,
                                     )}
@@ -130,7 +130,7 @@ export default function AcademyNameTool({ glyphMap }) {
                         <div className="mt-4 flex flex-wrap gap-3" dir="ltr">
                             {glyphTokens.map((token, index) => (
                                 <div key={index} className="w-20 rounded-3xl bg-white p-3 text-center shadow-sm ring-1 ring-sand">
-                                    <span className="block text-3xl text-lapis" aria-hidden="true">
+                                    <span className="block font-glyph text-3xl text-lapis" aria-hidden="true">
                                         {token.glyph}
                                     </span>
                                     <span className="mt-1 block text-sm font-extrabold uppercase text-lapis-deep">{token.text}</span>

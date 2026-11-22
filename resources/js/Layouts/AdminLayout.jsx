@@ -24,7 +24,7 @@ export default function AdminLayout({ children, title }) {
         <div className="min-h-screen bg-sand/60 font-sans text-ink antialiased">
             <div className="flex min-h-screen">
                 {/* Sidebar */}
-                <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col bg-lapis-deep text-ivory md:flex">
+                <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col bg-nile-950 text-ivory md:flex">
                     <div className="flex items-center gap-2.5 border-b border-ivory/10 px-5 py-4">
                         <BrandMark className="h-9 w-9" />
                         <div className="leading-tight">
@@ -55,7 +55,7 @@ export default function AdminLayout({ children, title }) {
                 {/* Main column */}
                 <div className="min-w-0 flex-1">
                     <header className="sticky top-0 z-40 flex flex-wrap items-center justify-between gap-3 border-b border-gold/40 bg-ivory/95 px-4 py-3 backdrop-blur sm:px-6">
-                        <h1 className="font-display text-lg font-bold text-lapis-deep">{title ?? t('admin.title')}</h1>
+                        <h1 className="font-display text-lg font-bold text-nile-950">{title ?? t('admin.title')}</h1>
                         <div className="flex items-center gap-4">
                             <nav className="flex gap-1 md:hidden">
                                 {links.map((link) => (
@@ -71,7 +71,7 @@ export default function AdminLayout({ children, title }) {
                                 ))}
                             </nav>
                             <LanguageSwitcher />
-                            <span className="hidden text-sm font-bold text-lapis-deep sm:block">{user?.name}</span>
+                            <span className="hidden text-sm font-bold text-nile-950 sm:block">{user?.name}</span>
                             <a href="/" className="text-sm text-gold-deep hover:underline md:hidden">
                                 {t('admin.backToSite')}
                             </a>
@@ -80,7 +80,7 @@ export default function AdminLayout({ children, title }) {
 
                     <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
                         {flash && (
-                            <p className="mb-4 rounded-xl bg-emerald-100 px-4 py-2.5 text-sm font-bold text-emerald-800 ring-1 ring-emerald-300">
+                            <p className="mb-4 rounded-xl bg-turquoise-600/15 px-4 py-2.5 text-sm font-bold text-ink-900 ring-1 ring-turquoise-600/50">
                                 {t('admin.saved')}
                             </p>
                         )}

@@ -11,7 +11,7 @@ function Field({ label, error, children }) {
         <label className="block">
             <span className={labelCls}>{label}</span>
             {children}
-            {error && <span className="mt-1 block text-xs font-bold text-red-600">{error}</span>}
+            {error && <span className="mt-1 block text-xs font-bold text-carnelian-600">{error}</span>}
         </label>
     );
 }
@@ -87,7 +87,7 @@ export default function Edit({ destination }) {
                         type="checkbox"
                         checked={data.is_featured}
                         onChange={(e) => setData('is_featured', e.target.checked)}
-                        className="h-4 w-4 accent-[#9a7b1c]"
+                        className="h-4 w-4 accent-gold-deep"
                     />
                     {t('admin.fields.isFeatured')}
                 </label>

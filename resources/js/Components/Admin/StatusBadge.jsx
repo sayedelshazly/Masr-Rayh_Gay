@@ -2,8 +2,8 @@ import { useLocale } from '../../i18n/LocaleContext';
 
 export const STATUS_STYLES = {
     pending: 'bg-gold/20 text-gold-deep ring-gold/50',
-    confirmed: 'bg-emerald-100 text-emerald-800 ring-emerald-300',
-    cancelled: 'bg-red-100 text-red-700 ring-red-300',
+    confirmed: 'bg-turquoise-600/15 text-ink ring-turquoise-600/50',
+    cancelled: 'bg-carnelian-600/10 text-carnelian-600 ring-carnelian-600/40',
 };
 
 export default function StatusBadge({ status }) {

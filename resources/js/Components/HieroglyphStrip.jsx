@@ -6,7 +6,7 @@ const GLYPHS = '𓂀 𓆣 𓅃 𓋹 𓍿 𓄿 𓅓 𓂋 𓈖 𓆑 𓊵 𓏏';
  */
 export default function HieroglyphStrip({ className = '' }) {
     return (
-        <div aria-hidden="true" className={`hieroglyph-strip overflow-hidden whitespace-nowrap ${className}`}>
+        <div aria-hidden="true" className={`hieroglyph-strip font-glyph overflow-hidden whitespace-nowrap ${className}`}>
             {GLYPHS} {GLYPHS}
         </div>
     );

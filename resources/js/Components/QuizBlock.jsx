@@ -67,9 +67,9 @@ export default function QuizBlock({ questions }) {
                                         classes = 'border-gold bg-gold/15 text-ink font-bold';
                                     }
                                     if (submitted && isAnswer) {
-                                        classes = 'border-emerald-500 bg-emerald-50 text-emerald-900 font-bold';
+                                        classes = 'border-turquoise-600 bg-turquoise-600/10 text-ink-900 font-bold';
                                     } else if (submitted && isChosen) {
-                                        classes = 'border-red-400 bg-red-50 text-red-900 font-bold';
+                                        classes = 'border-carnelian-600 bg-carnelian-600/10 text-ink-900 font-bold';
                                     }
 
                                     return (
@@ -87,7 +87,7 @@ export default function QuizBlock({ questions }) {
                             </div>
                             {submitted && (
                                 <div className="mt-4 rounded-2xl bg-sand/70 px-4 py-3 text-sm leading-relaxed">
-                                    <span className={`font-bold ${isCorrect ? 'text-emerald-700' : 'text-red-700'}`}>
+                                    <span className={`font-bold ${isCorrect ? 'text-ink-900' : 'text-carnelian-600'}`}>
                                         {isCorrect ? `✓ ${quiz.correct}` : `✗ ${quiz.wrong}`}
                                     </span>
                                     <span className="mt-1 block text-ink/75">

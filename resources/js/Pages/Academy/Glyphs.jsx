@@ -69,7 +69,7 @@ export default function AcademyGlyphs({ glyphs, categories }) {
                                 }`}
                             >
                                 <span
-                                    className={`block text-4xl ${selected?.id === glyph.id ? 'text-gold-light' : 'text-lapis'}`}
+                                    className={`block font-glyph text-4xl ${selected?.id === glyph.id ? 'text-gold-light' : 'text-lapis'}`}
                                     aria-hidden="true"
                                 >
                                     {glyph.symbol}
@@ -94,7 +94,7 @@ export default function AcademyGlyphs({ glyphs, categories }) {
                         {selected ? (
                             <>
                                 <div className="flex items-center justify-center rounded-3xl border border-gold/40 bg-lapis/40 py-6">
-                                    <span className="text-8xl text-gold-light" aria-hidden="true">
+                                    <span className="font-glyph text-8xl text-gold-light" aria-hidden="true">
                                         {selected.symbol}
                                     </span>
                                 </div>

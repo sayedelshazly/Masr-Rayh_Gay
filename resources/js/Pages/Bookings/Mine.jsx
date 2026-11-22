@@ -6,8 +6,8 @@ import { formatPrice, localized } from '../../lib/format';
 
 const STATUS_STYLES = {
     pending: 'bg-gold/20 text-gold-deep ring-gold/50',
-    confirmed: 'bg-emerald-100 text-emerald-800 ring-emerald-300',
-    cancelled: 'bg-red-100 text-red-700 ring-red-300',
+    confirmed: 'bg-turquoise-600/15 text-ink ring-turquoise-600/50',
+    cancelled: 'bg-carnelian-600/10 text-carnelian-600 ring-carnelian-600/40',
 };
 
 function formatDate(value, locale) {
@@ -90,7 +90,7 @@ function BookingCard({ booking, onCancel, cancelling }) {
                         type="button"
                         disabled={cancelling}
                         onClick={() => onCancel(booking)}
-                        className="rounded-full border border-red-300 px-4 py-2 text-xs font-bold text-red-700 transition-colors hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
+                        className="rounded-full border border-carnelian-600/50 px-4 py-2 text-xs font-bold text-carnelian-600 transition-colors hover:bg-carnelian-600/10 disabled:cursor-not-allowed disabled:opacity-60"
                     >
                         {cancelling ? t('myBookings.cancelling') : t('myBookings.cancel')}
                     </button>

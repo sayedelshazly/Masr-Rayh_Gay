@@ -16,8 +16,8 @@ export default function Footer() {
     ];
 
     return (
-        <footer id="contact" className="bg-lapis-deep text-ivory">
-            <HieroglyphStrip className="border-b border-gold/25 py-3 text-center text-sm text-gold/70" />
+        <footer id="contact" className="bg-nile-950 text-sand-100">
+            <HieroglyphStrip className="border-b border-gold-500/25 py-3 text-center text-sm text-gold-500/70" />
 
             <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-2 lg:grid-cols-4">
                 <div>
@@ -25,19 +25,19 @@ export default function Footer() {
                         <BrandMark className="h-12 w-12" />
                         <div className="leading-tight">
                             <p className="font-display text-lg font-bold">{t('brand.name')}</p>
-                            <p className="text-[11px] tracking-wide text-gold-light">{t('brand.nameLatin')}</p>
+                            <p className="text-[11px] tracking-wide text-gold-300">{t('brand.nameLatin')}</p>
                         </div>
                     </div>
-                    <p className="mt-4 text-sm leading-relaxed text-ivory/75">{t('footer.blurb')}</p>
-                    <p className="font-display mt-3 text-sm text-gold-light">{t('brand.tagline')}</p>
+                    <p className="mt-4 text-sm leading-relaxed text-sand-100/75">{t('footer.blurb')}</p>
+                    <p className="font-display mt-3 text-sm text-gold-300">{t('brand.tagline')}</p>
                 </div>
 
                 <nav aria-label={t('footer.quickLinks')}>
-                    <h3 className="font-display mb-4 text-base font-bold text-gold">{t('footer.quickLinks')}</h3>
+                    <h3 className="font-display mb-4 text-base font-bold text-gold-500">{t('footer.quickLinks')}</h3>
                     <ul className="space-y-2 text-sm">
                         {quickLinks.map((link) => (
                             <li key={link.label}>
-                                <a href={link.href} className="text-ivory/80 transition-colors hover:text-gold-light">
+                                <a href={link.href} className="text-sand-100/80 transition-colors hover:text-gold-300">
                                     {link.label}
                                 </a>
                             </li>
@@ -46,11 +46,11 @@ export default function Footer() {
                 </nav>
 
                 <nav aria-label={t('footer.topDestinations')}>
-                    <h3 className="font-display mb-4 text-base font-bold text-gold">{t('footer.topDestinations')}</h3>
+                    <h3 className="font-display mb-4 text-base font-bold text-gold-500">{t('footer.topDestinations')}</h3>
                     <ul className="space-y-2 text-sm">
                         {destinations.map((destination) => (
                             <li key={destination.id}>
-                                <a href="/destinations" className="text-ivory/80 transition-colors hover:text-gold-light">
+                                <a href="/destinations" className="text-sand-100/80 transition-colors hover:text-gold-300">
                                     {destination.name[locale]}
                                 </a>
                             </li>
@@ -59,8 +59,8 @@ export default function Footer() {
                 </nav>
 
                 <div>
-                    <h3 className="font-display mb-4 text-base font-bold text-gold">{t('footer.contactTitle')}</h3>
-                    <ul className="space-y-2 text-sm text-ivory/80">
+                    <h3 className="font-display mb-4 text-base font-bold text-gold-500">{t('footer.contactTitle')}</h3>
+                    <ul className="space-y-2 text-sm text-sand-100/80">
                         <li>{t('footer.address')}</li>
                         <li dir="ltr" className="text-start">
                             ☎ {strings.topbar.phone}
@@ -72,8 +72,8 @@ export default function Footer() {
                 </div>
             </div>
 
-            <div className="border-t border-ivory/15">
-                <p className="mx-auto max-w-7xl px-4 py-4 text-center text-xs text-ivory/60 sm:px-6">
+            <div className="border-t border-sand-100/15">
+                <p className="mx-auto max-w-7xl px-4 py-4 text-center text-xs text-sand-100/60 sm:px-6">
                     © {year} {t('brand.name')} — {t('footer.rights')}
                 </p>
             </div>

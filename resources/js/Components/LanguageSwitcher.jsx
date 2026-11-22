@@ -10,8 +10,8 @@ export default function LanguageSwitcher({ dark = false }) {
 
     return (
         <div
-            className={`inline-flex items-center overflow-hidden rounded-full border text-xs font-semibold ${
-                dark ? 'border-ivory/30 text-ivory' : 'border-gold/50 text-ink'
+            className={`inline-flex items-center overflow-hidden rounded-md border text-xs font-semibold ${
+                dark ? 'border-sand-100/30 text-sand-100' : 'border-gold-500/50 text-ink-900'
             }`}
             role="group"
             aria-label="Language / اللغة"
@@ -25,12 +25,12 @@ export default function LanguageSwitcher({ dark = false }) {
                         type="button"
                         onClick={() => setLocale(code)}
                         aria-pressed={active}
-                        className={`px-3 py-1.5 transition-colors ${
+                        className={`flex min-h-[44px] items-center px-3 transition-colors ${
                             active
-                                ? 'bg-gold text-ink'
+                                ? 'bg-gold-500 text-ink-900'
                                 : dark
-                                  ? 'hover:bg-ivory/10'
-                                  : 'hover:bg-sand'
+                                  ? 'hover:bg-sand-100/10'
+                                  : 'hover:bg-sand-300'
                         }`}
                     >
                         {meta.short}

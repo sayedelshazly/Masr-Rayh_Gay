@@ -29,7 +29,7 @@ export default function AcademyIndex({ lessons, featuredGlyphs, glyphOfDay, glyp
 
                     {glyphOfDay && (
                         <div className="mx-auto mt-8 flex max-w-md items-center justify-center gap-5 rounded-3xl border border-gold/40 bg-lapis/40 px-6 py-4">
-                            <span className="text-6xl text-gold-light" aria-hidden="true">
+                            <span className="font-glyph text-6xl text-gold-light" aria-hidden="true">
                                 {glyphOfDay.symbol}
                             </span>
                             <span className="text-start">
@@ -110,7 +110,7 @@ export default function AcademyIndex({ lessons, featuredGlyphs, glyphOfDay, glyp
                                     className="rounded-3xl bg-white p-4 text-center shadow-sm ring-1 ring-sand transition-shadow hover:shadow-md"
                                     title={pick(glyph, 'meaning')}
                                 >
-                                    <span className="block text-4xl text-lapis" aria-hidden="true">
+                                    <span className="block font-glyph text-4xl text-lapis" aria-hidden="true">
                                         {glyph.symbol}
                                     </span>
                                     <span className="mt-2 block truncate text-xs font-bold text-ink/80">
@@ -133,7 +133,7 @@ export default function AcademyIndex({ lessons, featuredGlyphs, glyphOfDay, glyp
                             href={tool.href}
                             className="group rounded-3xl bg-lapis-deep p-6 text-ivory transition-shadow hover:shadow-lg"
                         >
-                            <span className="text-5xl text-gold-light" aria-hidden="true">
+                            <span className="font-glyph text-5xl text-gold-light" aria-hidden="true">
                                 {tool.glyph}
                             </span>
                             <h3 className="font-display mt-4 text-xl font-bold">{tool.title}</h3>

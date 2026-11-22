@@ -11,7 +11,7 @@ function Toggle({ tour, field, onLabel, offLabel }) {
             onClick={() => router.patch(`/admin/tours/${tour.slug}/toggle`, { field }, { preserveScroll: true })}
             className={`rounded-full px-2.5 py-0.5 text-xs font-bold ring-1 transition-colors ${
                 active
-                    ? 'bg-emerald-100 text-emerald-800 ring-emerald-300'
+                    ? 'bg-turquoise-600/15 text-ink ring-turquoise-600/50'
                     : 'bg-ink/5 text-ink/50 ring-ink/15 hover:bg-sand'
             }`}
         >
@@ -83,7 +83,7 @@ export default function Index({ tours }) {
                                     <button
                                         type="button"
                                         onClick={() => remove(tour)}
-                                        className="ms-4 font-bold text-red-600 hover:text-red-800"
+                                        className="ms-4 font-bold text-carnelian-600 hover:text-carnelian-600"
                                     >
                                         {t('admin.table.delete')}
                                     </button>
