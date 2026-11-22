@@ -466,23 +466,97 @@ function AcademyTeaser() {
 
 function Testimonials() {
     const { strings } = useLocale();
+    const items = strings.testimonials.items;
+    const [index, setIndex] = useState(0);
+    const [paused, setPaused] = useState(false);
+
+    // One voice on stage at a time; the spotlight moves on its own
+    // every 5.5s (matching the progress hairline) and rests on hover.
+    useEffect(() => {
+        if (paused || items.length < 2) {
+            return undefined;
+        }
+        const id = setInterval(() => {
+            setIndex((value) => (value + 1) % items.length);
+        }, 5500);
+        return () => clearInterval(id);
+    }, [paused, items.length]);
+
+    const item = items[index];
+    const initials = item.name
+        .split(' ')
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((word) => word[0])
+        .join('');
 
     return (
         <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
             <SectionHeading dark kicker={strings.testimonials.kicker} title={strings.testimonials.title} />
-            <div className="grid gap-6 md:grid-cols-3">
-                {strings.testimonials.items.map((item) => (
-                    <figure key={item.name} className="rounded-lg bg-white p-6 shadow-sm ring-1 ring-sand-300">
-                        <div aria-hidden="true" className="text-gold-500">
-                            ★★★★★
-                        </div>
-                        <blockquote className="mt-3 leading-relaxed text-ink-900/75">“{item.quote}”</blockquote>
-                        <figcaption className="mt-4">
-                            <p className="font-display font-bold text-nile-950">{item.name}</p>
-                            <p className="text-xs text-ink-900/55">{item.trip}</p>
-                        </figcaption>
-                    </figure>
-                ))}
+
+            <div
+                className="group relative mx-auto max-w-3xl text-center"
+                onMouseEnter={() => setPaused(true)}
+                onMouseLeave={() => setPaused(false)}
+            >
+                <span aria-hidden="true" className="font-display pointer-events-none absolute -top-20 left-1/2 -translate-x-1/2 select-none text-[150px] leading-none text-gold-500/15">
+                    ”
+                </span>
+
+                <div key={index} className="animate-quote-in relative">
+                    <div aria-hidden="true" className="text-lg tracking-[0.35em] text-gold-500">
+                        ★★★★★
+                    </div>
+                    <blockquote className="font-display mt-5 text-2xl font-medium leading-relaxed text-sand-100 sm:text-[2rem] sm:leading-relaxed">
+                        “{item.quote}”
+                    </blockquote>
+                    <figcaption className="mt-7 flex flex-col items-center">
+                        <span
+                            aria-hidden="true"
+                            className="font-display flex h-14 w-14 items-center justify-center rounded-full border border-gold-500/60 bg-nile-950/70 text-lg font-bold text-gold-300 shadow-[0_0_20px_rgba(201,162,75,0.25)]"
+                        >
+                            {initials}
+                        </span>
+                        <span className="font-display mt-3 text-lg font-bold text-sand-100">{item.name}</span>
+                        <span className="mt-0.5 text-sm text-sand-100/55">{item.trip}</span>
+                    </figcaption>
+                </div>
+
+                {/* progress hairline: fills while this voice is on stage */}
+                <div aria-hidden="true" className="mx-auto mt-10 h-px w-56 overflow-hidden rounded bg-sand-100/15">
+                    <div
+                        key={`bar-${index}`}
+                        className="animate-progress-fill h-full bg-gold-500"
+                        style={{ animationPlayState: paused ? 'paused' : 'running' }}
+                    />
+                </div>
+
+                {/* voice selectors */}
+                <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5">
+                    {items.map((voice, voiceIndex) => (
+                        <button
+                            key={voice.name}
+                            type="button"
+                            onClick={() => setIndex(voiceIndex)}
+                            aria-pressed={voiceIndex === index}
+                            className={`font-subhead inline-flex min-h-[40px] items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-bold transition-all duration-300 ease-stone ${
+                                voiceIndex === index
+                                    ? 'border-gold-500 bg-gold-500/15 text-gold-300'
+                                    : 'border-sand-100/20 text-sand-100/55 hover:border-sand-100/45 hover:text-sand-100'
+                            }`}
+                        >
+                            <span aria-hidden="true" className="font-display text-xs">
+                                {voice.name
+                                    .split(' ')
+                                    .filter(Boolean)
+                                    .slice(0, 2)
+                                    .map((word) => word[0])
+                                    .join('')}
+                            </span>
+                            <span className="hidden sm:inline">{voice.name}</span>
+                        </button>
+                    ))}
+                </div>
             </div>
         </section>
     );

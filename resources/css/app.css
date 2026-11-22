@@ -222,6 +222,36 @@ html {
     }
 }
 
+/* Testimonial stage: each quote rises in through a soft blur */
+@keyframes quote-in {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+        filter: blur(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+.animate-quote-in {
+    animation: quote-in 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+/* Auto-advance progress hairline under the testimonial stage */
+@keyframes progress-fill {
+    from {
+        width: 0%;
+    }
+    to {
+        width: 100%;
+    }
+}
+.animate-progress-fill {
+    animation: progress-fill 5.5s linear forwards;
+}
+
 /* Golden dust motes drifting around the cartouche */
 @keyframes float-mote {
     0%,
