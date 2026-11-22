@@ -567,15 +567,52 @@ function CtaBanner() {
 
     return (
         <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6">
-            <div className="rounded-lg bg-gradient-to-br from-gold-300 via-gold-500 to-gold-deep px-6 py-12 text-center shadow-lg">
-                <h2 className="font-display text-3xl font-extrabold text-ink-900 sm:text-4xl">{t('cta.title')}</h2>
-                <p className="mx-auto mt-3 max-w-xl text-ink-900/75">{t('cta.subtitle')}</p>
-                <Link
-                    href="/tours"
-                    className="font-subhead mt-7 inline-flex min-h-[44px] items-center rounded-md bg-nile-950 px-8 py-3 font-bold text-sand-100 transition-colors duration-150 ease-stone hover:bg-nile-800"
-                >
-                    {t('cta.button')}
-                </Link>
+            {/* The Invitation: a framed Nile panorama that breathes
+                (slow ken-burns) behind one calm, centred call. */}
+            <div className="relative overflow-hidden rounded-lg shadow-2xl shadow-black/40 ring-1 ring-gold-500/25">
+                <img
+                    src="/images/tours/nile-cruise-luxor-aswan-4-days.jpg"
+                    alt=""
+                    loading="lazy"
+                    className="animate-kenburns absolute inset-0 h-full w-full object-cover"
+                />
+                <div aria-hidden="true" className="absolute inset-0 bg-nile-950/45" />
+                <div
+                    aria-hidden="true"
+                    className="absolute inset-0 bg-gradient-to-b from-nile-950/85 via-nile-950/20 to-nile-950/90"
+                />
+                {/* inset gold frame — the luxury-hotel detail */}
+                <div aria-hidden="true" className="pointer-events-none absolute inset-3 rounded-md border border-gold-500/45 sm:inset-4" />
+
+                <div className="relative flex flex-col items-center px-6 py-16 text-center sm:py-20">
+                    <span aria-hidden="true" className="font-glyph text-4xl text-gold-500">
+                        𓂀
+                    </span>
+                    <h2 className="font-display mt-4 max-w-2xl text-4xl font-bold leading-snug text-sand-100 drop-shadow sm:text-5xl">
+                        {t('cta.title')}
+                    </h2>
+                    <p className="mt-4 max-w-xl leading-relaxed text-sand-100/85">{t('cta.subtitle')}</p>
+                    <Link
+                        href="/tours"
+                        className="font-subhead mt-8 inline-flex min-h-[48px] items-center rounded-md bg-gold-500 px-9 py-3 text-base font-bold text-ink-900 shadow-[0_10px_35px_rgba(201,162,75,0.45)] transition-all duration-150 ease-stone hover:bg-gold-300"
+                    >
+                        {t('cta.button')}
+                    </Link>
+                    <p className="mt-6 flex flex-wrap items-center justify-center gap-x-2 text-xs font-medium tracking-wide text-sand-100/65">
+                        {t('cta.note')
+                            .split('·')
+                            .map((part, index, parts) => (
+                                <span key={index} className="inline-flex items-center gap-2">
+                                    {part.trim()}
+                                    {index < parts.length - 1 && (
+                                        <span aria-hidden="true" className="text-gold-500">
+                                            ✦
+                                        </span>
+                                    )}
+                                </span>
+                            ))}
+                    </p>
+                </div>
             </div>
         </section>
     );

@@ -336,6 +336,7 @@ export const translations = {
             title: 'جاهز تبدأ رحلتك في مصر؟',
             subtitle: 'احجز النهاردة وخلي علينا التخطيط كله — انت بس حضّر الشنطة.',
             button: 'تصفح الرحلات واحجز',
+            note: 'إلغاء مرن · تأكيد فوري · دعم على مدار الساعة',
         },
         footer: {
             blurb:
@@ -782,6 +783,7 @@ export const translations = {
             title: 'Ready to start your Egypt journey?',
             subtitle: 'Book today and leave all the planning to us — you just pack your bag.',
             button: 'Browse Tours & Book',
+            note: 'Flexible cancellation · Instant confirmation · 24/7 support',
         },
         footer: {
             blurb:
