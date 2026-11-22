@@ -1,0 +1,60 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@theme {
+    /* ——— Masr Rayh Gay palette ——— */
+    --color-gold: #c9a227;
+    --color-gold-light: #e7ce8b;
+    --color-gold-deep: #9a7b1c;
+    --color-lapis: #0e4d7a;
+    --color-lapis-deep: #082f49;
+    --color-ink: #171310;
+    --color-ivory: #faf6ee;
+    --color-sand: #f1e8d8;
+
+    /* ——— Type ——— */
+    --font-sans: 'IBM Plex Sans Arabic', 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+        'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-display: 'Cairo', 'Marcellus', ui-serif, Georgia, serif;
+    --font-serif: 'Amiri', 'Marcellus', ui-serif, Georgia, serif;
+}
+
+/*
+ * Per-locale type switching.
+ * LocaleContext sets <html lang="ar|en"> (and dir), so typography follows
+ * automatically: Arabic gets Cairo / IBM Plex Sans Arabic, English gets
+ * Marcellus / Inter.
+ */
+html[lang='ar'] body {
+    font-family: 'IBM Plex Sans Arabic', 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+html[lang='en'] body {
+    font-family: 'Inter', 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, sans-serif;
+}
+
+html[lang='ar'] .font-display {
+    font-family: 'Cairo', 'Amiri', ui-serif, Georgia, serif;
+}
+
+html[lang='en'] .font-display {
+    font-family: 'Marcellus', 'Cairo', ui-serif, Georgia, serif;
+}
+
+body {
+    background-color: var(--color-ivory);
+    color: var(--color-ink);
+}
+
+::selection {
+    background-color: var(--color-gold);
+    color: var(--color-ink);
+}
+
+/* Decorative hieroglyph strip (decoration only, always aria-hidden) */
+.hieroglyph-strip {
+    letter-spacing: 0.35em;
+    user-select: none;
+}

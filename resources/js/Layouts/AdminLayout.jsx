@@ -1,0 +1,93 @@
+import { Link, usePage } from '@inertiajs/react';
+import { useLocale } from '../i18n/LocaleContext';
+import LanguageSwitcher from '../Components/LanguageSwitcher';
+import { BrandMark } from '../Components/Navbar';
+
+/**
+ * Admin chrome: a compact sidebar + topbar, in the site palette but
+ * denser and more utilitarian than the public layout.
+ */
+export default function AdminLayout({ children, title }) {
+    const { t } = useLocale();
+    const { props, url } = usePage();
+    const user = props.auth?.user ?? null;
+    const flash = props.flash?.success ?? null;
+
+    const links = [
+        { label: t('admin.nav.dashboard'), href: '/admin', active: url === '/admin' },
+        { label: t('admin.nav.bookings'), href: '/admin/bookings', active: url.startsWith('/admin/bookings') },
+        { label: t('admin.nav.tours'), href: '/admin/tours', active: url.startsWith('/admin/tours') },
+        { label: t('admin.nav.destinations'), href: '/admin/destinations', active: url.startsWith('/admin/destinations') },
+    ];
+
+    return (
+        <div className="min-h-screen bg-sand/60 font-sans text-ink antialiased">
+            <div className="flex min-h-screen">
+                {/* Sidebar */}
+                <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col bg-lapis-deep text-ivory md:flex">
+                    <div className="flex items-center gap-2.5 border-b border-ivory/10 px-5 py-4">
+                        <BrandMark className="h-9 w-9" />
+                        <div className="leading-tight">
+                            <p className="font-display text-sm font-bold">{t('brand.name')}</p>
+                            <p className="text-[11px] text-gold-light">{t('admin.panel')}</p>
+                        </div>
+                    </div>
+                    <nav className="flex-1 space-y-1 px-3 py-4">
+                        {links.map((link) => (
+                            <Link
+                                key={link.href}
+                                href={link.href}
+                                className={`block rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                                    link.active ? 'bg-gold text-ink' : 'text-ivory/85 hover:bg-ivory/10'
+                                }`}
+                            >
+                                {link.label}
+                            </Link>
+                        ))}
+                    </nav>
+                    <div className="border-t border-ivory/10 px-5 py-4">
+                        <a href="/" className="text-sm text-gold-light transition-colors hover:text-gold">
+                            ← {t('admin.backToSite')}
+                        </a>
+                    </div>
+                </aside>
+
+                {/* Main column */}
+                <div className="min-w-0 flex-1">
+                    <header className="sticky top-0 z-40 flex flex-wrap items-center justify-between gap-3 border-b border-gold/40 bg-ivory/95 px-4 py-3 backdrop-blur sm:px-6">
+                        <h1 className="font-display text-lg font-bold text-lapis-deep">{title ?? t('admin.title')}</h1>
+                        <div className="flex items-center gap-4">
+                            <nav className="flex gap-1 md:hidden">
+                                {links.map((link) => (
+                                    <Link
+                                        key={link.href}
+                                        href={link.href}
+                                        className={`rounded-full px-3 py-1.5 text-xs font-bold ${
+                                            link.active ? 'bg-gold text-ink' : 'bg-sand text-ink/70'
+                                        }`}
+                                    >
+                                        {link.label}
+                                    </Link>
+                                ))}
+                            </nav>
+                            <LanguageSwitcher />
+                            <span className="hidden text-sm font-bold text-lapis-deep sm:block">{user?.name}</span>
+                            <a href="/" className="text-sm text-gold-deep hover:underline md:hidden">
+                                {t('admin.backToSite')}
+                            </a>
+                        </div>
+                    </header>
+
+                    <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
+                        {flash && (
+                            <p className="mb-4 rounded-xl bg-emerald-100 px-4 py-2.5 text-sm font-bold text-emerald-800 ring-1 ring-emerald-300">
+                                {t('admin.saved')}
+                            </p>
+                        )}
+                        {children}
+                    </main>
+                </div>
+            </div>
+        </div>
+    );
+}
