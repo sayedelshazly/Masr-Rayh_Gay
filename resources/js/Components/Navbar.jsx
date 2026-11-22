@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import { useLocale } from '../i18n/LocaleContext';
 import LanguageSwitcher from './LanguageSwitcher';
@@ -42,6 +42,8 @@ export default function Navbar() {
     const user = props.auth?.user ?? null;
     const [open, setOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const [userOpen, setUserOpen] = useState(false);
+    const userMenuRef = useRef(null);
 
     const overlay = isOverlayRoute(url);
     const solid = !overlay || scrolled || open;
@@ -52,6 +54,25 @@ export default function Navbar() {
         window.addEventListener('scroll', onScroll, { passive: true });
         return () => window.removeEventListener('scroll', onScroll);
     }, []);
+
+    // Account dropdown: close on outside click or Escape.
+    useEffect(() => {
+        if (!userOpen) return;
+        const onPointerDown = (event) => {
+            if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+                setUserOpen(false);
+            }
+        };
+        const onKeyDown = (event) => {
+            if (event.key === 'Escape') setUserOpen(false);
+        };
+        document.addEventListener('mousedown', onPointerDown);
+        document.addEventListener('keydown', onKeyDown);
+        return () => {
+            document.removeEventListener('mousedown', onPointerDown);
+            document.removeEventListener('keydown', onKeyDown);
+        };
+    }, [userOpen]);
 
     const links = [
         { label: t('nav.home'), href: '/' },
@@ -98,32 +119,69 @@ export default function Navbar() {
                     <div className="flex items-center gap-2.5">
                         <LanguageSwitcher dark />
                         {user ? (
-                            <div className="hidden items-center gap-3 md:flex">
-                                <span className="max-w-36 truncate text-[13px] font-bold text-sand-100" title={user.name}>
-                                    {user.name}
-                                </span>
-                                <Link
-                                    href="/my-bookings"
-                                    className="text-[13px] font-medium text-sand-100/80 transition-colors hover:text-gold-300"
+                            <div className="relative" ref={userMenuRef}>
+                                <button
+                                    type="button"
+                                    onClick={() => setUserOpen((value) => !value)}
+                                    aria-expanded={userOpen}
+                                    aria-haspopup="menu"
+                                    aria-label={t('auth.account')}
+                                    title={user.name}
+                                    className="flex h-8 w-8 items-center justify-center rounded-full border border-gold-500/50 bg-nile-800 text-gold-300 transition-colors duration-150 ease-stone hover:text-gold-500"
                                 >
-                                    {t('auth.myBookings')}
-                                </Link>
-                                {user.is_admin && (
-                                    <Link
-                                        href="/admin"
-                                        className="rounded-md bg-gold-500 px-3 py-1.5 text-[13px] font-bold text-ink-900 transition-colors hover:bg-gold-300"
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="1.8"
+                                        strokeLinecap="round"
+                                        className="h-[18px] w-[18px]"
+                                        aria-hidden="true"
                                     >
-                                        {t('admin.panel')}
-                                    </Link>
+                                        <circle cx="12" cy="8" r="3.6" />
+                                        <path d="M5 19.4c1.2-3.1 3.9-4.7 7-4.7s5.8 1.6 7 4.7" />
+                                    </svg>
+                                </button>
+                                {userOpen && (
+                                    <div
+                                        role="menu"
+                                        className="absolute end-0 top-[calc(100%+8px)] w-52 rounded-lg border border-gold-500/25 bg-nile-950 p-1.5 shadow-xl shadow-ink-900/30"
+                                    >
+                                        <div className="mb-1 border-b border-sand-100/10 px-3 py-2">
+                                            <p className="truncate text-[13px] font-bold text-sand-100">{user.name}</p>
+                                            <p className="truncate text-[11px] text-sand-100/55" dir="ltr">
+                                                {user.email}
+                                            </p>
+                                        </div>
+                                        <Link
+                                            href="/my-bookings"
+                                            role="menuitem"
+                                            onClick={() => setUserOpen(false)}
+                                            className="block rounded-md px-3 py-2 text-[13px] font-medium text-sand-100/85 transition-colors hover:bg-nile-800"
+                                        >
+                                            {t('auth.myBookings')}
+                                        </Link>
+                                        {user.is_admin && (
+                                            <Link
+                                                href="/admin"
+                                                role="menuitem"
+                                                onClick={() => setUserOpen(false)}
+                                                className="block rounded-md px-3 py-2 text-[13px] font-medium text-sand-100/85 transition-colors hover:bg-nile-800"
+                                            >
+                                                {t('admin.panel')}
+                                            </Link>
+                                        )}
+                                        <Link
+                                            href="/logout"
+                                            method="post"
+                                            as="button"
+                                            role="menuitem"
+                                            className="block w-full rounded-md px-3 py-2 text-start text-[13px] font-bold text-gold-300 transition-colors hover:bg-nile-800"
+                                        >
+                                            {t('auth.logout')}
+                                        </Link>
+                                    </div>
                                 )}
-                                <Link
-                                    href="/logout"
-                                    method="post"
-                                    as="button"
-                                    className="rounded-md border border-gold-500/60 px-3 py-1.5 text-[13px] font-bold text-gold-300 transition-colors hover:bg-gold-500 hover:text-ink-900"
-                                >
-                                    {t('auth.logout')}
-                                </Link>
                             </div>
                         ) : (
                             <div className="hidden items-center gap-3 md:flex">
@@ -169,9 +227,6 @@ export default function Navbar() {
                         <li className="border-t border-nile-800 pt-2">
                             {user ? (
                                 <>
-                                    <span className="block px-3 py-1.5 text-[13px] font-bold text-sand-100">
-                                        {t('auth.account')}: {user.name}
-                                    </span>
                                     <Link
                                         href="/my-bookings"
                                         onClick={() => setOpen(false)}
@@ -188,14 +243,6 @@ export default function Navbar() {
                                             {t('admin.panel')}
                                         </Link>
                                     )}
-                                    <Link
-                                        href="/logout"
-                                        method="post"
-                                        as="button"
-                                        className="block w-full rounded-md px-3 py-1.5 text-start text-[13px] font-bold text-gold-300 hover:bg-nile-800"
-                                    >
-                                        {t('auth.logout')}
-                                    </Link>
                                 </>
                             ) : (
                                 <>
