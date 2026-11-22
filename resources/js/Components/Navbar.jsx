@@ -92,7 +92,7 @@ export default function Navbar() {
 
     return (
         <header
-            className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ease-stone ${
+            className={`fixed inset-x-0 top-4 z-50 transition-colors duration-300 ease-stone ${
                 solid ? 'bg-nile-950/95 shadow-md shadow-ink-900/10 backdrop-blur' : 'bg-transparent'
             }`}
         >

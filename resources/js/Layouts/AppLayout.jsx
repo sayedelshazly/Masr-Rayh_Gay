@@ -16,7 +16,7 @@ export default function AppLayout({ children }) {
     return (
         <div className="flex min-h-screen flex-col bg-sand-100 font-sans text-ink-900 antialiased">
             <Navbar />
-            {!overlay && <div className="h-[54px] shrink-0" aria-hidden="true" />}
+            {!overlay && <div className="h-[70px] shrink-0" aria-hidden="true" />}
             <main className="flex-1">{children}</main>
             <Footer />
         </div>
