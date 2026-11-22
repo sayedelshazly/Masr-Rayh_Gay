@@ -166,3 +166,39 @@ body {
         scroll-behavior: auto !important;
     }
 }
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Cinematic slow zoom for the hero video */
+@keyframes kenburns {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.08);
+    }
+}
+.animate-kenburns {
+    animation: kenburns 24s ease-in-out infinite alternate;
+}
+
+/* Reveal on scroll: sections rise in gently as they enter the viewport */
+.reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+        opacity 0.7s var(--ease-stone),
+        transform 0.7s var(--ease-stone);
+}
+.reveal.is-visible {
+    opacity: 1;
+    transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+    .reveal {
+        opacity: 1;
+        transform: none;
+    }
+}

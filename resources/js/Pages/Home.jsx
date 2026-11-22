@@ -6,6 +6,7 @@ import DestinationCard from '../Components/DestinationCard';
 import TourCard from '../Components/TourCard';
 import Button from '../Components/Button';
 import OrnamentDivider from '../Components/OrnamentDivider';
+import Reveal from '../Components/Reveal';
 import { useLocale } from '../i18n/LocaleContext';
 import { localized } from '../lib/format';
 import { stats, toHieroglyphs } from '../data/home';
@@ -13,6 +14,7 @@ import { stats, toHieroglyphs } from '../data/home';
 function SectionHeading({ kicker, title, subtitle, dark = false }) {
     return (
         <div className="mx-auto mb-10 max-w-2xl text-center">
+            <span aria-hidden="true" className="mx-auto mb-3 block h-px w-10 bg-gold-500" />
             <p className={`font-display text-sm font-bold tracking-wide ${dark ? 'text-gold-300' : 'text-gold-deep'}`}>
                 {kicker}
             </p>
@@ -41,7 +43,7 @@ function Hero({ destinations }) {
                 className="absolute inset-0 hidden h-full w-full object-cover motion-reduce:block"
             />
             <video
-                className="absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
+                className="animate-kenburns absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
                 autoPlay
                 muted
                 loop
@@ -54,11 +56,15 @@ function Hero({ destinations }) {
             <div className="absolute inset-0 bg-gradient-to-b from-nile-950/85 via-nile-950/55 to-nile-950" aria-hidden="true" />
             <HieroglyphStrip className="relative pt-[92px] text-center text-lg text-gold-500/40" />
             <div className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-center px-4 pb-16 pt-10 text-center sm:px-6">
-                <p className="font-display text-sm font-bold tracking-wide text-gold-300">{t('hero.kicker')}</p>
-                <h1 className="font-display mx-auto mt-4 max-w-3xl text-4xl font-extrabold leading-snug text-sand-100 sm:text-5xl lg:text-6xl">
+                <p className="font-display flex items-center justify-center gap-3 text-sm font-bold tracking-[0.2em] text-gold-300">
+                    <span aria-hidden="true" className="h-px w-8 bg-gold-500/70" />
+                    {t('hero.kicker')}
+                    <span aria-hidden="true" className="h-px w-8 bg-gold-500/70" />
+                </p>
+                <h1 className="font-display mx-auto mt-5 max-w-4xl text-5xl font-extrabold leading-snug text-sand-100 sm:text-6xl lg:text-7xl">
                     {t('hero.title')}
                 </h1>
-                <p className="mx-auto mt-5 max-w-2xl leading-loose text-sand-100/75">{t('hero.subtitle')}</p>
+                <p className="mx-auto mt-5 max-w-2xl leading-loose text-sand-100/75 sm:text-lg">{t('hero.subtitle')}</p>
 
                 <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
                     <a
@@ -122,6 +128,26 @@ function Hero({ destinations }) {
                     </button>
                 </form>
             </div>
+
+            {/* Scroll cue */}
+            <a
+                href="#destinations"
+                aria-label={t('destinations.title')}
+                className="absolute bottom-5 left-1/2 z-10 -translate-x-1/2 text-gold-300/70 transition-colors hover:text-gold-300"
+            >
+                <svg
+                    viewBox="0 0 24 24"
+                    className="h-6 w-6 animate-bounce"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                >
+                    <path d="M5 9l7 7 7-7" />
+                </svg>
+            </a>
         </section>
     );
 }
@@ -326,18 +352,30 @@ export default function Home({ destinations = [], featuredDestinations = [], fea
             <Head title={t('meta.homeTitle')} />
             <Hero destinations={destinations} />
             <StatsStrip />
-            <FeaturedDestinations destinations={featuredDestinations} />
-            <FeaturedTours tours={featuredTours} />
+            <Reveal>
+                <FeaturedDestinations destinations={featuredDestinations} />
+            </Reveal>
+            <Reveal>
+                <FeaturedTours tours={featuredTours} />
+            </Reveal>
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
                 <OrnamentDivider />
             </div>
-            <WhyUs />
-            <AcademyTeaser />
-            <Testimonials />
+            <Reveal>
+                <WhyUs />
+            </Reveal>
+            <Reveal>
+                <AcademyTeaser />
+            </Reveal>
+            <Reveal>
+                <Testimonials />
+            </Reveal>
             <div className="mx-auto max-w-7xl px-4 pb-4 sm:px-6">
                 <OrnamentDivider />
             </div>
-            <CtaBanner />
+            <Reveal>
+                <CtaBanner />
+            </Reveal>
         </AppLayout>
     );
 }
