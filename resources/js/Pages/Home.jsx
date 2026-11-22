@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { Head, Link, router } from '@inertiajs/react';
 import AppLayout from '../Layouts/AppLayout';
 import HieroglyphStrip from '../Components/HieroglyphStrip';
-import DestinationFlipCard from '../Components/DestinationFlipCard';
+import DestinationPanels from '../Components/DestinationPanels';
 import TourCard from '../Components/TourCard';
 import Button from '../Components/Button';
 import OrnamentDivider from '../Components/OrnamentDivider';
@@ -182,24 +182,7 @@ function FeaturedDestinations({ destinations }) {
                 title={t('destinations.title')}
                 subtitle={t('destinations.subtitle')}
             />
-            {/* Mosaic flip gallery: one grand tile, one wide tile, the
-                rest single — dense flow leaves no holes. */}
-            <div className="grid auto-rows-[150px] grid-cols-2 gap-3 [grid-flow:dense] sm:auto-rows-[185px] sm:gap-4 lg:auto-rows-[205px] lg:grid-cols-4">
-                {destinations.map((destination, index) => (
-                    <DestinationFlipCard
-                        key={destination.id}
-                        destination={destination}
-                        large={index === 0}
-                        spanClass={
-                            index === 0
-                                ? 'col-span-2 row-span-2'
-                                : destination.slug === 'hurghada'
-                                  ? 'col-span-2'
-                                  : ''
-                        }
-                    />
-                ))}
-            </div>
+            <DestinationPanels destinations={destinations} />
             <div className="mt-8 text-center">
                 <Button href="/destinations" variant="secondaryDark" className="px-7">
                     {t('destinations.viewAll')}
