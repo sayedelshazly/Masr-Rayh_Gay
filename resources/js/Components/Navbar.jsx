@@ -92,12 +92,12 @@ export default function Navbar() {
 
     return (
         <header
-            className={`fixed inset-x-0 top-0 z-50 pt-4 transition-colors duration-300 ease-stone ${
+            className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ease-stone ${
                 solid ? 'bg-nile-950/95 shadow-md shadow-ink-900/10 backdrop-blur' : 'bg-transparent'
             }`}
         >
             <nav className={solid ? 'border-b-2 border-gold-500/70' : 'border-b-2 border-transparent'}>
-                <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2 sm:px-6">
+                <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
                     <a href="/" className="flex items-center gap-2.5">
                         <BrandMark className="h-9 w-9" />
                         <span className="leading-tight">
