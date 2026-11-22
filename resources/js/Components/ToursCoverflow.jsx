@@ -1,140 +1,119 @@
-import { useEffect, useRef, useState } from 'react';
-import { useLocale } from '../i18n/LocaleContext';
+import { useEffect, useRef } from 'react';
 import TourImageCard from './TourImageCard';
 
 /**
- * 3D coverflow carousel for the featured tours — the card in the
- * centre faces you flat and full-size; neighbours swing back in
- * perspective (rotateY + translateZ), dimmed and slightly faded, up to
- * two on each side. Navigate by arrows, dots, clicking a side card,
- * dragging / swiping, or the keyboard arrows when the stage is
- * focused. Auto-advances every 4.5s and pauses while hovered.
- * Only the centred card's links are clickable.
+ * Featured tours — an endless 3D river. Same coverflow idea as
+ * before (centre card flat and full-size, neighbours swung back in
+ * perspective), but with every control stripped away: no arrows, no
+ * dots, no stepping. The ring of cards drifts right at a calm,
+ * constant speed and wraps seamlessly — a card that leaves on the
+ * right re-enters on the left, so it never jumps back to the start.
+ * Positions are computed on a ring (modulo the ring's circumference)
+ * and painted directly in a rAF loop; hovering holds the river
+ * still, and only the card in the centre is clickable.
+ * Reduced-motion visitors get the same coverflow, standing still.
  */
 export default function ToursCoverflow({ tours }) {
-    const { t } = useLocale();
-    const [active, setActive] = useState(0);
-    const [paused, setPaused] = useState(false);
-    const dragX = useRef(null);
-    const count = tours.length;
+    const stageRef = useRef(null);
+    const cardRefs = useRef([]);
+    const pausedRef = useRef(false);
 
-    const goTo = (index) => setActive(((index % count) + count) % count);
+    const count = tours.length;
+    // The set is doubled on the ring so the stage stays full even
+    // when there are only a few featured tours.
+    const items = count ? [...tours, ...tours] : [];
 
     useEffect(() => {
-        if (paused || count < 2) {
+        if (count < 2) {
             return undefined;
         }
-        const id = setInterval(() => {
-            setActive((value) => (value + 1) % count);
-        }, 4500);
-        return () => clearInterval(id);
-    }, [paused, count]);
+        const stage = stageRef.current;
+        if (!stage) {
+            return undefined;
+        }
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const SPEED = 26; // px per second — a slow, luxurious drift
+        let raf = 0;
+        let last = performance.now();
+        let offset = 0;
+
+        const frame = (now) => {
+            const dt = Math.min((now - last) / 1000, 0.05);
+            last = now;
+            if (!pausedRef.current && !reduced) {
+                offset += SPEED * dt;
+            }
+
+            const stageW = stage.clientWidth;
+            const cardW = stageW < 640 ? 248 : 300;
+            const step = cardW * 0.74;
+            const total = step * items.length;
+            const half = total / 2;
+
+            items.forEach((_, k) => {
+                const el = cardRefs.current[k];
+                if (!el) {
+                    return;
+                }
+                const x = ((((k * step + offset) % total) + total) % total) - half;
+                const ax = Math.abs(x);
+                if (ax > stageW / 2 + cardW) {
+                    el.style.visibility = 'hidden';
+                    return;
+                }
+                el.style.visibility = 'visible';
+                const rotate = Math.max(-40, Math.min(40, -x * 0.075));
+                const scale = 1 - Math.min(ax / 2600, 0.22);
+                el.style.transform =
+                    `translate(-50%, -50%) translateX(${x}px) translateZ(${-ax * 0.55}px) ` +
+                    `rotateY(${rotate}deg) scale(${scale})`;
+                el.style.zIndex = String(200 - Math.round(ax));
+                el.style.opacity = String(1 - Math.min(ax / (stageW * 0.8), 0.55));
+                el.style.pointerEvents = ax < step * 0.5 ? 'auto' : 'none';
+            });
+
+            raf = requestAnimationFrame(frame);
+        };
+
+        raf = requestAnimationFrame(frame);
+        return () => cancelAnimationFrame(raf);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [count]);
 
     if (!count) {
         return null;
     }
 
     return (
-        <div>
-            <div
-                role="region"
-                aria-label={t('featuredTours.title')}
-                tabIndex={0}
-                onMouseEnter={() => setPaused(true)}
-                onMouseLeave={() => setPaused(false)}
-                onPointerDown={(event) => {
-                    dragX.current = event.clientX;
-                }}
-                onPointerUp={(event) => {
-                    if (dragX.current == null) {
-                        return;
-                    }
-                    const dx = event.clientX - dragX.current;
-                    dragX.current = null;
-                    if (Math.abs(dx) > 42) {
-                        goTo(active + (dx < 0 ? 1 : -1));
-                    }
-                }}
-                onKeyDown={(event) => {
-                    if (event.key === 'ArrowLeft') {
-                        goTo(active - 1);
-                    }
-                    if (event.key === 'ArrowRight') {
-                        goTo(active + 1);
-                    }
-                }}
-                className="relative h-[470px] touch-pan-y overflow-hidden outline-none [perspective:1400px] focus-visible:ring-2 focus-visible:ring-gold-500 sm:h-[500px]"
-            >
-                {tours.map((tour, index) => {
-                    const offset = index - active;
-                    const abs = Math.abs(offset);
-                    const isActive = offset === 0;
-
-                    return (
-                        <div
-                            key={tour.id}
-                            onClick={() => !isActive && goTo(index)}
-                            aria-hidden={!isActive}
-                            className="absolute left-1/2 top-0 h-full w-[78vw] max-w-[320px] will-change-transform"
-                            style={{
-                                transform: `translateX(-50%) translateX(${offset * 62}%) rotateY(${offset * -38}deg) translateZ(${-abs * 170}px)`,
-                                zIndex: 100 - abs,
-                                opacity: abs > 2 ? 0 : 1 - abs * 0.22,
-                                visibility: abs > 2 ? 'hidden' : 'visible',
-                                transition: 'transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 700ms ease',
-                                cursor: isActive ? 'default' : 'pointer',
-                            }}
-                        >
-                            <div className={`h-full ${isActive ? '' : 'pointer-events-none'}`}>
-                                <TourImageCard tour={tour} />
-                            </div>
-                            {/* dim veil on side cards */}
-                            <div
-                                aria-hidden="true"
-                                className="pointer-events-none absolute inset-0 rounded-lg bg-nile-950 transition-opacity duration-700"
-                                style={{ opacity: isActive ? 0 : 0.25 + abs * 0.15 }}
-                            />
-                        </div>
-                    );
-                })}
-            </div>
-
-            {/* controls: arrows + progress lines */}
-            <div className="mt-6 flex items-center justify-center gap-5" dir="ltr">
-                <button
-                    type="button"
-                    onClick={() => goTo(active - 1)}
-                    aria-label="Previous"
-                    className="flex h-11 w-11 items-center justify-center rounded-full border border-gold-500/60 text-gold-300 transition-colors duration-150 ease-stone hover:bg-gold-500 hover:text-ink-900"
+        <div
+            ref={stageRef}
+            className="relative h-[430px] overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] [perspective:1400px] sm:h-[490px]"
+            onMouseEnter={() => {
+                pausedRef.current = true;
+            }}
+            onMouseLeave={() => {
+                pausedRef.current = false;
+            }}
+            onTouchStart={() => {
+                pausedRef.current = true;
+            }}
+            onTouchEnd={() => {
+                pausedRef.current = false;
+            }}
+        >
+            {items.map((tour, k) => (
+                <div
+                    key={`${tour.id}-${k}`}
+                    ref={(el) => {
+                        cardRefs.current[k] = el;
+                    }}
+                    aria-hidden={k >= count}
+                    inert={k >= count}
+                    className="absolute left-1/2 top-1/2 h-[378px] w-[248px] will-change-transform sm:h-[438px] sm:w-[300px]"
                 >
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-                    </svg>
-                </button>
-                <div className="flex items-center gap-2">
-                    {tours.map((tour, index) => (
-                        <button
-                            key={tour.id}
-                            type="button"
-                            onClick={() => goTo(index)}
-                            aria-label={tour.title_ar ?? `Tour ${index + 1}`}
-                            className={`h-1.5 rounded-full transition-all duration-500 ease-stone ${
-                                index === active ? 'w-9 bg-gold-500' : 'w-3.5 bg-sand-100/30 hover:bg-sand-100/60'
-                            }`}
-                        />
-                    ))}
+                    <TourImageCard tour={tour} />
                 </div>
-                <button
-                    type="button"
-                    onClick={() => goTo(active + 1)}
-                    aria-label="Next"
-                    className="flex h-11 w-11 items-center justify-center rounded-full border border-gold-500/60 text-gold-300 transition-colors duration-150 ease-stone hover:bg-gold-500 hover:text-ink-900"
-                >
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                    </svg>
-                </button>
-            </div>
+            ))}
         </div>
     );
 }
