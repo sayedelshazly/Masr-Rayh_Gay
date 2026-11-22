@@ -177,6 +177,7 @@ function FeaturedDestinations({ destinations }) {
     return (
         <section id="destinations" className="mx-auto max-w-7xl scroll-mt-32 px-4 py-16 sm:px-6">
             <SectionHeading
+                dark
                 kicker={t('destinations.kicker')}
                 title={t('destinations.title')}
                 subtitle={t('destinations.subtitle')}
@@ -187,7 +188,7 @@ function FeaturedDestinations({ destinations }) {
                 ))}
             </div>
             <div className="mt-8 text-center">
-                <Button href="/destinations" variant="secondary" className="px-7">
+                <Button href="/destinations" variant="secondaryDark" className="px-7">
                     {t('destinations.viewAll')}
                 </Button>
             </div>
@@ -205,6 +206,7 @@ function FeaturedTours({ tours }) {
     return (
         <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6">
             <SectionHeading
+                dark
                 kicker={t('featuredTours.kicker')}
                 title={t('featuredTours.title')}
                 subtitle={t('featuredTours.subtitle')}
@@ -229,9 +231,9 @@ function WhyUs() {
     const { strings } = useLocale();
 
     return (
-        <section className="bg-sand-300/60">
+        <section>
             <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
-                <SectionHeading kicker={strings.why.kicker} title={strings.why.title} subtitle={strings.why.subtitle} />
+                <SectionHeading dark kicker={strings.why.kicker} title={strings.why.title} subtitle={strings.why.subtitle} />
                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                     {strings.why.items.map((item, index) => (
                         <div key={item.title} className="rounded-lg bg-sand-100 p-6 shadow-sm ring-1 ring-gold-500/25">
@@ -306,7 +308,7 @@ function Testimonials() {
 
     return (
         <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
-            <SectionHeading kicker={strings.testimonials.kicker} title={strings.testimonials.title} />
+            <SectionHeading dark kicker={strings.testimonials.kicker} title={strings.testimonials.title} />
             <div className="grid gap-6 md:grid-cols-3">
                 {strings.testimonials.items.map((item) => (
                     <figure key={item.name} className="rounded-lg bg-white p-6 shadow-sm ring-1 ring-sand-300">

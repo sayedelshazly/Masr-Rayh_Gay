@@ -19,7 +19,7 @@ export default function TourCard({ tour }) {
 
     return (
         <article
-            className={`group flex flex-col overflow-hidden rounded-lg bg-white shadow-md shadow-ink-900/5 transition duration-300 ease-stone hover:-translate-y-1 hover:shadow-xl ${
+            className={`group flex flex-col overflow-hidden rounded-lg bg-white text-ink-900 shadow-md shadow-ink-900/5 transition duration-300 ease-stone hover:-translate-y-1 hover:shadow-xl ${
                 tour.is_featured ? 'border border-gold-500 ring-1 ring-gold-500' : 'ring-1 ring-sand-300'
             }`}
         >

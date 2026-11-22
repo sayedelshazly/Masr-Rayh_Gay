@@ -6,7 +6,7 @@ export default function DestinationCard({ destination }) {
     const { t, locale } = useLocale();
 
     return (
-        <article className="group flex flex-col overflow-hidden rounded-lg bg-white shadow-md shadow-ink-900/5 ring-1 ring-sand-300 transition duration-300 ease-stone hover:-translate-y-1 hover:shadow-xl">
+        <article className="group flex flex-col overflow-hidden rounded-lg bg-white text-ink-900 shadow-md shadow-ink-900/5 ring-1 ring-sand-300 transition duration-300 ease-stone hover:-translate-y-1 hover:shadow-xl">
             {/* Photo header; gradient + glyph fallback when no photo exists */}
             <div className="relative flex h-44 items-end overflow-hidden p-4">
                 {destination.image ? (

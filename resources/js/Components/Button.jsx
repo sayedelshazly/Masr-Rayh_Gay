@@ -12,6 +12,8 @@ const VARIANTS = {
         'bg-gold-500 text-ink-900 shadow-sm hover:bg-gold-300 disabled:cursor-not-allowed disabled:opacity-60',
     secondary:
         'border border-gold-500 bg-transparent text-gold-deep hover:bg-gold-500/10 disabled:cursor-not-allowed disabled:opacity-60',
+    secondaryDark:
+        'border border-gold-500 bg-transparent text-gold-300 hover:bg-gold-500/10 disabled:cursor-not-allowed disabled:opacity-60',
     ghost: 'bg-transparent text-ink-900 hover:bg-sand-300/70 disabled:cursor-not-allowed disabled:opacity-60',
     danger:
         'bg-carnelian-600 text-sand-100 hover:bg-carnelian-600/90 disabled:cursor-not-allowed disabled:opacity-60',
