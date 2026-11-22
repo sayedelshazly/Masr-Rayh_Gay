@@ -51,4 +51,15 @@ owners; replace with licensed/owned photography before commercial launch if need
 
 | Asset | Content | Source |
 |---|---|---|
-| public/videos/egypt-hero.mp4 | Panoramic view of the Pyramids of Giza at sunset (12s, 720p loop) | Pexels video 4174112 by Rafael Castro — https://www.pexels.com/video/egipto-4174112/ (Pexels free license) |
+| public/videos/egypt-hero.mp4 | Multi-shot Egypt montage (27s, 720p loop, 6 shots × ~4.5s in order below) | Edited with ffmpeg from the clips listed in the next table |
+
+### Hero montage clips (in playback order)
+
+| # | Place | Clip | Source |
+|---|---|---|---|
+| 1 | Pyramids of Giza | Panoramic view of the Pyramids of Giza at sunset (shot reused from the previous hero video) | Pexels video 4174112 by Rafael Castro — https://www.pexels.com/video/egipto-4174112/ (Pexels free license) |
+| 2 | Luxor — temple colonnade (Karnak-style columns) | "The remainder of a once-great temple in Egypt" | Mixkit video 47389 — https://mixkit.co/free-stock-video/the-remainder-of-a-once-great-temple-in-egypt-47389/ (Mixkit free license) |
+| 3 | Nile cruising (sailboats + river ship) — used in place of a Luxor balloon shot, for which no suitable free clip was found | Aerial view of sailboats and a ship on the Nile | Pexels video 12265469 — https://www.pexels.com/video/12265469/ (Pexels free license) |
+| 4 | Felucca on the Nile at sunset | Sailboat with a tall white sail gliding on the Nile at golden hour | Pexels video 12265427 — https://www.pexels.com/video/12265427/ (Pexels free license) |
+| 5 | Red Sea — coral reef | "Egypt Red Sea — Swimming next to coral fixed on a reef in a tropical sea" | Pexels video 20271099 by Adrien JACTA — https://www.pexels.com/video/egypt-red-sea-bde-swimming-next-to-coral-fixed-on-a-reef-in-a-tropical-sea-20271099/ (Pexels free license) |
+| 6 | Alexandria — Qaitbay Citadel | "Tracking Shot of the Citadel of Qaitbay" | Pexels video 7579787 by The Instagrapher — https://www.pexels.com/video/tracking-shot-of-the-citadel-of-qaitbay-7579787/ (Pexels free license) |
