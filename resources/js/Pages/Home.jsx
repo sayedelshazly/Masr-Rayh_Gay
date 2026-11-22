@@ -397,15 +397,15 @@ function AcademyTeaser() {
                         />
                     ))}
 
-                    <div className="relative rounded-[999px] border-2 border-gold-500/70 px-6 py-9 shadow-[0_0_55px_rgba(201,162,75,0.28),inset_0_0_35px_rgba(201,162,75,0.08)] sm:px-12">
+                    <div className="relative rounded-[2.5rem] border-2 border-gold-500/70 px-5 py-7 shadow-[0_0_55px_rgba(201,162,75,0.28),inset_0_0_35px_rgba(201,162,75,0.08)] sm:rounded-[999px] sm:px-12 sm:py-9">
                         {/* the cartouche's end bar */}
-                        <span aria-hidden="true" className="absolute end-4 top-1/2 h-14 w-1.5 -translate-y-1/2 rounded bg-gold-500 sm:end-6" />
-                        <div aria-live="polite" className="flex min-h-20 flex-wrap items-center justify-center gap-x-1.5 px-2" dir="ltr">
+                        <span aria-hidden="true" className="absolute end-3 top-1/2 h-10 w-1.5 -translate-y-1/2 rounded bg-gold-500 sm:end-6 sm:h-14" />
+                        <div aria-live="polite" className="flex min-h-16 flex-wrap items-center justify-center gap-x-1 px-2 sm:min-h-20 sm:gap-x-1.5" dir="ltr">
                             {glyphChars.length > 0 ? (
                                 glyphChars.map((glyph, index) => (
                                     <span
                                         key={`${shownName}-${index}`}
-                                        className="animate-glyph-in font-glyph text-gold-shine text-5xl leading-none sm:text-6xl"
+                                        className="animate-glyph-in font-glyph text-gold-shine text-[clamp(2.1rem,10vw,3.75rem)] leading-none"
                                         style={{ animationDelay: `${index * 95}ms` }}
                                     >
                                         {glyph}
