@@ -2,17 +2,17 @@ import { useEffect, useState } from 'react';
 import { useLocale } from '../i18n/LocaleContext';
 
 /**
- * Brand preloader — "the sun goes and returns". A small gold sun
- * travels a thin route line to the far node (رايح), pauses a beat,
- * then comes home (جاي) leaving the route lit gold behind it; as it
- * arrives, the brand name rises in underneath. The whole overlay
- * then lifts like a curtain.
+ * Brand preloader — the Eye of Horus wakes. On the dark Nile
+ * background the logo's own linework draws itself in gold (ring,
+ * brow, eye, teardrop, cheek curl — staggered like a hand sketching
+ * it), then the iris pops open with a bloom of gold light and the
+ * brand name rises underneath. The overlay then lifts like a
+ * curtain. Same artwork as the navbar BrandMark, drawn large.
  *
  * Manners: it plays once per full page load (in-app navigation
- * never replays it), it never outstays its welcome — it waits for
- * the window load event but leaves after the 1.5s journey at the
- * earliest and after 2.8s at the very latest — and reduced-motion
- * visitors just get the name, briefly, standing still.
+ * never replays it), waits for the window load event but leaves
+ * after the draw at the earliest and after 2.8s at the very latest,
+ * and reduced-motion visitors just get the name, briefly.
  */
 export default function Preloader() {
     const { t } = useLocale();
@@ -69,37 +69,41 @@ export default function Preloader() {
                 leaving ? '-translate-y-full' : 'translate-y-0'
             }`}
         >
-            <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-1/2 h-80 w-[560px] max-w-none -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold-500/[0.07] blur-3xl" />
-
-            {/* the route */}
-            <div className="relative w-[min(420px,74vw)]">
-                <div className="relative h-10">
-                    {/* faint track */}
-                    <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-sand-100/15" />
-                    {/* the lit trail the sun leaves behind */}
-                    <div className="animate-trail-fill absolute start-0 top-1/2 h-[2px] -translate-y-1/2 bg-gradient-to-r from-gold-300 via-gold-500 to-gold-300 shadow-[0_0_10px_rgba(201,162,75,0.55)] rtl:bg-gradient-to-l" />
-
-                    {/* home node */}
-                    <span className="absolute start-0 top-1/2 h-[9px] w-[9px] -translate-y-1/2 rounded-full border-2 border-gold-500 bg-nile-950 ltr:-translate-x-1/2 rtl:translate-x-1/2" />
-                    {/* destination node + its arrival pulse */}
-                    <span className="absolute end-0 top-1/2 flex h-[9px] w-[9px] -translate-y-1/2 items-center justify-center ltr:translate-x-1/2 rtl:-translate-x-1/2">
-                        <span className="animate-node-pulse absolute inline-flex h-full w-full rounded-full bg-gold-500" />
-                        <span className="relative inline-flex h-[9px] w-[9px] rounded-full bg-gold-500" />
-                    </span>
-
-                    {/* the sun */}
-                    <span className="animate-sun-journey absolute top-1/2 block h-[15px] w-[15px] -translate-y-1/2">
-                        <span className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_35%_35%,#E3C98A,#C9A24B_70%)] shadow-[0_0_18px_rgba(201,162,75,0.95),0_0_42px_rgba(201,162,75,0.45)]" />
-                    </span>
-                </div>
-                <div className="mt-1 flex items-center justify-between text-gold-500/70">
-                    <span className="font-glyph text-base leading-none">𓂀</span>
-                    <span className="font-glyph text-base leading-none">𓇳</span>
-                </div>
+            <div className="relative">
+                {/* the bloom of light when the eye opens */}
+                <div
+                    aria-hidden="true"
+                    className="animate-glow-in pointer-events-none absolute left-1/2 top-1/2 h-56 w-56 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold-500/15 blur-3xl"
+                />
+                <svg
+                    viewBox="0 0 48 48"
+                    className="relative h-32 w-32 drop-shadow-[0_0_14px_rgba(201,162,75,0.35)] sm:h-40 sm:w-40"
+                    role="img"
+                    aria-label="Masr Rayh Gay"
+                >
+                    <circle
+                        cx="24"
+                        cy="24"
+                        r="21"
+                        fill="none"
+                        stroke="#C9A24B"
+                        strokeWidth="1.1"
+                        pathLength={100}
+                        className="eye-ring"
+                        transform="rotate(-90 24 24)"
+                    />
+                    <g stroke="#C9A24B" strokeWidth="2.1" strokeLinecap="round" fill="none">
+                        <path d="M7.5 15.5 Q24 6.5 40.5 15.5" pathLength={100} className="eye-path" style={{ animationDelay: '0.3s' }} />
+                        <path d="M8.5 24.5 Q24 13.5 39.5 24.5 Q24 33.5 8.5 24.5 Z" pathLength={100} className="eye-path" style={{ animationDelay: '0.45s' }} />
+                        <path d="M17 30.5 L17 38.5" pathLength={100} className="eye-path" style={{ animationDelay: '0.9s' }} />
+                        <path d="M28.5 30 Q38 30.5 37 35.5 Q36.2 39 32.5 38" pathLength={100} className="eye-path" style={{ animationDelay: '1s' }} />
+                    </g>
+                    <circle cx="24" cy="24" r="4.4" fill="#C9A24B" className="eye-iris" />
+                </svg>
             </div>
 
-            {/* the name arrives with the sun */}
-            <div className="animate-brand-in mt-9 text-center">
+            {/* the name arrives as the eye opens */}
+            <div className="animate-brand-in mt-8 text-center">
                 <p className="font-display text-3xl font-bold text-sand-100 sm:text-4xl">{t('brand.name')}</p>
                 <p className="mt-2 text-[11px] font-semibold tracking-[0.35em] text-gold-300">{t('brand.nameLatin')}</p>
             </div>
