@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocale } from '../i18n/LocaleContext';
-import TourCard from './TourCard';
+import TourImageCard from './TourImageCard';
 
 /**
  * 3D coverflow carousel for the featured tours — the card in the
@@ -86,7 +86,7 @@ export default function ToursCoverflow({ tours }) {
                             }}
                         >
                             <div className={`h-full ${isActive ? '' : 'pointer-events-none'}`}>
-                                <TourCard tour={tour} className="h-full shadow-2xl shadow-black/40" />
+                                <TourImageCard tour={tour} />
                             </div>
                             {/* dim veil on side cards */}
                             <div
