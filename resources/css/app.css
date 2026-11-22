@@ -222,6 +222,68 @@ html {
     }
 }
 
+/* Preloader: the sun goes (رايح) and returns (جاي) along its route */
+@keyframes sun-journey {
+    0% {
+        inset-inline-start: 0;
+    }
+    42% {
+        inset-inline-start: calc(100% - 15px);
+    }
+    52% {
+        inset-inline-start: calc(100% - 15px);
+    }
+    94% {
+        inset-inline-start: 0;
+    }
+    100% {
+        inset-inline-start: 0;
+    }
+}
+.animate-sun-journey {
+    animation: sun-journey 1.5s cubic-bezier(0.45, 0, 0.2, 1) both;
+}
+@keyframes trail-fill {
+    0% {
+        width: 0;
+    }
+    42% {
+        width: 100%;
+    }
+    100% {
+        width: 100%;
+    }
+}
+.animate-trail-fill {
+    animation: trail-fill 1.5s cubic-bezier(0.45, 0, 0.2, 1) both;
+}
+@keyframes node-pulse {
+    0% {
+        transform: scale(0.6);
+        opacity: 0.9;
+    }
+    100% {
+        transform: scale(2.6);
+        opacity: 0;
+    }
+}
+.animate-node-pulse {
+    animation: node-pulse 0.6s ease-out 0.6s 1 both;
+}
+@keyframes brand-in {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.animate-brand-in {
+    animation: brand-in 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) 1s both;
+}
+
 /* Endless hieroglyph river drifting behind the CTA */
 @keyframes glyph-drift {
     to {
