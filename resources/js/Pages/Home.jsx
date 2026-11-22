@@ -365,6 +365,11 @@ function AcademyTeaser() {
     const shownName = isDemo ? CARTOUCHE_SAMPLES[sampleIndex] : name.trim();
     const glyphChars = useMemo(() => Array.from(toHieroglyphs(shownName)), [shownName]);
 
+    // One row, always: the more glyphs a name has, the smaller they
+    // are carved — the line never wraps inside the cartouche.
+    const glyphCount = Math.max(glyphChars.length, 1);
+    const glyphSize = `clamp(0.95rem, ${(88 / glyphCount).toFixed(2)}vw, ${Math.min(3.75, 30 / glyphCount).toFixed(2)}rem)`;
+
     return (
         <section id="academy" className="relative scroll-mt-32 overflow-hidden bg-nile-950">
             {/* ambient temple glow */}
@@ -400,13 +405,13 @@ function AcademyTeaser() {
                     <div className="relative rounded-[2.5rem] border-2 border-gold-500/70 px-5 py-7 shadow-[0_0_55px_rgba(201,162,75,0.28),inset_0_0_35px_rgba(201,162,75,0.08)] sm:rounded-[999px] sm:px-12 sm:py-9">
                         {/* the cartouche's end bar */}
                         <span aria-hidden="true" className="absolute end-3 top-1/2 h-10 w-1.5 -translate-y-1/2 rounded bg-gold-500 sm:end-6 sm:h-14" />
-                        <div aria-live="polite" className="flex min-h-16 flex-wrap items-center justify-center gap-x-1 px-2 sm:min-h-20 sm:gap-x-1.5" dir="ltr">
+                        <div aria-live="polite" className="flex min-h-16 flex-nowrap items-center justify-center gap-x-1 px-2 sm:min-h-20 sm:gap-x-1.5" dir="ltr">
                             {glyphChars.length > 0 ? (
                                 glyphChars.map((glyph, index) => (
                                     <span
                                         key={`${shownName}-${index}`}
-                                        className="animate-glyph-in font-glyph text-gold-shine text-[clamp(2.1rem,10vw,3.75rem)] leading-none"
-                                        style={{ animationDelay: `${index * 95}ms` }}
+                                        className="animate-glyph-in font-glyph text-gold-shine leading-none"
+                                        style={{ animationDelay: `${index * 95}ms`, fontSize: glyphSize }}
                                     >
                                         {glyph}
                                     </span>
