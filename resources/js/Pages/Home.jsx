@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Head, Link, router } from '@inertiajs/react';
 import AppLayout from '../Layouts/AppLayout';
 import HieroglyphStrip from '../Components/HieroglyphStrip';
@@ -221,24 +221,113 @@ const WHY_ICONS = ['𓂀', '𓋹', '𓍿', '𓅃'];
 
 function WhyUs() {
     const { strings } = useLocale();
+    const trackRef = useRef(null);
+    const [progress, setProgress] = useState(0);
+    const items = strings.why.items;
+
+    // The golden route draws itself as the section travels through the
+    // viewport: progress 0→1 maps to the fill height of the centre line,
+    // and each station lights up when the fill reaches it.
+    useEffect(() => {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            setProgress(1);
+            return undefined;
+        }
+
+        let raf = 0;
+        const update = () => {
+            raf = 0;
+            const el = trackRef.current;
+            if (!el) {
+                return;
+            }
+            const rect = el.getBoundingClientRect();
+            const anchor = window.innerHeight * 0.72;
+            const value = Math.min(1, Math.max(0, (anchor - rect.top) / rect.height));
+            setProgress(value);
+        };
+        const onScroll = () => {
+            if (!raf) {
+                raf = requestAnimationFrame(update);
+            }
+        };
+
+        update();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
+        return () => {
+            window.removeEventListener('scroll', onScroll);
+            window.removeEventListener('resize', onScroll);
+            if (raf) {
+                cancelAnimationFrame(raf);
+            }
+        };
+    }, []);
 
     return (
         <section>
             <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
                 <SectionHeading dark kicker={strings.why.kicker} title={strings.why.title} subtitle={strings.why.subtitle} />
-                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                    {strings.why.items.map((item, index) => (
-                        <div key={item.title} className="rounded-lg bg-sand-100 p-6 shadow-sm ring-1 ring-gold-500/25">
-                            <span
-                                aria-hidden="true"
-                                className="font-glyph flex h-12 w-12 items-center justify-center rounded-full bg-nile-950 text-2xl text-gold-500"
-                            >
-                                {WHY_ICONS[index % WHY_ICONS.length]}
-                            </span>
-                            <h3 className="font-display mt-4 text-lg font-bold text-nile-950">{item.title}</h3>
-                            <p className="mt-2 text-sm leading-relaxed text-ink-900/65">{item.text}</p>
-                        </div>
-                    ))}
+
+                <div ref={trackRef} className="relative mx-auto max-w-5xl">
+                    {/* the route: faint track + golden fill + travelling sun */}
+                    <div aria-hidden="true" className="absolute bottom-2 start-6 top-2 w-px bg-sand-100/15 lg:start-1/2">
+                        <div
+                            className="w-[2px] bg-gradient-to-b from-gold-300 via-gold-500 to-gold-500 shadow-[0_0_12px_rgba(201,162,75,0.65)]"
+                            style={{ height: `${progress * 100}%`, marginInlineStart: '-0.5px' }}
+                        />
+                        <span
+                            className="absolute flex h-4 w-4 items-center justify-center rounded-full bg-gold-500 shadow-[0_0_16px_rgba(201,162,75,0.9)] ring-4 ring-gold-500/25"
+                            style={{ top: `${progress * 100}%`, insetInlineStart: '-7.5px', transform: 'translateY(-50%)' }}
+                        />
+                    </div>
+
+                    <div className="flex flex-col gap-10 lg:gap-4">
+                        {items.map((item, index) => {
+                            const reached = progress >= (index + 0.5) / items.length;
+                            const startSide = index % 2 === 0;
+
+                            return (
+                                <div key={item.title} className="relative ps-16 lg:ps-0">
+                                    {/* station node on the line */}
+                                    <span
+                                        aria-hidden="true"
+                                        className={`font-glyph absolute start-6 top-8 z-10 flex h-12 w-12 items-center justify-center rounded-full border text-2xl transition-all duration-500 ease-stone ltr:-translate-x-1/2 rtl:translate-x-1/2 lg:start-1/2 ${
+                                            reached
+                                                ? 'scale-110 border-gold-300 bg-gold-500 text-ink-900 shadow-[0_0_22px_rgba(201,162,75,0.55)]'
+                                                : 'border-gold-500/40 bg-nile-950 text-gold-500/60'
+                                        }`}
+                                    >
+                                        {WHY_ICONS[index % WHY_ICONS.length]}
+                                    </span>
+
+                                    <div
+                                        className={`transition-all duration-700 ease-stone lg:w-[calc(50%-3.5rem)] ${
+                                            startSide ? 'lg:self-start lg:me-auto' : 'lg:self-end lg:ms-auto'
+                                        } flex flex-col ${startSide ? 'lg:items-start' : ''} ${
+                                            reached ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+                                        }`}
+                                        style={{ transitionDelay: reached ? '80ms' : '0ms' }}
+                                    >
+                                        <div className="relative w-full overflow-hidden rounded-lg bg-nile-950/70 p-6 shadow-lg shadow-black/25 ring-1 ring-gold-500/25 backdrop-blur-sm">
+                                            <span
+                                                aria-hidden="true"
+                                                className="font-display pointer-events-none absolute -top-3 end-3 text-6xl font-black text-sand-100/8"
+                                                dir="ltr"
+                                            >
+                                                {String(index + 1).padStart(2, '0')}
+                                            </span>
+                                            <p className="font-display text-xs font-bold tracking-[0.25em] text-gold-300" dir="ltr">
+                                                {String(index + 1).padStart(2, '0')}
+                                            </p>
+                                            <h3 className="font-display mt-2 text-xl font-bold text-sand-100">{item.title}</h3>
+                                            <p className="mt-2 text-sm leading-relaxed text-sand-100/70">{item.text}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
         </section>
