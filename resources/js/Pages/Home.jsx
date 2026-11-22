@@ -3,7 +3,7 @@ import { Head, Link, router } from '@inertiajs/react';
 import AppLayout from '../Layouts/AppLayout';
 import HieroglyphStrip from '../Components/HieroglyphStrip';
 import DestinationPanels from '../Components/DestinationPanels';
-import ToursHoverList from '../Components/ToursHoverList';
+import ToursCoverflow from '../Components/ToursCoverflow';
 import Button from '../Components/Button';
 import OrnamentDivider from '../Components/OrnamentDivider';
 import Reveal from '../Components/Reveal';
@@ -207,7 +207,7 @@ function FeaturedTours({ tours }) {
                 title={t('featuredTours.title')}
                 subtitle={t('featuredTours.subtitle')}
             />
-            <ToursHoverList tours={tours} />
+            <ToursCoverflow tours={tours} />
             <div className="mt-8 text-center">
                 <Button href="/tours" className="px-7">
                     {t('featuredTours.viewAll')}
