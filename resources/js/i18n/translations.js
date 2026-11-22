@@ -242,6 +242,7 @@ export const translations = {
             demoLabel: 'اكتب اسمك بالإنجليزية وشوفه بالهيروغليفي',
             demoPlaceholder: 'مثال: Sayed',
             demoHint: 'هذه لمحة سريعة — ادخل الأكاديمية الكاملة لدروس وجدول علامات واختبارات تفاعلية.',
+            demoShowing: 'الخرطوش يعرض الآن اسم',
             cta: 'ابدأ التعلم',
             page: {
                 metaTitle: 'أكاديمية الهيروغليفية — مصر رايح جاي',
@@ -687,6 +688,7 @@ export const translations = {
             demoLabel: 'Type your name in English and see it in hieroglyphs',
             demoPlaceholder: 'e.g. Sayed',
             demoHint: 'This is just a taste — enter the full academy for lessons, a sign chart and interactive quizzes.',
+            demoShowing: 'The cartouche is now showing',
             cta: 'Start Learning',
             page: {
                 metaTitle: 'Hieroglyph Academy — Masr Rayh Gay',
