@@ -11,7 +11,7 @@ import { useLocale } from '../i18n/LocaleContext';
  *
  * Manners: it plays once per full page load (in-app navigation
  * never replays it), waits for the window load event but leaves
- * after the draw at the earliest and after 2.8s at the very latest,
+ * after the ~3s draw at the earliest and after 4.6s at the very latest,
  * and reduced-motion visitors just get the name, briefly.
  */
 export default function Preloader() {
@@ -21,7 +21,7 @@ export default function Preloader() {
 
     useEffect(() => {
         const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const minDisplay = reduced ? 400 : 1550;
+        const minDisplay = reduced ? 400 : 2950;
         const startedAt = Date.now();
         let loaded = document.readyState === 'complete';
         const onLoad = () => {
@@ -38,7 +38,7 @@ export default function Preloader() {
         };
         const checker = window.setInterval(() => {
             const elapsed = Date.now() - startedAt;
-            if ((loaded && elapsed >= minDisplay) || elapsed >= 2800) {
+            if ((loaded && elapsed >= minDisplay) || elapsed >= 4600) {
                 window.clearInterval(checker);
                 exit();
             }
@@ -93,10 +93,10 @@ export default function Preloader() {
                         transform="rotate(-90 24 24)"
                     />
                     <g stroke="#C9A24B" strokeWidth="2.1" strokeLinecap="round" fill="none">
-                        <path d="M7.5 15.5 Q24 6.5 40.5 15.5" pathLength={100} className="eye-path" style={{ animationDelay: '0.3s' }} />
-                        <path d="M8.5 24.5 Q24 13.5 39.5 24.5 Q24 33.5 8.5 24.5 Z" pathLength={100} className="eye-path" style={{ animationDelay: '0.45s' }} />
-                        <path d="M17 30.5 L17 38.5" pathLength={100} className="eye-path" style={{ animationDelay: '0.9s' }} />
-                        <path d="M28.5 30 Q38 30.5 37 35.5 Q36.2 39 32.5 38" pathLength={100} className="eye-path" style={{ animationDelay: '1s' }} />
+                        <path d="M7.5 15.5 Q24 6.5 40.5 15.5" pathLength={100} className="eye-path" style={{ animationDelay: '0.5s', animationDuration: '1.1s' }} />
+                        <path d="M8.5 24.5 Q24 13.5 39.5 24.5 Q24 33.5 8.5 24.5 Z" pathLength={100} className="eye-path" style={{ animationDelay: '0.75s', animationDuration: '1.2s' }} />
+                        <path d="M17 30.5 L17 38.5" pathLength={100} className="eye-path" style={{ animationDelay: '1.6s', animationDuration: '0.8s' }} />
+                        <path d="M28.5 30 Q38 30.5 37 35.5 Q36.2 39 32.5 38" pathLength={100} className="eye-path" style={{ animationDelay: '1.8s', animationDuration: '0.9s' }} />
                     </g>
                     <circle cx="24" cy="24" r="4.4" fill="#C9A24B" className="eye-iris" />
                 </svg>
