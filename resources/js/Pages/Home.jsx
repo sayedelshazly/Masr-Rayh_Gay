@@ -4,6 +4,7 @@ import AppLayout from '../Layouts/AppLayout';
 import HieroglyphStrip from '../Components/HieroglyphStrip';
 import DestinationPanels from '../Components/DestinationPanels';
 import ToursCoverflow from '../Components/ToursCoverflow';
+import EgyptMap from '../Components/EgyptMap';
 import Button from '../Components/Button';
 import OrnamentDivider from '../Components/OrnamentDivider';
 import Reveal from '../Components/Reveal';
@@ -628,6 +629,12 @@ export default function Home({ destinations = [], featuredDestinations = [], fea
             <StatsStrip />
             <Reveal>
                 <FeaturedDestinations destinations={featuredDestinations} />
+            </Reveal>
+            <Reveal>
+                <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6">
+                    <SectionHeading dark kicker={t('map.kicker')} title={t('map.title')} subtitle={t('map.subtitle')} />
+                    <EgyptMap destinations={destinations} />
+                </section>
             </Reveal>
             <Reveal>
                 <FeaturedTours tours={featuredTours} />
