@@ -82,12 +82,12 @@ function Hero({ destinations }) {
                         event.preventDefault();
                         router.get('/tours', destination ? { destination } : {});
                     }}
-                    className="mx-auto mt-12 grid max-w-4xl gap-3 rounded-lg border border-gold-500/40 bg-sand-100 p-4 text-start shadow-xl shadow-ink-900/5 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_auto] lg:py-3 lg:ps-6"
+                    className="mx-auto mt-12 grid w-full max-w-4xl gap-3 rounded-lg border border-sand-100/25 bg-sand-100/10 p-4 text-start shadow-lg shadow-ink-900/10 backdrop-blur-md sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_auto] lg:py-3 lg:ps-6"
                 >
                     <label className="block px-2">
-                        <span className="text-xs font-semibold text-gold-deep">{t('search.destination')}</span>
+                        <span className="text-xs font-semibold text-gold-300">{t('search.destination')}</span>
                         <select
-                            className="mt-1 w-full bg-transparent text-sm font-medium text-ink-900 outline-none"
+                            className="mt-1 w-full bg-transparent text-sm font-medium text-sand-100 outline-none [&>option]:text-ink-900"
                             value={destination}
                             onChange={(event) => setDestination(event.target.value)}
                         >
@@ -102,12 +102,12 @@ function Hero({ destinations }) {
                         </select>
                     </label>
                     <label className="block px-2">
-                        <span className="text-xs font-semibold text-gold-deep">{t('search.date')}</span>
-                        <input type="date" className="mt-1 w-full bg-transparent text-sm font-medium text-ink-900 outline-none" />
+                        <span className="text-xs font-semibold text-gold-300">{t('search.date')}</span>
+                        <input type="date" className="mt-1 w-full bg-transparent text-sm font-medium text-sand-100 outline-none [color-scheme:dark]" />
                     </label>
                     <label className="block px-2">
-                        <span className="text-xs font-semibold text-gold-deep">{t('search.travelers')}</span>
-                        <select className="mt-1 w-full bg-transparent text-sm font-medium text-ink-900 outline-none" defaultValue="2">
+                        <span className="text-xs font-semibold text-gold-300">{t('search.travelers')}</span>
+                        <select className="mt-1 w-full bg-transparent text-sm font-medium text-sand-100 outline-none [&>option]:text-ink-900" defaultValue="2">
                             <option value="1">{t('search.travelersOne')}</option>
                             <option value="2">{t('search.travelersTwo')}</option>
                             <option value="3-4">{t('search.travelersThreeFour')}</option>
