@@ -32,8 +32,28 @@ function Hero({ destinations }) {
 
     return (
         <section className="relative overflow-hidden bg-nile-950">
-            <HieroglyphStrip className="pt-4 text-center text-lg text-gold-500/40" />
-            <div className="mx-auto max-w-7xl px-4 pb-16 pt-10 text-center sm:px-6">
+            {/* Promotional video background (Pexels, see docs/IMAGE_CREDITS.md).
+                Reduced-motion visitors get the still poster instead. */}
+            <img
+                src="/images/destinations/cairo-giza.jpg"
+                alt=""
+                aria-hidden="true"
+                className="absolute inset-0 hidden h-full w-full object-cover motion-reduce:block"
+            />
+            <video
+                className="absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
+                autoPlay
+                muted
+                loop
+                playsInline
+                poster="/images/destinations/cairo-giza.jpg"
+                aria-hidden="true"
+            >
+                <source src="/videos/egypt-hero.mp4" type="video/mp4" />
+            </video>
+            <div className="absolute inset-0 bg-gradient-to-b from-nile-950/85 via-nile-950/55 to-nile-950" aria-hidden="true" />
+            <HieroglyphStrip className="relative pt-4 text-center text-lg text-gold-500/40" />
+            <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-10 text-center sm:px-6">
                 <p className="font-display text-sm font-bold tracking-wide text-gold-300">{t('hero.kicker')}</p>
                 <h1 className="font-display mx-auto mt-4 max-w-3xl text-4xl font-extrabold leading-snug text-sand-100 sm:text-5xl lg:text-6xl">
                     {t('hero.title')}

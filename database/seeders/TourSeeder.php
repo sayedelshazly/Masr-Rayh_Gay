@@ -19,6 +19,8 @@ class TourSeeder extends Seeder
             $data['destination_id'] = $destinations[$data['destination']];
             unset($data['destination']);
 
+            $data['image'] = '/images/tours/'.$data['slug'].'.jpg';
+
             $tour = Tour::updateOrCreate(['slug' => $data['slug']], $data);
 
             $tour->itineraryDays()->delete();

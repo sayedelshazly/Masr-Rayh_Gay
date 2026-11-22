@@ -125,6 +125,8 @@ class DestinationSeeder extends Seeder
         ];
 
         foreach ($destinations as $destination) {
+            $destination['image'] = '/images/destinations/'.$destination['slug'].'.jpg';
+
             Destination::updateOrCreate(['slug' => $destination['slug']], $destination);
         }
     }

@@ -11,9 +11,21 @@ export default function DestinationShow({ destination, tours }) {
         <AppLayout>
             <Head title={`${localized(destination, 'name', locale)} — ${t('brand.name')}`} />
 
-            {/* Hero band */}
-            <section className={`bg-gradient-to-br ${destination.gradient ?? 'from-nile-800 via-sky-600 to-nile-950'}`}>
-                <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
+            {/* Hero band: photo under a dark nile overlay (gradient fallback) */}
+            <section className="relative overflow-hidden">
+                {destination.image ? (
+                    <>
+                        <img
+                            src={destination.image}
+                            alt={localized(destination, 'name', locale)}
+                            className="absolute inset-0 h-full w-full object-cover"
+                        />
+                        <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-b from-nile-950/80 via-nile-950/55 to-nile-950/85" />
+                    </>
+                ) : (
+                    <div aria-hidden="true" className={`absolute inset-0 bg-gradient-to-br ${destination.gradient ?? 'from-nile-800 via-sky-600 to-nile-950'}`} />
+                )}
+                <div className="relative mx-auto max-w-7xl px-4 py-14 sm:px-6">
                     <Link href="/destinations" className="text-sm font-semibold text-white/85 transition-colors hover:text-gold-300">
                         ← {t('destinationPage.title')}
                     </Link>
@@ -32,9 +44,11 @@ export default function DestinationShow({ destination, tours }) {
                                 {tours.length} {t('destinationPage.toursCount')}
                             </p>
                         </div>
-                        <span aria-hidden="true" className="font-glyph hidden text-8xl text-white/50 lg:block">
-                            {destination.glyph ?? '𓂀'}
-                        </span>
+                        {!destination.image && (
+                            <span aria-hidden="true" className="font-glyph hidden text-8xl text-white/50 lg:block">
+                                {destination.glyph ?? '𓂀'}
+                            </span>
+                        )}
                     </div>
                 </div>
             </section>

@@ -43,6 +43,7 @@ class DestinationController extends Controller
             'region' => ['required', 'string', 'max:255'],
             'gradient' => ['nullable', 'string', 'max:255'],
             'glyph' => ['nullable', 'string', 'max:16'],
+            'image' => ['nullable', 'string', 'max:255'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
         ]);
 

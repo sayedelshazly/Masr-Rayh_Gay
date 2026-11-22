@@ -25,6 +25,7 @@ export default function TourForm({ tour = null, destinations, types }) {
     const { data, setData, post, put, processing, errors } = useForm({
         destination_id: tour?.destination_id ?? '',
         slug: tour?.slug ?? '',
+        image: tour?.image ?? '',
         title_ar: tour?.title_ar ?? '',
         title_en: tour?.title_en ?? '',
         summary_ar: tour?.summary_ar ?? '',
@@ -75,6 +76,9 @@ export default function TourForm({ tour = null, destinations, types }) {
                 </Field>
                 <Field label={t('admin.fields.slug')} error={errors.slug} hint={t('admin.fields.slugHint')}>
                     <input value={data.slug} onChange={(e) => setData('slug', e.target.value)} className={inputCls} dir="ltr" />
+                </Field>
+                <Field label={t('admin.fields.image')} error={errors.image}>
+                    <input value={data.image} onChange={(e) => setData('image', e.target.value)} className={inputCls} dir="ltr" placeholder="/images/tours/…" />
                 </Field>
                 <Field label={t('admin.fields.titleAr')} error={errors.title_ar}>
                     <input value={data.title_ar} onChange={(e) => setData('title_ar', e.target.value)} className={inputCls} required />

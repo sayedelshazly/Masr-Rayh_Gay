@@ -22,6 +22,7 @@ class Destination extends Model
         'region',
         'gradient',
         'glyph',
+        'image',
         'is_featured',
         'sort_order',
     ];

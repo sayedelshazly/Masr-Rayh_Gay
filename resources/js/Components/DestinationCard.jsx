@@ -7,12 +7,27 @@ export default function DestinationCard({ destination }) {
 
     return (
         <article className="group flex flex-col overflow-hidden rounded-lg bg-white shadow-md shadow-ink-900/5 ring-1 ring-sand-300 transition-shadow hover:shadow-xl">
-            {/* Gradient placeholder in place of a photo (real images later) */}
-            <div className={`relative flex h-44 items-end bg-gradient-to-br p-4 ${destination.gradient ?? 'from-nile-800 via-sky-600 to-nile-950'}`}>
-                <span aria-hidden="true" className="font-glyph absolute end-4 top-3 text-4xl text-white/70">
-                    {destination.glyph ?? '𓂀'}
-                </span>
-                <h3 className="font-display text-xl font-bold text-white drop-shadow">
+            {/* Photo header; gradient + glyph fallback when no photo exists */}
+            <div className="relative flex h-44 items-end overflow-hidden p-4">
+                {destination.image ? (
+                    <>
+                        <img
+                            src={destination.image}
+                            alt={localized(destination, 'name', locale)}
+                            loading="lazy"
+                            className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 ease-stone group-hover:scale-105"
+                        />
+                        <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-nile-950/85 via-nile-950/25 to-transparent" />
+                    </>
+                ) : (
+                    <>
+                        <div aria-hidden="true" className={`absolute inset-0 bg-gradient-to-br ${destination.gradient ?? 'from-nile-800 via-sky-600 to-nile-950'}`} />
+                        <span aria-hidden="true" className="font-glyph absolute end-4 top-3 text-4xl text-white/70">
+                            {destination.glyph ?? '𓂀'}
+                        </span>
+                    </>
+                )}
+                <h3 className="font-display relative z-10 text-xl font-bold text-white drop-shadow">
                     {localized(destination, 'name', locale)}
                 </h3>
             </div>

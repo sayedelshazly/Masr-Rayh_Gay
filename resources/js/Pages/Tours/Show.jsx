@@ -40,9 +40,21 @@ export default function TourShow({ tour, relatedTours }) {
         <AppLayout>
             <Head title={`${localized(tour, 'title', locale)} — ${t('brand.name')}`} />
 
-            {/* Hero band */}
-            <section className={`bg-gradient-to-br ${destination.gradient ?? 'from-nile-800 via-sky-600 to-nile-950'}`}>
-                <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
+            {/* Hero band: photo under a dark nile overlay (gradient fallback) */}
+            <section className="relative overflow-hidden">
+                {(tour.image ?? destination.image) ? (
+                    <>
+                        <img
+                            src={tour.image ?? destination.image}
+                            alt={localized(tour, 'title', locale)}
+                            className="absolute inset-0 h-full w-full object-cover"
+                        />
+                        <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-b from-nile-950/80 via-nile-950/55 to-nile-950/85" />
+                    </>
+                ) : (
+                    <div aria-hidden="true" className={`absolute inset-0 bg-gradient-to-br ${destination.gradient ?? 'from-nile-800 via-sky-600 to-nile-950'}`} />
+                )}
+                <div className="relative mx-auto max-w-7xl px-4 py-14 sm:px-6">
                     <Link href="/tours" className="text-sm font-semibold text-white/85 transition-colors hover:text-gold-300">
                         ← {t('tours.show.back')}
                     </Link>
@@ -71,9 +83,11 @@ export default function TourShow({ tour, relatedTours }) {
                                 )}
                             </div>
                         </div>
-                        <span aria-hidden="true" className="font-glyph hidden text-8xl text-white/50 lg:block">
-                            {destination.glyph ?? '𓂀'}
-                        </span>
+                        {!(tour.image ?? destination.image) && (
+                            <span aria-hidden="true" className="font-glyph hidden text-8xl text-white/50 lg:block">
+                                {destination.glyph ?? '𓂀'}
+                            </span>
+                        )}
                     </div>
                 </div>
             </section>

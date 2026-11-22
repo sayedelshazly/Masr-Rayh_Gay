@@ -15,6 +15,7 @@ export function DurationLabel({ tour, className = '' }) {
 export default function TourCard({ tour }) {
     const { t, locale } = useLocale();
     const destination = tour.destination ?? {};
+    const photo = tour.image ?? destination.image ?? null;
 
     return (
         <article
@@ -22,17 +23,32 @@ export default function TourCard({ tour }) {
                 tour.is_featured ? 'border border-gold-500 ring-1 ring-gold-500' : 'ring-1 ring-sand-300'
             }`}
         >
-            {/* Gradient placeholder in place of a photo (real images later) */}
-            <div className={`relative flex h-44 items-end bg-gradient-to-br p-4 ${destination.gradient ?? 'from-nile-800 via-sky-600 to-nile-950'}`}>
-                <span aria-hidden="true" className="font-glyph absolute end-4 top-3 text-4xl text-white/70">
-                    {destination.glyph ?? '𓂀'}
-                </span>
+            {/* Photo header; gradient + glyph fallback when no photo exists */}
+            <div className="relative flex h-44 items-end overflow-hidden p-4">
+                {photo ? (
+                    <>
+                        <img
+                            src={photo}
+                            alt={localized(tour, 'title', locale)}
+                            loading="lazy"
+                            className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 ease-stone group-hover:scale-105"
+                        />
+                        <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-nile-950/85 via-nile-950/25 to-transparent" />
+                    </>
+                ) : (
+                    <>
+                        <div aria-hidden="true" className={`absolute inset-0 bg-gradient-to-br ${destination.gradient ?? 'from-nile-800 via-sky-600 to-nile-950'}`} />
+                        <span aria-hidden="true" className="font-glyph absolute end-4 top-3 text-4xl text-white/70">
+                            {destination.glyph ?? '𓂀'}
+                        </span>
+                    </>
+                )}
                 {tour.is_featured && (
-                    <span className="font-subhead absolute start-4 top-3 rounded-sm bg-gold-500 px-3 py-1 text-xs font-bold text-ink-900 shadow">
+                    <span className="font-subhead absolute start-4 top-3 z-10 rounded-sm bg-gold-500 px-3 py-1 text-xs font-bold text-ink-900 shadow">
                         {t('common.featured')}
                     </span>
                 )}
-                <div className="flex w-full items-end justify-between gap-2">
+                <div className="relative z-10 flex w-full items-end justify-between gap-2">
                     <h3 className="font-display text-lg font-bold leading-snug text-white drop-shadow">
                         {localized(tour, 'title', locale)}
                     </h3>

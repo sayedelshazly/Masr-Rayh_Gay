@@ -30,6 +30,7 @@ export default function Edit({ destination }) {
         region: destination.region ?? '',
         gradient: destination.gradient ?? '',
         glyph: destination.glyph ?? '',
+        image: destination.image ?? '',
         sort_order: destination.sort_order ?? 0,
         is_featured: destination.is_featured ?? false,
     });
@@ -71,6 +72,9 @@ export default function Edit({ destination }) {
                     </Field>
                     <Field label={t('admin.fields.gradient')} error={errors.gradient}>
                         <input value={data.gradient} onChange={(e) => setData('gradient', e.target.value)} className={inputCls} dir="ltr" />
+                    </Field>
+                    <Field label={t('admin.fields.image')} error={errors.image}>
+                        <input value={data.image} onChange={(e) => setData('image', e.target.value)} className={inputCls} dir="ltr" placeholder="/images/destinations/…" />
                     </Field>
                     <div className="grid grid-cols-2 gap-4">
                         <Field label={t('admin.fields.glyph')} error={errors.glyph}>

@@ -87,6 +87,7 @@ class TourController extends Controller
         $validated = $request->validate([
             'destination_id' => ['required', 'integer', Rule::exists('destinations', 'id')],
             'slug' => ['nullable', 'string', 'max:255', Rule::unique('tours', 'slug')->ignore($tour)],
+            'image' => ['nullable', 'string', 'max:255'],
             'title_ar' => ['required', 'string', 'max:255'],
             'title_en' => ['required', 'string', 'max:255'],
             'summary_ar' => ['nullable', 'string'],
