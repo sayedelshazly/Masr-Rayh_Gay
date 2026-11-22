@@ -222,6 +222,16 @@ html {
     }
 }
 
+/* Endless hieroglyph river drifting behind the CTA */
+@keyframes glyph-drift {
+    to {
+        transform: translateX(-50%);
+    }
+}
+.animate-glyph-drift {
+    animation: glyph-drift 48s linear infinite;
+}
+
 /* Testimonial stage: each quote rises in through a soft blur */
 @keyframes quote-in {
     from {

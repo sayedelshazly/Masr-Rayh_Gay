@@ -513,57 +513,52 @@ function Testimonials() {
     );
 }
 
+const CTA_GLYPH_RIVER = '𓂀 𓆣 𓅃 𓋹 𓊽 𓍿 𓇳 𓆑 𓃀 𓄿 𓈖 𓏏 𓊵 𓅱 ';
+
 function CtaBanner() {
     const { t } = useLocale();
+    const river = CTA_GLYPH_RIVER.repeat(4);
 
     return (
-        <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6">
-            {/* The Invitation: a framed Nile panorama that breathes
-                (slow ken-burns) behind one calm, centred call. */}
-            <div className="relative overflow-hidden rounded-lg shadow-2xl shadow-black/40 ring-1 ring-gold-500/25">
-                <img
-                    src="/images/tours/nile-cruise-luxor-aswan-4-days.jpg"
-                    alt=""
-                    loading="lazy"
-                    className="animate-kenburns absolute inset-0 h-full w-full object-cover"
-                />
-                <div aria-hidden="true" className="absolute inset-0 bg-nile-950/45" />
-                <div
-                    aria-hidden="true"
-                    className="absolute inset-0 bg-gradient-to-b from-nile-950/85 via-nile-950/20 to-nile-950/90"
-                />
-                {/* inset gold frame — the luxury-hotel detail */}
-                <div aria-hidden="true" className="pointer-events-none absolute inset-3 rounded-md border border-gold-500/45 sm:inset-4" />
-
-                <div className="relative flex flex-col items-center px-6 py-16 text-center sm:py-20">
-                    <span aria-hidden="true" className="font-glyph text-4xl text-gold-500">
-                        𓂀
-                    </span>
-                    <h2 className="font-display mt-4 max-w-2xl text-4xl font-bold leading-snug text-sand-100 drop-shadow sm:text-5xl">
-                        {t('cta.title')}
-                    </h2>
-                    <p className="mt-4 max-w-xl leading-relaxed text-sand-100/85">{t('cta.subtitle')}</p>
-                    <Link
-                        href="/tours"
-                        className="font-subhead mt-8 inline-flex min-h-[48px] items-center rounded-md bg-gold-500 px-9 py-3 text-base font-bold text-ink-900 shadow-[0_10px_35px_rgba(201,162,75,0.45)] transition-all duration-150 ease-stone hover:bg-gold-300"
-                    >
-                        {t('cta.button')}
-                    </Link>
-                    <p className="mt-6 flex flex-wrap items-center justify-center gap-x-2 text-xs font-medium tracking-wide text-sand-100/65">
-                        {t('cta.note')
-                            .split('·')
-                            .map((part, index, parts) => (
-                                <span key={index} className="inline-flex items-center gap-2">
-                                    {part.trim()}
-                                    {index < parts.length - 1 && (
-                                        <span aria-hidden="true" className="text-gold-500">
-                                            ✦
-                                        </span>
-                                    )}
-                                </span>
-                            ))}
-                    </p>
+        <section className="relative overflow-hidden">
+            {/* a slow river of ghost glyphs flowing behind the words */}
+            <div aria-hidden="true" className="pointer-events-none absolute inset-0 flex items-center overflow-hidden">
+                <div className="animate-glyph-drift flex w-max whitespace-nowrap" dir="ltr">
+                    <span className="font-glyph text-[7rem] leading-none text-gold-500/[0.07]">{river}</span>
+                    <span className="font-glyph text-[7rem] leading-none text-gold-500/[0.07]">{river}</span>
                 </div>
+            </div>
+            <div
+                aria-hidden="true"
+                className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-[640px] max-w-none -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold-500/10 blur-3xl"
+            />
+
+            <div className="relative mx-auto max-w-3xl px-4 py-24 text-center sm:px-6">
+                <span aria-hidden="true" className="mx-auto block h-px w-14 bg-gold-500" />
+                <h2 className="font-display text-gold-shine mt-7 text-5xl font-extrabold leading-snug sm:text-6xl">
+                    {t('cta.title')}
+                </h2>
+                <p className="mx-auto mt-5 max-w-xl leading-loose text-sand-100/75 sm:text-lg">{t('cta.subtitle')}</p>
+                <Link
+                    href="/tours"
+                    className="font-subhead mt-9 inline-flex min-h-[50px] items-center rounded-md bg-gold-500 px-10 py-3.5 text-base font-bold text-ink-900 shadow-[0_12px_40px_rgba(201,162,75,0.45)] transition-all duration-150 ease-stone hover:bg-gold-300"
+                >
+                    {t('cta.button')}
+                </Link>
+                <p className="mt-7 flex flex-wrap items-center justify-center gap-x-2 text-xs font-medium tracking-wide text-sand-100/60">
+                    {t('cta.note')
+                        .split('·')
+                        .map((part, index, parts) => (
+                            <span key={index} className="inline-flex items-center gap-2">
+                                {part.trim()}
+                                {index < parts.length - 1 && (
+                                    <span aria-hidden="true" className="text-gold-500">
+                                        ✦
+                                    </span>
+                                )}
+                            </span>
+                        ))}
+                </p>
             </div>
         </section>
     );
