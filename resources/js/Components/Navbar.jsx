@@ -3,17 +3,24 @@ import { Link, usePage } from '@inertiajs/react';
 import { useLocale } from '../i18n/LocaleContext';
 import LanguageSwitcher from './LanguageSwitcher';
 
-/** Inline SVG brand mark: a gold-500 ankh inside a nile-800 ring. */
+/** Inline SVG brand mark: the Eye of Horus in gold inside a nile ring. */
 export function BrandMark({ className = 'h-11 w-11' }) {
     return (
         <svg viewBox="0 0 48 48" className={className} role="img" aria-label="Masr Rayh Gay">
             <circle cx="24" cy="24" r="22" fill="#0B1F2E" />
             <circle cx="24" cy="24" r="21" fill="none" stroke="#C9A24B" strokeWidth="1.6" />
-            <g stroke="#C9A24B" strokeWidth="2.6" strokeLinecap="round" fill="none">
-                <circle cx="24" cy="16.5" r="5" />
-                <line x1="24" y1="21.5" x2="24" y2="37" />
-                <line x1="15.5" y1="27" x2="32.5" y2="27" />
+            <g stroke="#C9A24B" strokeWidth="2.3" strokeLinecap="round" fill="none">
+                {/* Brow */}
+                <path d="M7.5 15.5 Q24 6.5 40.5 15.5" />
+                {/* Eye outline */}
+                <path d="M8.5 24.5 Q24 13.5 39.5 24.5 Q24 33.5 8.5 24.5 Z" />
+                {/* Teardrop */}
+                <path d="M17 30.5 L17 38.5" />
+                {/* Cheek curl */}
+                <path d="M28.5 30 Q38 30.5 37 35.5 Q36.2 39 32.5 38" />
             </g>
+            {/* Iris */}
+            <circle cx="24" cy="24" r="4.4" fill="#C9A24B" />
         </svg>
     );
 }
