@@ -31,7 +31,7 @@ function Hero({ destinations }) {
     const [destination, setDestination] = useState('');
 
     return (
-        <section className="relative overflow-hidden bg-nile-950">
+        <section className="relative flex min-h-[100vh] flex-col overflow-hidden bg-nile-950">
             {/* Promotional video background (Pexels, see docs/IMAGE_CREDITS.md).
                 Reduced-motion visitors get the still poster instead. */}
             <img
@@ -53,7 +53,7 @@ function Hero({ destinations }) {
             </video>
             <div className="absolute inset-0 bg-gradient-to-b from-nile-950/85 via-nile-950/55 to-nile-950" aria-hidden="true" />
             <HieroglyphStrip className="relative pt-[76px] text-center text-lg text-gold-500/40" />
-            <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-10 text-center sm:px-6">
+            <div className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-center px-4 pb-16 pt-10 text-center sm:px-6">
                 <p className="font-display text-sm font-bold tracking-wide text-gold-300">{t('hero.kicker')}</p>
                 <h1 className="font-display mx-auto mt-4 max-w-3xl text-4xl font-extrabold leading-snug text-sand-100 sm:text-5xl lg:text-6xl">
                     {t('hero.title')}
