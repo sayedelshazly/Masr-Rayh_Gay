@@ -1,15 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import AppLayout from '../Layouts/AppLayout';
 import HieroglyphStrip from '../Components/HieroglyphStrip';
 import DestinationPanels from '../Components/DestinationPanels';
 import ToursCoverflow from '../Components/ToursCoverflow';
-import EgyptMap from '../Components/EgyptMap';
 import Button from '../Components/Button';
 import OrnamentDivider from '../Components/OrnamentDivider';
 import Reveal from '../Components/Reveal';
 import { useLocale } from '../i18n/LocaleContext';
-import { localized } from '../lib/format';
 import { stats, toHieroglyphs } from '../data/home';
 
 function SectionHeading({ kicker, title, subtitle, dark = false }) {
@@ -29,9 +27,8 @@ function SectionHeading({ kicker, title, subtitle, dark = false }) {
     );
 }
 
-function Hero({ destinations }) {
-    const { t, locale } = useLocale();
-    const [destination, setDestination] = useState('');
+function Hero() {
+    const { t } = useLocale();
 
     return (
         <section className="relative flex min-h-[100vh] flex-col overflow-hidden bg-nile-950">
@@ -56,78 +53,31 @@ function Hero({ destinations }) {
             </video>
             <div className="absolute inset-0 bg-gradient-to-b from-nile-950/85 via-nile-950/55 to-nile-950" aria-hidden="true" />
             <HieroglyphStrip className="relative pt-[92px] text-center text-lg text-gold-500/40" />
-            <div className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-center px-4 pb-16 pt-10 text-center sm:px-6">
+            <div className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-center px-4 pb-24 pt-10 text-center sm:px-6">
                 <p className="font-display flex items-center justify-center gap-3 text-sm font-bold tracking-[0.2em] text-gold-300">
                     <span aria-hidden="true" className="h-px w-8 bg-gold-500/70" />
                     {t('hero.kicker')}
                     <span aria-hidden="true" className="h-px w-8 bg-gold-500/70" />
                 </p>
-                <h1 className="font-display mx-auto mt-5 max-w-4xl text-5xl font-extrabold leading-snug text-sand-100 sm:text-6xl lg:text-7xl">
+                <h1 className="font-display mx-auto mt-6 max-w-4xl text-5xl font-extrabold leading-snug text-sand-100 sm:text-6xl lg:text-7xl">
                     {t('hero.title')}
                 </h1>
-                <p className="mx-auto mt-5 max-w-2xl leading-loose text-sand-100/75 sm:text-lg">{t('hero.subtitle')}</p>
+                <p className="mx-auto mt-6 max-w-2xl leading-loose text-sand-100/75 sm:text-lg">{t('hero.subtitle')}</p>
 
-                <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-                    <a
-                        href="#booking"
-                        className="font-subhead inline-flex min-h-[44px] items-center rounded-md bg-gold-500 px-7 py-3 font-bold text-ink-900 shadow-md transition-colors duration-150 ease-stone hover:bg-gold-300"
-                    >
-                        {t('hero.bookTrip')}
-                    </a>
+                <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                     <Link
                         href="/tours"
-                        className="font-subhead inline-flex min-h-[44px] items-center rounded-md border border-gold-500 px-7 py-3 font-bold text-gold-300 transition-colors duration-150 ease-stone hover:bg-gold-500/10"
+                        className="font-subhead inline-flex min-h-[48px] items-center rounded-md bg-gold-500 px-8 py-3 font-bold text-ink-900 shadow-[0_10px_35px_rgba(201,162,75,0.4)] transition-colors duration-150 ease-stone hover:bg-gold-300"
+                    >
+                        {t('hero.bookTrip')}
+                    </Link>
+                    <Link
+                        href="/tours"
+                        className="font-subhead inline-flex min-h-[48px] items-center rounded-md border border-gold-500 px-8 py-3 font-bold text-gold-300 transition-colors duration-150 ease-stone hover:bg-gold-500/10"
                     >
                         {t('hero.exploreTours')}
                     </Link>
                 </div>
-
-                {/* Search bar — the destination choice jumps to the filtered tours page */}
-                <form
-                    id="booking"
-                    onSubmit={(event) => {
-                        event.preventDefault();
-                        router.get('/tours', destination ? { destination } : {});
-                    }}
-                    className="mx-auto mt-12 grid w-full max-w-4xl gap-3 rounded-lg border border-sand-100/25 bg-sand-100/10 p-4 text-start shadow-lg shadow-ink-900/10 backdrop-blur-md sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_auto] lg:py-3 lg:ps-6"
-                >
-                    <label className="block px-2">
-                        <span className="text-xs font-semibold text-gold-300">{t('search.destination')}</span>
-                        <select
-                            className="mt-1 w-full bg-transparent text-sm font-medium text-sand-100 outline-none [&>option]:text-ink-900"
-                            value={destination}
-                            onChange={(event) => setDestination(event.target.value)}
-                        >
-                            <option value="" disabled>
-                                {t('search.destinationPlaceholder')}
-                            </option>
-                            {destinations.map((item) => (
-                                <option key={item.slug} value={item.slug}>
-                                    {localized(item, 'name', locale)}
-                                </option>
-                            ))}
-                        </select>
-                    </label>
-                    <label className="block px-2">
-                        <span className="text-xs font-semibold text-gold-300">{t('search.date')}</span>
-                        <input type="date" className="mt-1 w-full bg-transparent text-sm font-medium text-sand-100 outline-none [color-scheme:dark]" />
-                    </label>
-                    <label className="block px-2">
-                        <span className="text-xs font-semibold text-gold-300">{t('search.travelers')}</span>
-                        <select className="mt-1 w-full bg-transparent text-sm font-medium text-sand-100 outline-none [&>option]:text-ink-900" defaultValue="2">
-                            <option value="1">{t('search.travelersOne')}</option>
-                            <option value="2">{t('search.travelersTwo')}</option>
-                            <option value="3-4">{t('search.travelersThreeFour')}</option>
-                            <option value="group">{t('search.travelersGroup')}</option>
-                        </select>
-                    </label>
-                    <button
-                        type="submit"
-                        className="font-subhead min-h-[44px] rounded-md bg-gold-500 px-6 py-3 font-bold text-ink-900 transition-colors duration-150 ease-stone hover:bg-gold-300"
-                    >
-                        {t('search.button')}
-                    </button>
-                </form>
             </div>
 
             {/* Scroll cue */}
@@ -619,22 +569,16 @@ function CtaBanner() {
     );
 }
 
-export default function Home({ destinations = [], featuredDestinations = [], featuredTours = [] }) {
+export default function Home({ featuredDestinations = [], featuredTours = [] }) {
     const { t } = useLocale();
 
     return (
         <AppLayout>
             <Head title={t('meta.homeTitle')} />
-            <Hero destinations={destinations} />
+            <Hero />
             <StatsStrip />
             <Reveal>
                 <FeaturedDestinations destinations={featuredDestinations} />
-            </Reveal>
-            <Reveal>
-                <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6">
-                    <SectionHeading dark kicker={t('map.kicker')} title={t('map.title')} subtitle={t('map.subtitle')} />
-                    <EgyptMap destinations={destinations} />
-                </section>
             </Reveal>
             <Reveal>
                 <FeaturedTours tours={featuredTours} />

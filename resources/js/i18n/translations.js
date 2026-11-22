@@ -76,11 +76,6 @@ export const translations = {
             viewDetails: 'عرض التفاصيل',
             from: 'تبدأ من',
         },
-        map: {
-            kicker: 'خريطة مصر',
-            title: 'مصر كلها على خريطة واحدة',
-            subtitle: 'من سيوة في قلب الصحراء لشرم الشيخ على البحر الأحمر — دوس على أي نقطة ذهبية واكتشف وجهتها.',
-        },
         featuredTours: {
             kicker: 'رحلات مختارة',
             title: 'رحلات مميزة يحبها مسافرونا',
@@ -527,11 +522,6 @@ export const translations = {
             featured: 'Featured',
             viewDetails: 'View details',
             from: 'From',
-        },
-        map: {
-            kicker: 'Map of Egypt',
-            title: 'All of Egypt on one map',
-            subtitle: 'From Siwa deep in the desert to Sharm El Sheikh on the Red Sea — tap any golden pin to explore its destination.',
         },
         featuredTours: {
             kicker: 'Handpicked Tours',
