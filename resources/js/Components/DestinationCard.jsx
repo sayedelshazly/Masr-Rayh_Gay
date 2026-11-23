@@ -1,12 +1,14 @@
 import { Link } from '@inertiajs/react';
 import { useLocale } from '../i18n/LocaleContext';
 import { formatPrice, localized } from '../lib/format';
+import StepReveal from './StepReveal';
 
-export default function DestinationCard({ destination }) {
+export default function DestinationCard({ destination, index = 0, cols = 4 }) {
     const { t, locale } = useLocale();
 
     return (
-        <article className="group flex flex-col overflow-hidden rounded-lg bg-nile-950/70 shadow-lg shadow-black/25 ring-1 ring-white/10 backdrop-blur transition duration-300 ease-stone hover:-translate-y-1 hover:shadow-xl">
+        <StepReveal index={index} cols={cols} className="h-full">
+        <article className="group flex h-full flex-col overflow-hidden rounded-lg bg-nile-950/70 shadow-lg shadow-black/25 ring-1 ring-white/10 backdrop-blur transition duration-300 ease-stone hover:-translate-y-1 hover:shadow-xl">
             {/* Photo header; gradient + glyph fallback when no photo exists */}
             <div className="relative flex h-44 items-end overflow-hidden p-4">
                 {destination.image ? (
@@ -61,5 +63,6 @@ export default function DestinationCard({ destination }) {
                 )}
             </div>
         </article>
+        </StepReveal>
     );
 }

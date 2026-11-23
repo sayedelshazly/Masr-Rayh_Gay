@@ -1,6 +1,7 @@
 import { useLocale } from '../i18n/LocaleContext';
 import { formatPrice, localized } from '../lib/format';
 import Button from './Button';
+import StepReveal from './StepReveal';
 
 /** Duration label: "1 day" / "3 days · 2 nights" (localized via common strings). */
 export function DurationLabel({ tour, className = '' }) {
@@ -12,14 +13,15 @@ export function DurationLabel({ tour, className = '' }) {
     return <span className={className}>{days}{nights}</span>;
 }
 
-export default function TourCard({ tour }) {
+export default function TourCard({ tour, index = 0, cols = 3 }) {
     const { t, locale } = useLocale();
     const destination = tour.destination ?? {};
     const photo = tour.image ?? destination.image ?? null;
 
     return (
+        <StepReveal index={index} cols={cols} className="h-full">
         <article
-            className={`group flex flex-col overflow-hidden rounded-lg bg-nile-950/70 shadow-lg shadow-black/25 backdrop-blur transition duration-300 ease-stone hover:-translate-y-1 hover:shadow-2xl ${
+            className={`group flex h-full flex-col overflow-hidden rounded-lg bg-nile-950/70 shadow-lg shadow-black/25 backdrop-blur transition duration-300 ease-stone hover:-translate-y-1 hover:shadow-2xl ${
                 tour.is_featured ? 'border border-gold-500 ring-1 ring-gold-500' : 'ring-1 ring-white/10'
             }`}
         >
@@ -90,5 +92,6 @@ export default function TourCard({ tour }) {
                 </div>
             </div>
         </article>
+        </StepReveal>
     );
 }

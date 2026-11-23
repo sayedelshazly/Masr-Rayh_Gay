@@ -27,9 +27,9 @@ export default function DestinationsIndex({ destinations }) {
 
             <Reveal>
                 <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6">
-                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                        {destinations.map((destination) => (
-                            <DestinationCard key={destination.id} destination={destination} />
+                    <div className="pyramid-grid grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                        {destinations.map((destination, i) => (
+                            <DestinationCard key={destination.id} destination={destination} index={i} cols={4} />
                         ))}
                     </div>
                 </section>

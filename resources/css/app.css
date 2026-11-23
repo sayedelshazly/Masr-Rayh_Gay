@@ -419,3 +419,37 @@ html {
         transform: none;
     }
 }
+
+/* Pyramid-steps card entrance: a diagonal cascade (the delay grows
+   with row + column, set inline by StepReveal), alternate rows
+   shifted one step sideways on wide screens, and while one card is
+   hovered the rest of its grid calms down. */
+.step-card {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+        opacity 0.75s var(--ease-stone),
+        transform 0.75s var(--ease-stone),
+        filter 0.35s ease;
+}
+.step-card.is-visible {
+    opacity: 1;
+    transform: none;
+}
+@media (min-width: 1024px) {
+    .step-card {
+        margin-inline-start: var(--row-shift, 0px);
+    }
+    .pyramid-grid:has(.step-card:hover) .step-card {
+        transition-delay: 0ms !important;
+    }
+    .pyramid-grid:has(.step-card:hover) .step-card:not(:hover) {
+        filter: saturate(0.55) brightness(0.72);
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .step-card {
+        opacity: 1;
+        transform: none;
+    }
+}

@@ -224,9 +224,9 @@ export default function TourShow({ tour, relatedTours }) {
                 {relatedTours.length > 0 && (
                     <div className="mt-16">
                         <SectionTitle>{t('tours.show.related')}</SectionTitle>
-                        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                            {relatedTours.map((related) => (
-                                <TourCard key={related.id} tour={related} />
+                        <div className="pyramid-grid mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                            {relatedTours.map((related, i) => (
+                                <TourCard key={related.id} tour={related} index={i} cols={3} />
                             ))}
                         </div>
                     </div>
