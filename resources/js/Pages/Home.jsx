@@ -64,18 +64,33 @@ function Hero() {
                 </h1>
                 <p className="mx-auto mt-6 max-w-2xl leading-loose text-sand-100/75 sm:text-lg">{t('hero.subtitle')}</p>
 
-                <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+                <div className="mt-9 flex flex-wrap items-center justify-center gap-2.5">
                     <Link
                         href="/tours"
-                        className="font-subhead inline-flex min-h-[48px] items-center rounded-md bg-gold-500 px-8 py-3 font-bold text-ink-900 shadow-[0_10px_35px_rgba(201,162,75,0.4)] transition-colors duration-150 ease-stone hover:bg-gold-300"
+                        className="font-subhead inline-flex min-h-[40px] items-center rounded-full bg-gold-500 px-5 py-2 text-sm font-bold text-ink-900 shadow-[0_8px_25px_rgba(201,162,75,0.35)] transition-colors duration-150 ease-stone hover:bg-gold-300"
                     >
                         {t('hero.bookTrip')}
                     </Link>
                     <Link
                         href="/tours"
-                        className="font-subhead inline-flex min-h-[48px] items-center rounded-md border border-gold-500 px-8 py-3 font-bold text-gold-300 transition-colors duration-150 ease-stone hover:bg-gold-500/10"
+                        className="font-subhead inline-flex min-h-[40px] items-center gap-2 rounded-full bg-white/5 px-5 py-2 text-sm font-bold text-sand-100 ring-1 ring-white/20 backdrop-blur transition-colors duration-150 ease-stone hover:text-gold-300 hover:ring-gold-400/70"
                     >
+                        <span aria-hidden="true" className="font-glyph text-base leading-none text-gold-400">𓅃</span>
                         {t('hero.exploreTours')}
+                    </Link>
+                    <Link
+                        href="/plan-your-trip"
+                        className="font-subhead inline-flex min-h-[40px] items-center gap-2 rounded-full bg-white/5 px-5 py-2 text-sm font-bold text-sand-100 ring-1 ring-white/20 backdrop-blur transition-colors duration-150 ease-stone hover:text-gold-300 hover:ring-gold-400/70"
+                    >
+                        <span aria-hidden="true" className="font-glyph text-base leading-none text-gold-400">𓋹</span>
+                        {t('hero.planTrip')}
+                    </Link>
+                    <Link
+                        href="/my-bookings"
+                        className="font-subhead inline-flex min-h-[40px] items-center gap-2 rounded-full bg-white/5 px-5 py-2 text-sm font-bold text-sand-100 ring-1 ring-white/20 backdrop-blur transition-colors duration-150 ease-stone hover:text-gold-300 hover:ring-gold-400/70"
+                    >
+                        <span aria-hidden="true" className="font-glyph text-base leading-none text-gold-400">𓂀</span>
+                        {t('hero.myBookings')}
                     </Link>
                 </div>
             </div>

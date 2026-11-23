@@ -39,6 +39,8 @@ export const translations = {
                 'من أهرامات الجيزة إلى معابد الأقصر ومياه البحر الأحمر — رحلات مصممة بعناية، بمرشدين مصريين خبراء، وتجربة فاخرة من أول خطوة حتى العودة.',
             exploreTours: 'استكشف الرحلات',
             bookTrip: 'احجز رحلتك الآن',
+            planTrip: 'صمّم رحلتك',
+            myBookings: 'حجوزاتي',
         },
         search: {
             title: 'خطط رحلتك',
@@ -607,6 +609,8 @@ export const translations = {
                 'From the Pyramids of Giza to the temples of Luxor and the waters of the Red Sea — carefully crafted tours, expert Egyptian guides, and a luxurious experience from the first step to the journey home.',
             exploreTours: 'Explore Tours',
             bookTrip: 'Book Your Trip',
+            planTrip: 'Design Your Trip',
+            myBookings: 'My Bookings',
         },
         search: {
             title: 'Plan your trip',
