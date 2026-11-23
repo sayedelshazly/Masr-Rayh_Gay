@@ -92,8 +92,8 @@ export default function DestinationShowcase({ destinations }) {
                 onPointerDown={onPointerDown}
                 onPointerUp={onPointerUp}
             >
-                <div key={destination.id} className="animate-stage-in grid lg:grid-cols-5">
-                    <div className="relative h-64 overflow-hidden sm:h-80 lg:col-span-3 lg:h-[430px]">
+                <div key={destination.id} className="animate-stage-in relative h-[470px] sm:h-[510px] lg:h-[540px]">
+                    <div className="absolute inset-0 overflow-hidden">
                         {destination.image ? (
                             <>
                                 <img
@@ -102,7 +102,7 @@ export default function DestinationShowcase({ destinations }) {
                                     className="animate-stage-photo absolute inset-0 h-full w-full object-cover"
                                     draggable="false"
                                 />
-                                <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-nile-950/70 via-transparent to-nile-950/10" />
+                                <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-nile-950/95 via-nile-950/40 to-nile-950/10" />
                             </>
                         ) : (
                             <>
@@ -113,25 +113,25 @@ export default function DestinationShowcase({ destinations }) {
                             </>
                         )}
                         {destination.tours_count != null && (
-                            <span className="absolute bottom-4 start-4 rounded-sm bg-nile-950/70 px-2.5 py-1 text-xs font-semibold text-gold-300">
+                            <span className="absolute end-4 top-4 rounded-sm bg-nile-950/70 px-2.5 py-1 text-xs font-semibold text-gold-300">
                                 {destination.tours_count} {t('destinationPage.toursCount')}
                             </span>
                         )}
                     </div>
 
-                    <div className="flex flex-col p-6 sm:p-8 lg:col-span-2">
+                    <div className="absolute inset-x-0 bottom-0 max-w-3xl p-6 sm:p-8">
                         <p className="font-display text-sm font-bold tracking-wide text-gold-300">
                             {t('destinationPage.kicker')}
                         </p>
-                        <h2 className="font-display mt-2 text-3xl font-bold leading-snug text-sand-100 sm:text-4xl">
+                        <h2 className="font-display mt-2 text-4xl font-bold leading-snug text-sand-100 drop-shadow sm:text-5xl">
                             {localized(destination, 'name', locale)}
                         </h2>
 
-                        <p className="mt-3 line-clamp-4 leading-relaxed text-sand-100/70">
+                        <p className="mt-3 line-clamp-2 max-w-2xl leading-relaxed text-sand-100/80">
                             {localized(destination, 'tagline', locale)}
                         </p>
 
-                        <div className="mt-auto pt-6">
+                        <div className="mt-5">
                             {destination.from_price != null && (
                                 <p className="text-sm text-sand-100/60">
                                     {t('destinations.from')}{' '}
@@ -143,12 +143,12 @@ export default function DestinationShowcase({ destinations }) {
                             )}
 
                             <div className="mt-4">
-                                <Button href={`/destinations/${destination.slug}`} className="w-full px-4">
+                                <Button href={`/destinations/${destination.slug}`} className="px-6">
                                     {t('destinationPage.viewDestination')}
                                 </Button>
                             </div>
 
-                            <div className="mt-5 flex items-center justify-between border-t border-white/10 pt-4">
+                            <div className="mt-4 flex items-center justify-between">
                                 <div className="flex items-center gap-2">
                                     <button
                                         type="button"
@@ -198,13 +198,13 @@ export default function DestinationShowcase({ destinations }) {
                             type="button"
                             onClick={() => setActive(i)}
                             aria-current={isActive ? 'true' : undefined}
-                            className={`w-40 shrink-0 snap-start overflow-hidden rounded-md bg-nile-950/70 text-start shadow ring-1 backdrop-blur transition duration-300 ease-stone sm:w-44 ${
+                            className={`relative h-24 w-40 shrink-0 snap-start overflow-hidden rounded-md text-start shadow ring-1 transition duration-300 ease-stone sm:w-44 ${
                                 isActive
                                     ? 'opacity-100 ring-2 ring-gold-500'
                                     : 'opacity-55 ring-white/10 hover:opacity-90'
                             }`}
                         >
-                            <span className="block h-20 overflow-hidden">
+                            <span className="absolute inset-0">
                                 {item.image ? (
                                     <img src={item.image} alt="" loading="lazy" className="h-full w-full object-cover" draggable="false" />
                                 ) : (
@@ -213,12 +213,13 @@ export default function DestinationShowcase({ destinations }) {
                                     </span>
                                 )}
                             </span>
-                            <span className="block p-2.5">
+                            <span aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-nile-950/90 via-nile-950/25 to-transparent" />
+                            <span className="absolute inset-x-0 bottom-0 block p-2.5">
                                 <span className={`line-clamp-1 text-xs font-bold ${isActive ? 'text-gold-300' : 'text-sand-100'}`}>
                                     {localized(item, 'name', locale)}
                                 </span>
                                 {item.from_price != null && (
-                                    <span className="mt-1 block text-[11px] font-semibold text-sand-100/55">
+                                    <span className="mt-0.5 block text-[11px] font-semibold text-sand-100/75">
                                         {t('destinations.from')} {formatPrice(item.from_price, locale)} {t('destinations.currency')}
                                     </span>
                                 )}

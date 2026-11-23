@@ -95,8 +95,8 @@ export default function TourShowcase({ tours }) {
                 onPointerDown={onPointerDown}
                 onPointerUp={onPointerUp}
             >
-                <div key={tour.id} className="animate-stage-in grid lg:grid-cols-5">
-                    <div className="relative h-64 overflow-hidden sm:h-80 lg:col-span-3 lg:h-[430px]">
+                <div key={tour.id} className="animate-stage-in relative h-[470px] sm:h-[510px] lg:h-[540px]">
+                    <div className="absolute inset-0 overflow-hidden">
                         {photo ? (
                             <>
                                 <img
@@ -105,7 +105,7 @@ export default function TourShowcase({ tours }) {
                                     className="animate-stage-photo absolute inset-0 h-full w-full object-cover"
                                     draggable="false"
                                 />
-                                <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-nile-950/70 via-transparent to-nile-950/10" />
+                                <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-nile-950/95 via-nile-950/40 to-nile-950/10" />
                             </>
                         ) : (
                             <>
@@ -120,13 +120,13 @@ export default function TourShowcase({ tours }) {
                                 {t('common.featured')}
                             </span>
                         )}
-                        <span className="absolute bottom-4 start-4 rounded-sm bg-nile-950/70 px-2.5 py-1 text-xs font-semibold text-gold-300">
+                        <span className="absolute end-4 top-4 rounded-sm bg-nile-950/70 px-2.5 py-1 text-xs font-semibold text-gold-300">
                             ★ {Number(tour.rating).toFixed(1)}
                         </span>
                     </div>
 
-                    <div className="flex flex-col p-6 sm:p-8 lg:col-span-2">
-                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-medium text-sand-100/55">
+                    <div className="absolute inset-x-0 bottom-0 max-w-3xl p-6 sm:p-8">
+                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-semibold text-sand-100/75">
                             <span>{localized(destination, 'name', locale)}</span>
                             <span aria-hidden="true">•</span>
                             <DurationLabel tour={tour} />
@@ -134,15 +134,15 @@ export default function TourShowcase({ tours }) {
                             <span>{t(`tours.types.${tour.type}`)}</span>
                         </div>
 
-                        <h2 className="font-display mt-3 text-2xl font-bold leading-snug text-sand-100 sm:text-3xl">
+                        <h2 className="font-display mt-3 text-3xl font-bold leading-snug text-sand-100 drop-shadow sm:text-4xl">
                             {localized(tour, 'title', locale)}
                         </h2>
 
-                        <p className="mt-3 line-clamp-4 leading-relaxed text-sand-100/70">
+                        <p className="mt-3 line-clamp-2 max-w-2xl leading-relaxed text-sand-100/80">
                             {localized(tour, 'summary', locale)}
                         </p>
 
-                        <div className="mt-auto pt-6">
+                        <div className="mt-5">
                             <p className="text-sm text-sand-100/60">
                                 {tour.old_price && (
                                     <span className="me-2 text-xs line-through">
@@ -162,7 +162,7 @@ export default function TourShowcase({ tours }) {
                                 </Button>
                             </div>
 
-                            <div className="mt-5 flex items-center justify-between border-t border-white/10 pt-4">
+                            <div className="mt-4 flex items-center justify-between">
                                 <div className="flex items-center gap-2">
                                     <button
                                         type="button"
@@ -213,13 +213,13 @@ export default function TourShowcase({ tours }) {
                             type="button"
                             onClick={() => setActive(i)}
                             aria-current={isActive ? 'true' : undefined}
-                            className={`w-40 shrink-0 snap-start overflow-hidden rounded-md bg-nile-950/70 text-start shadow ring-1 backdrop-blur transition duration-300 ease-stone sm:w-44 ${
+                            className={`relative h-24 w-40 shrink-0 snap-start overflow-hidden rounded-md text-start shadow ring-1 transition duration-300 ease-stone sm:w-44 ${
                                 isActive
                                     ? 'opacity-100 ring-2 ring-gold-500'
                                     : 'opacity-55 ring-white/10 hover:opacity-90'
                             }`}
                         >
-                            <span className="block h-20 overflow-hidden">
+                            <span className="absolute inset-0">
                                 {itemPhoto ? (
                                     <img src={itemPhoto} alt="" loading="lazy" className="h-full w-full object-cover" draggable="false" />
                                 ) : (
@@ -228,11 +228,12 @@ export default function TourShowcase({ tours }) {
                                     </span>
                                 )}
                             </span>
-                            <span className="block p-2.5">
-                                <span className={`line-clamp-2 min-h-8 text-xs font-bold leading-snug ${isActive ? 'text-gold-300' : 'text-sand-100'}`}>
+                            <span aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-nile-950/90 via-nile-950/25 to-transparent" />
+                            <span className="absolute inset-x-0 bottom-0 block p-2.5">
+                                <span className={`line-clamp-2 text-xs font-bold leading-snug ${isActive ? 'text-gold-300' : 'text-sand-100'}`}>
                                     {localized(item, 'title', locale)}
                                 </span>
-                                <span className="mt-1 block text-[11px] font-semibold text-sand-100/55">
+                                <span className="mt-0.5 block text-[11px] font-semibold text-sand-100/75">
                                     {formatPrice(item.price, locale)} {t('common.currency')}
                                 </span>
                             </span>
