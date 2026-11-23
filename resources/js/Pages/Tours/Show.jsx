@@ -44,7 +44,7 @@ export default function TourShow({ tour, relatedTours }) {
             {/* Hero: transparent — the page backdrop (this tour's own
                 photo, via AppLayout) is the only background */}
             <section className="relative">
-                <div className="relative mx-auto max-w-7xl px-4 py-14 sm:px-6">
+                <div className="relative mx-auto max-w-7xl px-4 pb-14 pt-[185px] sm:px-6">
                     <Link href="/tours" className="text-sm font-semibold text-sand-100/85 transition-colors hover:text-gold-300">
                         ← {t('tours.show.back')}
                     </Link>

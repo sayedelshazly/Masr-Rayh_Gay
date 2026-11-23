@@ -15,7 +15,7 @@ export default function DestinationShow({ destination, tours }) {
             {/* Hero: transparent — the page backdrop (this destination's
                 own photo, via AppLayout) is the only background */}
             <section className="relative">
-                <div className="relative mx-auto max-w-7xl px-4 py-14 sm:px-6">
+                <div className="relative mx-auto max-w-7xl px-4 pb-14 pt-[185px] sm:px-6">
                     <Link href="/destinations" className="text-sm font-semibold text-white/85 transition-colors hover:text-gold-300">
                         ← {t('destinationPage.title')}
                     </Link>

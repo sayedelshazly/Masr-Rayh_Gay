@@ -21,7 +21,7 @@ export default function AcademyIndex({ lessons, featuredGlyphs, glyphOfDay, glyp
 
             {/* Hero */}
             <section className="text-sand-100">
-                <div className="mx-auto max-w-7xl px-4 pb-14 pt-14 text-center sm:px-6">
+                <div className="mx-auto max-w-7xl px-4 pb-14 pt-[185px] text-center sm:px-6">
                     <p className="font-display text-sm font-bold tracking-wide text-gold-300">{t('academy.kicker')}</p>
                     <h1 className="font-display mx-auto mt-3 max-w-3xl text-4xl font-extrabold leading-snug sm:text-5xl">
                         {page.heroTitle}
