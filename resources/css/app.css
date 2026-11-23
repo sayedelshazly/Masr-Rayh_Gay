@@ -339,6 +339,58 @@ html {
     animation: float-mote 5s ease-in-out infinite;
 }
 
+/* Auth pages: a calm rise-in, staggered per element */
+@keyframes auth-in {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.auth-rise {
+    opacity: 0;
+    animation: auth-in 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* Auth visual side: three photos crossfading in a slow 24s cycle */
+@keyframes auth-photo {
+    0% {
+        opacity: 0;
+    }
+    5% {
+        opacity: 1;
+    }
+    33% {
+        opacity: 1;
+    }
+    41% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+.auth-photo {
+    opacity: 0;
+    animation: auth-photo 24s linear infinite;
+}
+
+/* …each one breathing in with a barely-there zoom while it shows */
+@keyframes auth-zoom {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.1);
+    }
+}
+.auth-zoom {
+    animation: auth-zoom 12s ease-in-out infinite alternate;
+}
+
 /* Reveal on scroll: sections rise in gently as they enter the viewport */
 .reveal {
     opacity: 0;
