@@ -595,6 +595,11 @@ function CtaBanner() {
                 >
                     {t('cta.button')}
                 </Link>
+                <p className="mt-5">
+                    <Link href="/plan-your-trip" className="font-display text-sm font-bold text-gold-300 underline decoration-gold-500/40 underline-offset-4 transition-colors hover:text-gold-500">
+                        {t('planTrip.ctaLink')}
+                    </Link>
+                </p>
                 <p className="mt-7 flex flex-wrap items-center justify-center gap-x-2 text-xs font-medium tracking-wide text-sand-100/60">
                     {t('cta.note')
                         .split('·')
