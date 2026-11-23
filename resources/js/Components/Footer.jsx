@@ -31,7 +31,7 @@ export default function Footer() {
 
             {/* brand moment */}
             <div className="mx-auto max-w-2xl px-4 pt-14 text-center sm:px-6">
-                <BrandMark className="mx-auto h-14 w-14" />
+                <BrandMark className="mx-auto h-14 w-14" alive />
                 <p className="font-display mt-4 text-2xl font-bold">{t('brand.name')}</p>
                 <p className="mt-1 text-xs tracking-[0.3em] text-gold-300">{t('brand.nameLatin')}</p>
                 <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-sand-100/65">{t('footer.blurb')}</p>
