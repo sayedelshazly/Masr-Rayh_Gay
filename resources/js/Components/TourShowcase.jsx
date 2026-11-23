@@ -21,7 +21,16 @@ export default function TourShowcase({ tours }) {
     const photo = tour?.image ?? destination.image ?? null;
 
     useEffect(() => {
-        railRefs.current[active]?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        // Bring the active thumbnail into view — but only when the
+        // rail is already on screen, so mounting the showcase never
+        // yanks the page down to it.
+        const el = railRefs.current[active];
+        const rail = railRef.current;
+        if (!el || !rail) return;
+        const rect = rail.getBoundingClientRect();
+        if (rect.bottom > 0 && rect.top < window.innerHeight) {
+            el.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
     }, [active]);
 
     if (!tour) {

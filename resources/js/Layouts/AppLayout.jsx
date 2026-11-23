@@ -46,7 +46,7 @@ export default function AppLayout({ children, backdrop }) {
                 <div className="absolute inset-0 bg-gradient-to-b from-nile-950/60 via-nile-950/30 to-nile-950/70" />
             </div>
             <Navbar />
-            {!overlay && <div className="h-[70px] shrink-0" aria-hidden="true" />}
+            {!overlay && <div className="h-[169px] shrink-0" aria-hidden="true" />}
             <main className="flex-1">{children}</main>
             <Footer />
         </div>

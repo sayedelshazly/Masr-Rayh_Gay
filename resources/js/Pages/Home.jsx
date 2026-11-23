@@ -52,7 +52,7 @@ function Hero() {
                 <source src="/videos/egypt-hero.mp4" type="video/mp4" />
             </video>
             <div className="absolute inset-0 bg-gradient-to-b from-nile-950/85 via-nile-950/55 to-nile-950" aria-hidden="true" />
-            <HieroglyphStrip className="relative pt-[92px] text-center text-lg text-gold-500/40" />
+            <HieroglyphStrip className="relative pt-[185px] text-center text-lg text-gold-500/40" />
             <div className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-center px-4 pb-24 pt-10 text-center sm:px-6">
                 <p className="font-display flex items-center justify-center gap-3 text-sm font-bold tracking-[0.2em] text-gold-300">
                     <span aria-hidden="true" className="h-px w-8 bg-gold-500/70" />

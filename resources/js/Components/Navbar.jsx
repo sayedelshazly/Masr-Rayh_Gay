@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, router, usePage } from '@inertiajs/react';
 import { useLocale } from '../i18n/LocaleContext';
 import LanguageSwitcher from './LanguageSwitcher';
@@ -6,9 +6,8 @@ import LanguageSwitcher from './LanguageSwitcher';
 /**
  * Inline SVG brand mark: the Eye of Horus in gold inside a nile ring.
  *
- * With `alive` (the navbar's logo) the eye lives: it blinks every
- * few seconds, and its iris leans toward `gaze` (-1 … 1) — the side
- * of the link currently being visited.
+ * With `alive` the eye lives: it blinks every few seconds, and
+ * its iris leans toward `gaze` (-1 … 1) when a gaze is given.
  */
 export function BrandMark({ className = 'h-11 w-11', alive = false, gaze = 0 }) {
     const [blinking, setBlinking] = useState(false);
@@ -100,10 +99,9 @@ export function isOverlayRoute(url) {
 }
 
 export default function Navbar() {
-    const { t, locale } = useLocale();
+    const { t } = useLocale();
     const { props, url } = usePage();
     const user = props.auth?.user ?? null;
-    const [open, setOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [userOpen, setUserOpen] = useState(false);
 
@@ -114,7 +112,7 @@ export default function Navbar() {
     const userMenuRef = useRef(null);
 
     const overlay = isOverlayRoute(url);
-    const solid = !overlay || scrolled || open;
+    const solid = !overlay || scrolled;
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 24);
@@ -142,70 +140,6 @@ export default function Navbar() {
         };
     }, [userOpen]);
 
-    const links = [
-        { label: t('nav.home'), href: '/' },
-        { label: t('nav.tours'), href: '/tours' },
-        { label: t('nav.destinations'), href: '/destinations' },
-        { label: t('nav.academy'), href: '/academy' },
-        { label: t('nav.about'), href: '#' },
-        { label: t('nav.contact'), href: '#contact' },
-    ];
-
-    const isActive = (href) => {
-        if (href === '/') {
-            return url === '/';
-        }
-        if (href.startsWith('#')) {
-            return false;
-        }
-        return url === href || url.startsWith(`${href}/`);
-    };
-
-    // The living eye's companions: a small gold sun that glides
-    // under the active link (and to whichever link the pointer is
-    // visiting), while the logo's iris leans toward the same side.
-    const rowRef = useRef(null);
-    const linkRefs = useRef([]);
-    const [hoverIdx, setHoverIdx] = useState(null);
-    const [sun, setSun] = useState({ cx: 0, visible: false });
-    const [gaze, setGaze] = useState(0);
-    const activeIdx = links.findIndex((link) => isActive(link.href));
-    const targetIdx = hoverIdx !== null ? hoverIdx : activeIdx;
-    const targetRef = useRef(targetIdx);
-    targetRef.current = targetIdx;
-
-    const measure = useCallback(() => {
-        const idx = targetRef.current;
-        const el = idx >= 0 ? linkRefs.current[idx] : null;
-        const row = rowRef.current;
-        if (!el || !row) {
-            setSun((prev) => ({ ...prev, visible: false }));
-            setGaze(0);
-            return;
-        }
-        setSun({ cx: el.offsetLeft + el.offsetWidth / 2, visible: true });
-        // The logo's eye leans toward the visited link's side.
-        const center = el.offsetLeft + el.offsetWidth / 2;
-        const half = row.offsetWidth / 2;
-        setGaze(half > 0 ? Math.max(-1, Math.min(1, (center - half) / half)) : 0);
-    }, []);
-
-    useLayoutEffect(() => {
-        measure();
-    }, [measure, targetIdx, locale, url]);
-
-    useEffect(() => {
-        window.addEventListener('resize', measure);
-        if (document.fonts?.ready) {
-            document.fonts.ready.then(() => measure());
-        }
-        const late = window.setTimeout(measure, 350);
-        return () => {
-            window.removeEventListener('resize', measure);
-            window.clearTimeout(late);
-        };
-    }, [measure]);
-
     return (
         <header
             className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ease-stone ${
@@ -213,69 +147,22 @@ export default function Navbar() {
             }`}
         >
             <nav className={solid ? 'border-b-2 border-gold-500/70' : 'border-b-2 border-transparent'}>
-                <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
-                    <a href="/" className="flex items-center gap-2.5">
-                        <BrandMark className="h-9 w-9" alive gaze={gaze} />
-                        <span className="leading-tight">
-                            <span className="font-display block text-lg font-bold text-sand-100">
+                <div className="mx-auto max-w-7xl px-4 pb-3 pt-4 sm:px-6">
+                    {/* The brand, centred: the living eye over the name */}
+                    <a href="/" className="mx-auto flex w-fit flex-col items-center">
+                        <BrandMark className="h-12 w-12" alive />
+                        <span className="mt-1.5 text-center leading-none">
+                            <span className="font-display block text-xl font-bold text-sand-100">
                                 {t('brand.name')}
                             </span>
-                            <span className="block text-[10px] tracking-wide text-gold-300">
+                            <span className="mt-1 block text-[9px] font-semibold uppercase tracking-[0.34em] text-gold-300">
                                 {t('brand.nameLatin')}
                             </span>
                         </span>
                     </a>
 
-                    <ul
-                        ref={rowRef}
-                        onMouseLeave={() => setHoverIdx(null)}
-                        className="relative hidden items-center gap-5 lg:flex"
-                    >
-                        {links.map((link, i) => (
-                            <li
-                                key={link.label}
-                                ref={(el) => {
-                                    linkRefs.current[i] = el;
-                                }}
-                            >
-                                <a
-                                    href={link.href}
-                                    onMouseEnter={() => setHoverIdx(i)}
-                                    aria-current={isActive(link.href) ? 'page' : undefined}
-                                    className={`text-[13px] transition-colors ${
-                                        isActive(link.href)
-                                            ? 'font-bold text-gold-300'
-                                            : 'font-medium text-sand-100/80 hover:text-gold-300'
-                                    }`}
-                                >
-                                    {link.label}
-                                </a>
-                            </li>
-                        ))}
-                        {/* The little sun gliding under the visited link */}
-                        <li
-                            aria-hidden="true"
-                            className="pointer-events-none absolute left-0 top-full transition-all duration-500 ease-stone will-change-transform"
-                            style={{
-                                transform: `translate(${sun.cx}px, -2px) translateX(-50%)`,
-                                opacity: sun.visible ? 1 : 0,
-                            }}
-                        >
-                            <svg
-                                viewBox="0 0 24 24"
-                                className="sun-spin block h-[13px] w-[13px] text-gold-500 drop-shadow-[0_0_6px_rgba(201,162,75,0.7)]"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                            >
-                                <circle cx="12" cy="12" r="4" fill="currentColor" stroke="none" />
-                                <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1" />
-                            </svg>
-                        </li>
-                    </ul>
-
-                    <div className="flex items-center gap-2.5">
+                    {/* Bottom row: language at the start corner, account at the end corner */}
+                    <div className="mt-2.5 flex items-end justify-between">
                         <LanguageSwitcher dark />
                         {user ? (
                             <div className="relative" ref={userMenuRef}>
@@ -342,7 +229,7 @@ export default function Navbar() {
                                 )}
                             </div>
                         ) : (
-                            <div className="hidden items-center gap-3 md:flex">
+                            <div className="flex items-center gap-3">
                                 <Link
                                     href="/login"
                                     className="text-[13px] font-medium text-sand-100/80 transition-colors hover:text-gold-300"
@@ -357,77 +244,8 @@ export default function Navbar() {
                                 </Link>
                             </div>
                         )}
-                        <button
-                            type="button"
-                            onClick={() => setOpen((value) => !value)}
-                            aria-expanded={open}
-                            aria-label={t('nav.menu')}
-                            className="rounded-md border border-gold-500/50 px-2 py-1.5 text-base leading-none text-gold-300 lg:hidden"
-                        >
-                            ☰
-                        </button>
                     </div>
                 </div>
-
-                {open && (
-                    <ul className="space-y-1 border-t border-nile-800 px-4 py-2.5 lg:hidden">
-                        {links.map((link) => (
-                            <li key={link.label}>
-                                <a
-                                    href={link.href}
-                                    onClick={() => setOpen(false)}
-                                    aria-current={isActive(link.href) ? 'page' : undefined}
-                                    className={`block rounded-md px-3 py-1.5 text-[13px] ${
-                                        isActive(link.href)
-                                            ? 'font-bold text-gold-300'
-                                            : 'font-medium text-sand-100/85 hover:bg-nile-800'
-                                    }`}
-                                >
-                                    {link.label}
-                                </a>
-                            </li>
-                        ))}
-                        <li className="border-t border-nile-800 pt-2">
-                            {user ? (
-                                <>
-                                    <Link
-                                        href="/my-bookings"
-                                        onClick={() => setOpen(false)}
-                                        className="block rounded-md px-3 py-1.5 text-[13px] font-medium text-sand-100/85 hover:bg-nile-800"
-                                    >
-                                        {t('auth.myBookings')}
-                                    </Link>
-                                    {user.is_admin && (
-                                        <Link
-                                            href="/admin"
-                                            onClick={() => setOpen(false)}
-                                            className="block rounded-md px-3 py-1.5 text-[13px] font-bold text-gold-300 hover:bg-nile-800"
-                                        >
-                                            {t('admin.panel')}
-                                        </Link>
-                                    )}
-                                </>
-                            ) : (
-                                <>
-                                    <Link
-                                        href="/login"
-                                        onClick={() => setOpen(false)}
-                                        className="block rounded-md px-3 py-1.5 text-[13px] font-medium text-sand-100/85 hover:bg-nile-800"
-                                    >
-                                        {t('auth.login')}
-                                    </Link>
-                                    <Link
-                                        href="/register"
-                                        onClick={() => setOpen(false)}
-                                        className="block rounded-md px-3 py-1.5 text-[13px] font-bold text-gold-300 hover:bg-nile-800"
-                                    >
-                                        {t('auth.register')}
-                                    </Link>
-                                </>
-                            )}
-                        </li>
-                    </ul>
-                )}
             </nav>
         </header>
     );
