@@ -3,24 +3,80 @@ import { Link, router, usePage } from '@inertiajs/react';
 import { useLocale } from '../i18n/LocaleContext';
 import LanguageSwitcher from './LanguageSwitcher';
 
-/** Inline SVG brand mark: the Eye of Horus in gold inside a nile ring. */
-export function BrandMark({ className = 'h-11 w-11' }) {
+/**
+ * Inline SVG brand mark: the Eye of Horus in gold inside a nile ring.
+ *
+ * With `alive` (the navbar's logo) the eye lives: it blinks every
+ * few seconds, and its iris leans toward `gaze` (-1 … 1) — the side
+ * of the link the travelling cartouche is visiting.
+ */
+export function BrandMark({ className = 'h-11 w-11', alive = false, gaze = 0 }) {
+    const [blinking, setBlinking] = useState(false);
+
+    useEffect(() => {
+        if (!alive) {
+            return undefined;
+        }
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            return undefined;
+        }
+        let cancelled = false;
+        let t1;
+        let t2;
+        const loop = () => {
+            t1 = window.setTimeout(
+                () => {
+                    if (cancelled) return;
+                    setBlinking(true);
+                    t2 = window.setTimeout(() => {
+                        if (cancelled) return;
+                        setBlinking(false);
+                        loop();
+                    }, 140);
+                },
+                2400 + Math.random() * 3400,
+            );
+        };
+        loop();
+        return () => {
+            cancelled = true;
+            window.clearTimeout(t1);
+            window.clearTimeout(t2);
+        };
+    }, [alive]);
+
     return (
         <svg viewBox="0 0 48 48" className={className} role="img" aria-label="Masr Rayh Gay">
             <circle cx="24" cy="24" r="22" fill="#0B1F2E" />
             <circle cx="24" cy="24" r="21" fill="none" stroke="#C9A24B" strokeWidth="1.6" />
-            <g stroke="#C9A24B" strokeWidth="2.3" strokeLinecap="round" fill="none">
-                {/* Brow */}
-                <path d="M7.5 15.5 Q24 6.5 40.5 15.5" />
-                {/* Eye outline */}
-                <path d="M8.5 24.5 Q24 13.5 39.5 24.5 Q24 33.5 8.5 24.5 Z" />
-                {/* Teardrop */}
-                <path d="M17 30.5 L17 38.5" />
-                {/* Cheek curl */}
-                <path d="M28.5 30 Q38 30.5 37 35.5 Q36.2 39 32.5 38" />
+            <g
+                style={{
+                    transformBox: 'fill-box',
+                    transformOrigin: 'center',
+                    transform: blinking ? 'scaleY(0.08)' : 'scaleY(1)',
+                    transition: 'transform 120ms ease-in-out',
+                }}
+            >
+                <g stroke="#C9A24B" strokeWidth="2.3" strokeLinecap="round" fill="none">
+                    {/* Brow */}
+                    <path d="M7.5 15.5 Q24 6.5 40.5 15.5" />
+                    {/* Eye outline */}
+                    <path d="M8.5 24.5 Q24 13.5 39.5 24.5 Q24 33.5 8.5 24.5 Z" />
+                    {/* Teardrop */}
+                    <path d="M17 30.5 L17 38.5" />
+                    {/* Cheek curl */}
+                    <path d="M28.5 30 Q38 30.5 37 35.5 Q36.2 39 32.5 38" />
+                </g>
+                {/* Iris — leans toward the visited link when alive */}
+                <g
+                    style={{
+                        transform: `translateX(${(alive ? gaze : 0) * 2.4}px)`,
+                        transition: 'transform 380ms cubic-bezier(0.2, 0.8, 0.2, 1)',
+                    }}
+                >
+                    <circle cx="24" cy="24" r="4.4" fill="#C9A24B" />
+                </g>
             </g>
-            {/* Iris */}
-            <circle cx="24" cy="24" r="4.4" fill="#C9A24B" />
         </svg>
     );
 }
@@ -120,6 +176,7 @@ export default function Navbar() {
     const linkRefs = useRef([]);
     const [hoverIdx, setHoverIdx] = useState(null);
     const [cartouche, setCartouche] = useState({ x: 0, w: 0, visible: false });
+    const [gaze, setGaze] = useState(0);
     const activeIdx = links.findIndex((link) => isActive(link.href));
     const targetIdx = hoverIdx !== null ? hoverIdx : activeIdx;
     const targetRef = useRef(targetIdx);
@@ -128,11 +185,17 @@ export default function Navbar() {
     const measure = useCallback(() => {
         const idx = targetRef.current;
         const el = idx >= 0 ? linkRefs.current[idx] : null;
-        if (!el) {
+        const row = rowRef.current;
+        if (!el || !row) {
             setCartouche((prev) => ({ ...prev, visible: false }));
+            setGaze(0);
             return;
         }
         setCartouche({ x: el.offsetLeft, w: el.offsetWidth, visible: true });
+        // The logo's eye leans toward the visited link's side.
+        const center = el.offsetLeft + el.offsetWidth / 2;
+        const half = row.offsetWidth / 2;
+        setGaze(half > 0 ? Math.max(-1, Math.min(1, (center - half) / half)) : 0);
     }, []);
 
     useLayoutEffect(() => {
@@ -160,7 +223,7 @@ export default function Navbar() {
             <nav className="relative">
                 <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
                     <a href="/" className={`flex items-center gap-2.5 ${entered ? '' : 'nav-in'}`}>
-                        <BrandMark className="h-9 w-9" />
+                        <BrandMark className="h-9 w-9" alive gaze={gaze} />
                         <span className="leading-tight">
                             <span className="font-display block text-lg font-bold text-sand-100">
                                 {t('brand.name')}
@@ -211,6 +274,21 @@ export default function Navbar() {
                         >
                             <span className="block h-full w-full rounded-full border border-gold-500/80 shadow-[0_0_18px_rgba(201,162,75,0.28)]" />
                             <span className="absolute end-[-2px] top-[-3px] h-[36px] w-[3px] rounded-full bg-gold-500" />
+                            {/* A small sun rides the cartouche, turning slowly */}
+                            <span className="absolute -top-[8px] left-1/2 -translate-x-1/2">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    className="sun-spin h-[15px] w-[15px] text-gold-500 drop-shadow-[0_0_6px_rgba(201,162,75,0.7)]"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    aria-hidden="true"
+                                >
+                                    <circle cx="12" cy="12" r="4" fill="currentColor" stroke="none" />
+                                    <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1" />
+                                </svg>
+                            </span>
                         </li>
                     </ul>
 

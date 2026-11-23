@@ -360,6 +360,16 @@ html {
     animation: nav-frame-draw 1.15s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s both;
 }
 
+/* The little sun riding the cartouche turns at a statue's pace */
+@keyframes sun-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+.sun-spin {
+    animation: sun-spin 16s linear infinite;
+}
+
 /* Auth pages: a calm rise-in, staggered per element */
 @keyframes auth-in {
     from {
