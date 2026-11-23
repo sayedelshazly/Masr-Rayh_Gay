@@ -339,6 +339,27 @@ html {
     animation: float-mote 5s ease-in-out infinite;
 }
 
+/* Navbar entrance (first load only): pieces rise in staggered,
+   reusing the auth-in keyframes */
+.nav-in {
+    opacity: 0;
+    animation: auth-in 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* The navbar's gold frame line draws itself across the bar */
+@keyframes nav-frame-draw {
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(1);
+    }
+}
+.nav-frame {
+    transform-origin: center;
+    animation: nav-frame-draw 1.15s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s both;
+}
+
 /* Auth pages: a calm rise-in, staggered per element */
 @keyframes auth-in {
     from {

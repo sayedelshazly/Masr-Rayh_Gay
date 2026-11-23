@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, router, usePage } from '@inertiajs/react';
 import { useLocale } from '../i18n/LocaleContext';
 import LanguageSwitcher from './LanguageSwitcher';
@@ -43,13 +43,22 @@ export function isOverlayRoute(url) {
     );
 }
 
+/** The entrance choreography (frame draw + staggered links) plays
+ *  once per full page load, not on every Inertia navigation. */
+let navHasEntered = false;
+
 export default function Navbar() {
-    const { t } = useLocale();
+    const { t, locale } = useLocale();
     const { props, url } = usePage();
     const user = props.auth?.user ?? null;
     const [open, setOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [userOpen, setUserOpen] = useState(false);
+    const [entered] = useState(() => navHasEntered);
+
+    useEffect(() => {
+        navHasEntered = true;
+    }, []);
 
     const handleLogout = () => {
         setUserOpen(false);
@@ -95,15 +104,62 @@ export default function Navbar() {
         { label: t('nav.contact'), href: '#contact' },
     ];
 
+    const isActive = (href) => {
+        if (href === '/') {
+            return url === '/';
+        }
+        if (href.startsWith('#')) {
+            return false;
+        }
+        return url === href || url.startsWith(`${href}/`);
+    };
+
+    // The travelling cartouche: a gold ring that rests on the active
+    // link and glides to whichever link the pointer is visiting.
+    const rowRef = useRef(null);
+    const linkRefs = useRef([]);
+    const [hoverIdx, setHoverIdx] = useState(null);
+    const [cartouche, setCartouche] = useState({ x: 0, w: 0, visible: false });
+    const activeIdx = links.findIndex((link) => isActive(link.href));
+    const targetIdx = hoverIdx !== null ? hoverIdx : activeIdx;
+    const targetRef = useRef(targetIdx);
+    targetRef.current = targetIdx;
+
+    const measure = useCallback(() => {
+        const idx = targetRef.current;
+        const el = idx >= 0 ? linkRefs.current[idx] : null;
+        if (!el) {
+            setCartouche((prev) => ({ ...prev, visible: false }));
+            return;
+        }
+        setCartouche({ x: el.offsetLeft, w: el.offsetWidth, visible: true });
+    }, []);
+
+    useLayoutEffect(() => {
+        measure();
+    }, [measure, targetIdx, locale, url]);
+
+    useEffect(() => {
+        window.addEventListener('resize', measure);
+        if (document.fonts?.ready) {
+            document.fonts.ready.then(() => measure());
+        }
+        const late = window.setTimeout(measure, 350);
+        return () => {
+            window.removeEventListener('resize', measure);
+            window.clearTimeout(late);
+        };
+    }, [measure]);
+
     return (
         <header
             className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ease-stone ${
                 solid ? 'bg-nile-950/95 shadow-md shadow-ink-900/10 backdrop-blur' : 'bg-transparent'
             }`}
         >
-            <nav className={solid ? 'border-b-2 border-gold-500/70' : 'border-b-2 border-transparent'}>
+            <nav className="relative">
                 <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
-                    <a href="/" className="flex items-center gap-2.5">
+                    <a href="/" className={`flex items-center gap-2.5 ${entered ? '' : 'nav-in'}`}>
                         <BrandMark className="h-9 w-9" />
                         <span className="leading-tight">
                             <span className="font-display block text-lg font-bold text-sand-100">
@@ -115,20 +171,53 @@ export default function Navbar() {
                         </span>
                     </a>
 
-                    <ul className="hidden items-center gap-5 lg:flex">
-                        {links.map((link) => (
-                            <li key={link.label}>
+                    <ul
+                        ref={rowRef}
+                        onMouseLeave={() => setHoverIdx(null)}
+                        className="relative hidden items-center gap-1 lg:flex"
+                    >
+                        {links.map((link, i) => (
+                            <li
+                                key={link.label}
+                                ref={(el) => {
+                                    linkRefs.current[i] = el;
+                                }}
+                                className={entered ? '' : 'nav-in'}
+                                style={entered ? undefined : { animationDelay: `${70 + i * 55}ms` }}
+                            >
                                 <a
                                     href={link.href}
-                                    className="text-[13px] font-medium text-sand-100/80 transition-colors hover:text-gold-300"
+                                    onMouseEnter={() => setHoverIdx(i)}
+                                    aria-current={isActive(link.href) ? 'page' : undefined}
+                                    className={`relative z-10 block rounded-full px-3 py-1.5 text-[13px] transition-colors ${
+                                        isActive(link.href)
+                                            ? 'font-bold text-gold-300'
+                                            : 'font-medium text-sand-100/80 hover:text-gold-300'
+                                    }`}
                                 >
                                     {link.label}
                                 </a>
                             </li>
                         ))}
+                        {/* The travelling cartouche */}
+                        <li
+                            aria-hidden="true"
+                            className="pointer-events-none absolute left-0 top-1/2 h-[30px] transition-all duration-500 ease-stone will-change-transform"
+                            style={{
+                                transform: `translate(${cartouche.x - 5}px, -50%)`,
+                                width: cartouche.w + 10,
+                                opacity: cartouche.visible ? 1 : 0,
+                            }}
+                        >
+                            <span className="block h-full w-full rounded-full border border-gold-500/80 shadow-[0_0_18px_rgba(201,162,75,0.28)]" />
+                            <span className="absolute end-[-2px] top-[-3px] h-[36px] w-[3px] rounded-full bg-gold-500" />
+                        </li>
                     </ul>
 
-                    <div className="flex items-center gap-2.5">
+                    <div
+                        className={`flex items-center gap-2.5 ${entered ? '' : 'nav-in'}`}
+                        style={entered ? undefined : { animationDelay: '420ms' }}
+                    >
                         <LanguageSwitcher dark />
                         {user ? (
                             <div className="relative" ref={userMenuRef}>
@@ -229,7 +318,12 @@ export default function Navbar() {
                                 <a
                                     href={link.href}
                                     onClick={() => setOpen(false)}
-                                    className="block rounded-md px-3 py-1.5 text-[13px] font-medium text-sand-100/85 hover:bg-nile-800"
+                                    aria-current={isActive(link.href) ? 'page' : undefined}
+                                    className={`block px-3 py-1.5 text-[13px] ${
+                                        isActive(link.href)
+                                            ? 'rounded-full border border-gold-500/70 font-bold text-gold-300'
+                                            : 'rounded-md font-medium text-sand-100/85 hover:bg-nile-800'
+                                    }`}
                                 >
                                     {link.label}
                                 </a>
@@ -276,6 +370,15 @@ export default function Navbar() {
                         </li>
                     </ul>
                 )}
+
+                {/* The navbar's gold frame line — draws itself across
+                    the bar the first time the site opens. */}
+                <span
+                    aria-hidden="true"
+                    className={`absolute bottom-0 start-0 h-[2px] w-full bg-gold-500 transition-opacity duration-300 ${
+                        solid ? 'opacity-70' : 'opacity-30'
+                    } ${entered ? '' : 'nav-frame'}`}
+                />
             </nav>
         </header>
     );
