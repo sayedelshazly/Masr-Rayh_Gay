@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, router, usePage } from '@inertiajs/react';
 import { useLocale } from '../i18n/LocaleContext';
 import LanguageSwitcher from './LanguageSwitcher';
-import { playDoorClose, playDoorOpen } from '../lib/door';
 
 /** Inline SVG brand mark: the Eye of Horus in gold inside a nile ring. */
 export function BrandMark({ className = 'h-11 w-11' }) {
@@ -52,18 +51,9 @@ export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
     const [userOpen, setUserOpen] = useState(false);
 
-    // Logout through the tomb door: the doors sweep shut, the logout
-    // posts behind them, and they open again on the page we land on.
     const handleLogout = () => {
         setUserOpen(false);
-        playDoorClose(() => {
-            router.post('/logout', {}, {
-                // The doors open on the page we land on — success or
-                // not, the user is never left behind closed doors.
-                onSuccess: () => playDoorOpen(),
-                onError: () => playDoorOpen(),
-            });
-        });
+        router.post('/logout');
     };
     const userMenuRef = useRef(null);
 
