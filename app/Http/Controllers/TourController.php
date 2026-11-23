@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Destination;
 use App\Models\Tour;
+use App\Models\TourDeparture;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -68,6 +69,8 @@ class TourController extends Controller
 
         return Inertia::render('Tours/Show', [
             'tour' => $tour,
+            'departures' => $tour->departures()->upcoming()->get()
+                ->map(fn (TourDeparture $departure) => $departure->toPublicArray()),
             'relatedTours' => Tour::active()
                 ->with('destination')
                 ->where('destination_id', $tour->destination_id)

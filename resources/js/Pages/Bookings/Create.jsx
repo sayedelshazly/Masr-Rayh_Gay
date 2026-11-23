@@ -3,7 +3,7 @@ import AppLayout from '../../Layouts/AppLayout';
 import Reveal from '../../Components/Reveal';
 import { DurationLabel } from '../../Components/TourCard';
 import { useLocale } from '../../i18n/LocaleContext';
-import { formatPrice, localized } from '../../lib/format';
+import { formatPrice, formatShortDate, formatTimeLabel, localized } from '../../lib/format';
 
 const fieldClass =
     'w-full rounded-md border border-sand-100/20 bg-white/5 px-4 py-3 text-sm font-medium text-sand-100 outline-none transition-colors placeholder:text-sand-100/35 focus:border-gold-500';
@@ -17,17 +17,17 @@ function FieldError({ message }) {
     return <p className="mt-1.5 text-xs font-medium text-red-300">{message}</p>;
 }
 
-export default function BookingCreate({ tour, initial }) {
+export default function BookingCreate({ tour, initial, departures = [] }) {
     const { t, locale } = useLocale();
     const destination = tour.destination ?? {};
-    const price = Number(tour.price ?? 0);
-    const childPrice = price * 0.5;
+    const basePrice = Number(tour.price ?? 0);
 
     const { data, setData, post, processing, errors, transform } = useForm({
         customer_name: '',
         customer_email: '',
         customer_phone: '',
         travel_date: initial?.travel_date ?? '',
+        departure_id: initial?.departure_id ?? '',
         adults: initial?.adults ?? 2,
         children: initial?.children ?? 0,
         notes: '',
@@ -38,6 +38,9 @@ export default function BookingCreate({ tour, initial }) {
 
     const adults = Math.max(0, Number(data.adults) || 0);
     const childrenCount = Math.max(0, Number(data.children) || 0);
+    const selectedDeparture = departures.find((departure) => String(departure.id) === String(data.departure_id)) ?? null;
+    const price = selectedDeparture?.price != null ? Number(selectedDeparture.price) : basePrice;
+    const childPrice = price * 0.5;
     const total = price * adults + childPrice * childrenCount;
     const today = new Date().toISOString().slice(0, 10);
 
@@ -71,18 +74,44 @@ export default function BookingCreate({ tour, initial }) {
                             <h2 className="font-display text-xl font-bold text-sand-100">{t('booking.formTitle')}</h2>
 
                             <div className="mt-6 grid gap-5 sm:grid-cols-3">
-                                <div>
-                                    <label htmlFor="travel_date" className={labelClass}>{t('booking.travelDate')}</label>
-                                    <input
-                                        id="travel_date"
-                                        type="date"
-                                        min={today}
-                                        className={`${fieldClass} [color-scheme:dark]`}
-                                        value={data.travel_date}
-                                        onChange={(event) => setData('travel_date', event.target.value)}
-                                    />
-                                    <FieldError message={errors.travel_date} />
-                                </div>
+                                {departures.length > 0 ? (
+                                    <div>
+                                        <label htmlFor="departure_id" className={labelClass}>{t('booking.chooseDeparture')}</label>
+                                        <select
+                                            id="departure_id"
+                                            className={fieldClass}
+                                            value={data.departure_id}
+                                            onChange={(event) => setData('departure_id', event.target.value)}
+                                        >
+                                            <option value="" className="text-ink-900">{t('booking.chooseDeparture')}</option>
+                                            {departures.map((departure) => (
+                                                <option key={departure.id} value={departure.id} disabled={departure.sold_out} className="text-ink-900">
+                                                    {formatShortDate(departure.date, locale)}
+                                                    {departure.time ? ` · ${formatTimeLabel(departure.time, locale)}` : ''}
+                                                    {' · '}
+                                                    {departure.sold_out
+                                                        ? t('booking.soldOut')
+                                                        : `${departure.seats_remaining} ${t('booking.seatsLeft')}`}
+                                                </option>
+                                            ))}
+                                        </select>
+                                        <FieldError message={errors.departure_id} />
+                                        {selectedDeparture && <p className="mt-1.5 text-xs leading-relaxed text-sand-100/55">{t('booking.holdNote')}</p>}
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <label htmlFor="travel_date" className={labelClass}>{t('booking.travelDate')}</label>
+                                        <input
+                                            id="travel_date"
+                                            type="date"
+                                            min={today}
+                                            className={`${fieldClass} [color-scheme:dark]`}
+                                            value={data.travel_date}
+                                            onChange={(event) => setData('travel_date', event.target.value)}
+                                        />
+                                        <FieldError message={errors.travel_date} />
+                                    </div>
+                                )}
                                 <div>
                                     <label htmlFor="adults" className={labelClass}>{t('booking.adults')}</label>
                                     <input

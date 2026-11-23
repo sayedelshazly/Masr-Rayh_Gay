@@ -4,29 +4,38 @@ import AppLayout from '../../Layouts/AppLayout';
 import Reveal from '../../Components/Reveal';
 import TourCard, { DurationLabel } from '../../Components/TourCard';
 import { useLocale } from '../../i18n/LocaleContext';
-import { formatPrice, localized } from '../../lib/format';
+import { formatPrice, formatShortDate, formatTimeLabel, localized } from '../../lib/format';
 
 function SectionTitle({ children }) {
     return <h2 className="font-display text-2xl font-bold text-sand-100 sm:text-3xl">{children}</h2>;
 }
 
-export default function TourShow({ tour, relatedTours }) {
+export default function TourShow({ tour, relatedTours, departures = [] }) {
     const { t, locale } = useLocale();
     const destination = tour.destination ?? {};
     const includes = localized(tour, 'includes', locale) || [];
     const itinerary = tour.itinerary_days ?? [];
 
-    // Booking mini-form: date + guests, with a live total preview.
-    // Children pay 50% — display only; the server recomputes on submit.
+    // Booking mini-form: guests pick a scheduled departure when the
+    // tour has them (seat inventory), else a free date. Live total
+    // preview — children pay 50%; the server recomputes on submit.
     const [travelDate, setTravelDate] = useState('');
     const [adults, setAdults] = useState(2);
     const [children, setChildren] = useState(0);
+    const [departureId, setDepartureId] = useState(() => {
+        const firstOpen = departures.find((departure) => !departure.sold_out);
+        return firstOpen ? String(firstOpen.id) : '';
+    });
+    const selectedDeparture = departures.find((departure) => String(departure.id) === String(departureId)) ?? null;
     const price = Number(tour.price ?? 0);
-    const liveTotal = price * Math.max(0, Number(adults) || 0) + price * 0.5 * Math.max(0, Number(children) || 0);
+    const unitPrice = selectedDeparture?.price != null ? Number(selectedDeparture.price) : price;
+    const liveTotal = unitPrice * Math.max(0, Number(adults) || 0) + unitPrice * 0.5 * Math.max(0, Number(children) || 0);
     const today = new Date().toISOString().slice(0, 10);
 
     const bookParams = new URLSearchParams();
-    if (travelDate) {
+    if (selectedDeparture) {
+        bookParams.set('departure_id', String(selectedDeparture.id));
+    } else if (travelDate) {
         bookParams.set('travel_date', travelDate);
     }
     bookParams.set('adults', String(adults));
@@ -141,13 +150,13 @@ export default function TourShow({ tour, relatedTours }) {
                         <div className="rounded-lg bg-nile-950/70 p-6 shadow-lg shadow-black/25 ring-1 ring-gold-500/50 backdrop-blur">
                             <p className="text-sm text-sand-100/55">{t('common.perPerson')}</p>
                             <p className="mt-1">
-                                {tour.old_price && (
+                                {tour.old_price && !selectedDeparture && (
                                     <span className="me-2 align-middle text-base text-sand-100/45 line-through">
                                         {formatPrice(tour.old_price, locale)} {t('common.currency')}
                                     </span>
                                 )}
                                 <span className="font-display align-middle text-4xl font-extrabold text-gold-300">
-                                    {formatPrice(tour.price, locale)}
+                                    {formatPrice(unitPrice, locale)}
                                 </span>{' '}
                                 <span className="font-semibold text-sand-100/70">{t('common.currency')}</span>
                             </p>
@@ -163,17 +172,43 @@ export default function TourShow({ tour, relatedTours }) {
                             </div>
                             {/* Booking mini-form */}
                             <div className="mt-5 border-t border-white/10 pt-5">
-                                <div>
-                                    <label htmlFor="mini_travel_date" className={miniLabelClass}>{t('booking.travelDate')}</label>
-                                    <input
-                                        id="mini_travel_date"
-                                        type="date"
-                                        min={today}
-                                        className={miniFieldClass}
-                                        value={travelDate}
-                                        onChange={(event) => setTravelDate(event.target.value)}
-                                    />
-                                </div>
+                                {departures.length > 0 ? (
+                                    <div>
+                                        <label htmlFor="mini_departure" className={miniLabelClass}>{t('booking.chooseDeparture')}</label>
+                                        <select
+                                            id="mini_departure"
+                                            className={miniFieldClass}
+                                            value={departureId}
+                                            onChange={(event) => setDepartureId(event.target.value)}
+                                        >
+                                            {departures.map((departure) => (
+                                                <option key={departure.id} value={departure.id} disabled={departure.sold_out} className="text-ink-900">
+                                                    {formatShortDate(departure.date, locale)}
+                                                    {departure.time ? ` · ${formatTimeLabel(departure.time, locale)}` : ''}
+                                                    {' · '}
+                                                    {departure.sold_out
+                                                        ? t('booking.soldOut')
+                                                        : `${departure.seats_remaining} ${t('booking.seatsLeft')}`}
+                                                </option>
+                                            ))}
+                                        </select>
+                                        {selectedDeparture && (
+                                            <p className="mt-1.5 text-[11px] leading-relaxed text-sand-100/45">{t('booking.holdNote')}</p>
+                                        )}
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <label htmlFor="mini_travel_date" className={miniLabelClass}>{t('booking.travelDate')}</label>
+                                        <input
+                                            id="mini_travel_date"
+                                            type="date"
+                                            min={today}
+                                            className={miniFieldClass}
+                                            value={travelDate}
+                                            onChange={(event) => setTravelDate(event.target.value)}
+                                        />
+                                    </div>
+                                )}
                                 <div className="mt-3 grid grid-cols-2 gap-3">
                                     <div>
                                         <label htmlFor="mini_adults" className={miniLabelClass}>{t('booking.adults')}</label>

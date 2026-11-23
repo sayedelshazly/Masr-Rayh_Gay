@@ -48,6 +48,16 @@ class TourController extends Controller
             'tour' => $tour,
             'destinations' => Destination::ordered()->get(['id', 'slug', 'name_ar', 'name_en']),
             'types' => Tour::TYPES,
+            'departures' => $tour->departures()->orderBy('date')->orderBy('time')->get()->map(fn ($departure) => [
+                'id' => $departure->id,
+                'date' => $departure->date->format('Y-m-d'),
+                'time' => $departure->time ? substr((string) $departure->time, 0, 5) : null,
+                'capacity' => (int) $departure->capacity,
+                'price' => $departure->price !== null ? (float) $departure->price : null,
+                'is_active' => (bool) $departure->is_active,
+                'seats_taken' => $departure->seatsTaken(),
+                'seats_remaining' => $departure->seatsRemaining(),
+            ]),
         ]);
     }
 

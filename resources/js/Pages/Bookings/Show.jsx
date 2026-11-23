@@ -3,12 +3,13 @@ import AppLayout from '../../Layouts/AppLayout';
 import Reveal from '../../Components/Reveal';
 import { DurationLabel } from '../../Components/TourCard';
 import { useLocale } from '../../i18n/LocaleContext';
-import { formatPrice, localized } from '../../lib/format';
+import { formatPrice, formatTimeLabel, localized } from '../../lib/format';
 
 const STATUS_STYLES = {
     pending: 'bg-gold-500/15 text-gold-300 ring-gold-500/40',
     confirmed: 'bg-teal-400/10 text-teal-300 ring-teal-400/40',
     cancelled: 'bg-red-400/10 text-red-300 ring-red-400/40',
+    expired: 'bg-white/5 text-sand-100/50 ring-white/15',
 };
 
 function formatDate(value, locale) {
@@ -98,7 +99,10 @@ export default function BookingShow({ booking }) {
                         <DurationLabel tour={tour} />
                     </DetailRow>
                     <div className="border-t border-white/10" />
-                    <DetailRow label={t('booking.dateLabel')}>{formatDate(booking.travel_date, locale)}</DetailRow>
+                    <DetailRow label={t('booking.dateLabel')}>
+                        {formatDate(booking.travel_date, locale)}
+                        {booking.departure?.time ? ` · ${formatTimeLabel(String(booking.departure.time).slice(0, 5), locale)}` : ''}
+                    </DetailRow>
                     <div className="border-t border-white/10" />
                     <DetailRow label={t('booking.guestsLine')}>{guests}</DetailRow>
                     <div className="border-t border-white/10" />

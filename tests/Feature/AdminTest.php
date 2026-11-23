@@ -89,7 +89,7 @@ class AdminTest extends TestCase
             ->where('stats.total_users', 1)
             ->has('stats.total_destinations')
             ->has('recentBookings', 3)
-            ->has('bookingsByStatus', 3)
+            ->has('bookingsByStatus', 4)
             ->where('bookingsByStatus.0.status', 'pending')
             ->where('bookingsByStatus.1.count', 1)
         );

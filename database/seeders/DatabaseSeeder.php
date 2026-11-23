@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             TourSeeder::class,
             GlyphSeeder::class,
             LessonSeeder::class,
+            TourDepartureSeeder::class,
         ]);
 
         User::factory()->create([

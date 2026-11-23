@@ -18,15 +18,22 @@ class Booking extends Model
 
     public const STATUS_CANCELLED = 'cancelled';
 
+    public const STATUS_EXPIRED = 'expired';
+
+    /** Minutes a pending departure booking holds its seats. */
+    public const HOLD_MINUTES = 15;
+
     /** All valid booking statuses. */
     public const STATUSES = [
         self::STATUS_PENDING,
         self::STATUS_CONFIRMED,
         self::STATUS_CANCELLED,
+        self::STATUS_EXPIRED,
     ];
 
     protected $fillable = [
         'tour_id',
+        'departure_id',
         'user_id',
         'reference',
         'customer_name',
@@ -74,6 +81,11 @@ class Booking extends Model
         return $this->belongsTo(Tour::class);
     }
 
+    public function departure(): BelongsTo
+    {
+        return $this->belongsTo(TourDeparture::class, 'departure_id');
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -106,8 +118,10 @@ class Booking extends Model
      * The one and only price rule — always computed server-side:
      * adults pay full price, children pay 50%.
      */
-    public static function calculateTotal(Tour $tour, int $adults, int $children): float
+    public static function calculateTotal(Tour $tour, int $adults, int $children, ?float $unitPrice = null): float
     {
-        return round(((float) $tour->price * $adults) + (((float) $tour->price * 0.5) * $children), 2);
+        $price = $unitPrice ?? (float) $tour->price;
+
+        return round(($price * $adults) + (($price * 0.5) * $children), 2);
     }
 }

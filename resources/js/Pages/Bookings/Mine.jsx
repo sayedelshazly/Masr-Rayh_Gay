@@ -9,6 +9,7 @@ const STATUS_STYLES = {
     pending: 'bg-gold-500/15 text-gold-300 ring-gold-500/40',
     confirmed: 'bg-teal-400/10 text-teal-300 ring-teal-400/40',
     cancelled: 'bg-red-400/10 text-red-300 ring-red-400/40',
+    expired: 'bg-white/5 text-sand-100/50 ring-white/15',
 };
 
 function formatDate(value, locale) {

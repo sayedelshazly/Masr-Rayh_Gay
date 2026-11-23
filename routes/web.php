@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AcademyController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
+use App\Http\Controllers\Admin\DepartureController as AdminDepartureController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\DestinationController as AdminDestinationController;
 use App\Http\Controllers\Admin\TourController as AdminTourController;
@@ -58,6 +59,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('/tours/{tour:slug}', [AdminTourController::class, 'update'])->name('tours.update');
     Route::delete('/tours/{tour:slug}', [AdminTourController::class, 'destroy'])->name('tours.destroy');
     Route::patch('/tours/{tour:slug}/toggle', [AdminTourController::class, 'toggle'])->name('tours.toggle');
+
+    Route::post('/tours/{tour:slug}/departures', [AdminDepartureController::class, 'store'])->name('tours.departures.store');
+    Route::patch('/tours/{tour:slug}/departures/{departure}/toggle', [AdminDepartureController::class, 'toggle'])->name('tours.departures.toggle');
+    Route::delete('/tours/{tour:slug}/departures/{departure}', [AdminDepartureController::class, 'destroy'])->name('tours.departures.destroy');
 
     Route::get('/destinations', [AdminDestinationController::class, 'index'])->name('destinations.index');
     Route::get('/destinations/{destination:slug}/edit', [AdminDestinationController::class, 'edit'])->name('destinations.edit');

@@ -72,6 +72,11 @@ class Tour extends Model
         return $this->hasMany(TourItineraryDay::class)->orderBy('day_number');
     }
 
+    public function departures(): HasMany
+    {
+        return $this->hasMany(TourDeparture::class);
+    }
+
     public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class);
