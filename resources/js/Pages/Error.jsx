@@ -1,7 +1,6 @@
 import { Head } from '@inertiajs/react';
 import AppLayout from '../Layouts/AppLayout';
 import Button from '../Components/Button';
-import { BrandMark } from '../Components/Navbar';
 import { useLocale } from '../i18n/LocaleContext';
 
 const KNOWN = [403, 404, 500, 503];
@@ -21,13 +20,12 @@ export default function Error({ status = 500 }) {
         <AppLayout>
             <Head title={`${code} — ${t('brand.name')}`} />
             <section className="relative overflow-hidden">
-                <div className="relative mx-auto flex max-w-3xl flex-col items-center px-4 pb-24 pt-[185px] text-center sm:px-6">
-                    <p aria-hidden="true" className="font-glyph pointer-events-none absolute inset-x-0 top-40 select-none whitespace-nowrap text-center text-[7rem] leading-none text-gold-500/[0.07] sm:text-[10rem]">
+                <div className="relative mx-auto flex max-w-3xl flex-col items-center px-4 pb-24 pt-[148px] text-center sm:px-6">
+                    <p aria-hidden="true" className="font-glyph pointer-events-none absolute inset-x-0 top-24 select-none whitespace-nowrap text-center text-[7rem] leading-none text-gold-500/[0.07] sm:text-[10rem]">
                         {GHOST_GLYPHS}
                     </p>
 
-                    <BrandMark className="relative h-16 w-16 opacity-90" />
-                    <p className="font-display text-gold-shine relative mt-2 text-[6.5rem] font-bold leading-none sm:text-[9rem]">
+                    <p className="font-display text-gold-shine relative text-[6.5rem] font-bold leading-none sm:text-[9rem]">
                         {code}
                     </p>
 
