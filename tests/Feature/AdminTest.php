@@ -221,8 +221,8 @@ class AdminTest extends TestCase
 
         // And it is live on the public site.
         $this->get('/tours')->assertInertia(fn (Assert $page) => $page
-            ->has('tours.data', 1)
-            ->where('tours.data.0.slug', 'pyramids-day-trip')
+            ->has('tours', 1)
+            ->where('tours.0.slug', 'pyramids-day-trip')
         );
     }
 

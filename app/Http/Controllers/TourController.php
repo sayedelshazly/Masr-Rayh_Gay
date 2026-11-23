@@ -44,8 +44,7 @@ class TourController extends Controller
                     default => $query->orderByDesc('is_featured')->orderByDesc('rating'),
                 };
             })
-            ->paginate(9)
-            ->withQueryString();
+            ->get();
 
         return Inertia::render('Tours/Index', [
             'tours' => $tours,

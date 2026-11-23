@@ -24,7 +24,7 @@ class ToursTest extends TestCase
         $response->assertOk();
         $response->assertInertia(fn (Assert $page) => $page
             ->component('Tours/Index')
-            ->has('tours.data', 3)
+            ->has('tours', 3)
             ->has('destinations')
             ->has('filters')
         );
@@ -45,7 +45,7 @@ class ToursTest extends TestCase
             ->assertOk()
             ->assertInertia(fn (Assert $page) => $page
                 ->component('Tours/Index')
-                ->has('tours.data', 1)
+                ->has('tours', 1)
                 ->where('filters.destination', 'luxor')
             );
 
@@ -53,7 +53,7 @@ class ToursTest extends TestCase
             ->assertOk()
             ->assertInertia(fn (Assert $page) => $page
                 ->component('Tours/Index')
-                ->has('tours.data', 1)
+                ->has('tours', 1)
             );
     }
 

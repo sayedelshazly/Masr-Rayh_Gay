@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import AppLayout from '../../Layouts/AppLayout';
 import Reveal from '../../Components/Reveal';
 import TourShowcase from '../../Components/TourShowcase';
@@ -131,7 +131,7 @@ export default function ToursIndex({ tours, destinations, types, filters }) {
 
                 <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
                     <p className="text-sm font-medium text-sand-100/55">
-                        <span className="font-display text-lg font-bold text-gold-300">{tours.total}</span>{' '}
+                        <span className="font-display text-lg font-bold text-gold-300">{tours.length}</span>{' '}
                         {t('tours.results')}
                     </p>
                     {hasFilters && (
@@ -148,9 +148,9 @@ export default function ToursIndex({ tours, destinations, types, filters }) {
                     )}
                 </div>
 
-                {tours.data.length > 0 ? (
+                {tours.length > 0 ? (
                     <div className="mt-6">
-                        <TourShowcase key={tours.data.map((tour) => tour.id).join('-')} tours={tours.data} />
+                        <TourShowcase key={tours.map((tour) => tour.id).join('-')} tours={tours} />
                     </div>
                 ) : (
                     <div className="mt-6 rounded-lg bg-nile-950/70 p-12 text-center shadow-lg shadow-black/25 ring-1 ring-white/10 backdrop-blur">
@@ -162,32 +162,6 @@ export default function ToursIndex({ tours, destinations, types, filters }) {
                     </div>
                 )}
 
-                {tours.last_page > 1 && (
-                    <nav className="mt-10 flex flex-wrap items-center justify-center gap-2" aria-label="Pagination">
-                        {tours.links.map((link, index) =>
-                            link.url ? (
-                                <Link
-                                    key={index}
-                                    href={link.url}
-                                    preserveState
-                                    preserveScroll
-                                    className={`rounded-md px-4 py-2 text-sm font-semibold transition-colors ${
-                                        link.active
-                                            ? 'bg-gold-500 text-ink-900'
-                                            : 'bg-white/5 text-sand-100/70 ring-1 ring-white/10 hover:text-gold-300'
-                                    }`}
-                                    dangerouslySetInnerHTML={{ __html: link.label }}
-                                />
-                            ) : (
-                                <span
-                                    key={index}
-                                    className="rounded-md px-4 py-2 text-sm text-sand-100/35"
-                                    dangerouslySetInnerHTML={{ __html: link.label }}
-                                />
-                            ),
-                        )}
-                    </nav>
-                )}
             </section>
             </Reveal>
         </AppLayout>
