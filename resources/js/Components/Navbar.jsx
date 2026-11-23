@@ -8,7 +8,7 @@ import LanguageSwitcher from './LanguageSwitcher';
  *
  * With `alive` (the navbar's logo) the eye lives: it blinks every
  * few seconds, and its iris leans toward `gaze` (-1 … 1) — the side
- * of the link the travelling cartouche is visiting.
+ * of the link currently being visited.
  */
 export function BrandMark({ className = 'h-11 w-11', alive = false, gaze = 0 }) {
     const [blinking, setBlinking] = useState(false);
@@ -99,10 +99,6 @@ export function isOverlayRoute(url) {
     );
 }
 
-/** The entrance choreography (frame draw + staggered links) plays
- *  once per full page load, not on every Inertia navigation. */
-let navHasEntered = false;
-
 export default function Navbar() {
     const { t, locale } = useLocale();
     const { props, url } = usePage();
@@ -110,11 +106,6 @@ export default function Navbar() {
     const [open, setOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [userOpen, setUserOpen] = useState(false);
-    const [entered] = useState(() => navHasEntered);
-
-    useEffect(() => {
-        navHasEntered = true;
-    }, []);
 
     const handleLogout = () => {
         setUserOpen(false);
@@ -170,12 +161,13 @@ export default function Navbar() {
         return url === href || url.startsWith(`${href}/`);
     };
 
-    // The travelling cartouche: a gold ring that rests on the active
-    // link and glides to whichever link the pointer is visiting.
+    // The living eye's companions: a small gold sun that glides
+    // under the active link (and to whichever link the pointer is
+    // visiting), while the logo's iris leans toward the same side.
     const rowRef = useRef(null);
     const linkRefs = useRef([]);
     const [hoverIdx, setHoverIdx] = useState(null);
-    const [cartouche, setCartouche] = useState({ x: 0, w: 0, visible: false });
+    const [sun, setSun] = useState({ cx: 0, visible: false });
     const [gaze, setGaze] = useState(0);
     const activeIdx = links.findIndex((link) => isActive(link.href));
     const targetIdx = hoverIdx !== null ? hoverIdx : activeIdx;
@@ -187,11 +179,11 @@ export default function Navbar() {
         const el = idx >= 0 ? linkRefs.current[idx] : null;
         const row = rowRef.current;
         if (!el || !row) {
-            setCartouche((prev) => ({ ...prev, visible: false }));
+            setSun((prev) => ({ ...prev, visible: false }));
             setGaze(0);
             return;
         }
-        setCartouche({ x: el.offsetLeft, w: el.offsetWidth, visible: true });
+        setSun({ cx: el.offsetLeft + el.offsetWidth / 2, visible: true });
         // The logo's eye leans toward the visited link's side.
         const center = el.offsetLeft + el.offsetWidth / 2;
         const half = row.offsetWidth / 2;
@@ -220,9 +212,9 @@ export default function Navbar() {
                 solid ? 'bg-nile-950/95 shadow-md shadow-ink-900/10 backdrop-blur' : 'bg-transparent'
             }`}
         >
-            <nav className="relative">
+            <nav className={solid ? 'border-b-2 border-gold-500/70' : 'border-b-2 border-transparent'}>
                 <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
-                    <a href="/" className={`flex items-center gap-2.5 ${entered ? '' : 'nav-in'}`}>
+                    <a href="/" className="flex items-center gap-2.5">
                         <BrandMark className="h-9 w-9" alive gaze={gaze} />
                         <span className="leading-tight">
                             <span className="font-display block text-lg font-bold text-sand-100">
@@ -237,7 +229,7 @@ export default function Navbar() {
                     <ul
                         ref={rowRef}
                         onMouseLeave={() => setHoverIdx(null)}
-                        className="relative hidden items-center gap-1 lg:flex"
+                        className="relative hidden items-center gap-5 lg:flex"
                     >
                         {links.map((link, i) => (
                             <li
@@ -245,14 +237,12 @@ export default function Navbar() {
                                 ref={(el) => {
                                     linkRefs.current[i] = el;
                                 }}
-                                className={entered ? '' : 'nav-in'}
-                                style={entered ? undefined : { animationDelay: `${70 + i * 55}ms` }}
                             >
                                 <a
                                     href={link.href}
                                     onMouseEnter={() => setHoverIdx(i)}
                                     aria-current={isActive(link.href) ? 'page' : undefined}
-                                    className={`relative z-10 block rounded-full px-3 py-1.5 text-[13px] transition-colors ${
+                                    className={`text-[13px] transition-colors ${
                                         isActive(link.href)
                                             ? 'font-bold text-gold-300'
                                             : 'font-medium text-sand-100/80 hover:text-gold-300'
@@ -262,40 +252,30 @@ export default function Navbar() {
                                 </a>
                             </li>
                         ))}
-                        {/* The travelling cartouche */}
+                        {/* The little sun gliding under the visited link */}
                         <li
                             aria-hidden="true"
-                            className="pointer-events-none absolute left-0 top-1/2 h-[30px] transition-all duration-500 ease-stone will-change-transform"
+                            className="pointer-events-none absolute left-0 top-full transition-all duration-500 ease-stone will-change-transform"
                             style={{
-                                transform: `translate(${cartouche.x - 5}px, -50%)`,
-                                width: cartouche.w + 10,
-                                opacity: cartouche.visible ? 1 : 0,
+                                transform: `translate(${sun.cx}px, -2px) translateX(-50%)`,
+                                opacity: sun.visible ? 1 : 0,
                             }}
                         >
-                            <span className="block h-full w-full rounded-full border border-gold-500/80 shadow-[0_0_18px_rgba(201,162,75,0.28)]" />
-                            <span className="absolute end-[-2px] top-[-3px] h-[36px] w-[3px] rounded-full bg-gold-500" />
-                            {/* A small sun rides the cartouche, turning slowly */}
-                            <span className="absolute -top-[8px] left-1/2 -translate-x-1/2">
-                                <svg
-                                    viewBox="0 0 24 24"
-                                    className="sun-spin h-[15px] w-[15px] text-gold-500 drop-shadow-[0_0_6px_rgba(201,162,75,0.7)]"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                    aria-hidden="true"
-                                >
-                                    <circle cx="12" cy="12" r="4" fill="currentColor" stroke="none" />
-                                    <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1" />
-                                </svg>
-                            </span>
+                            <svg
+                                viewBox="0 0 24 24"
+                                className="sun-spin block h-[13px] w-[13px] text-gold-500 drop-shadow-[0_0_6px_rgba(201,162,75,0.7)]"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                            >
+                                <circle cx="12" cy="12" r="4" fill="currentColor" stroke="none" />
+                                <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1" />
+                            </svg>
                         </li>
                     </ul>
 
-                    <div
-                        className={`flex items-center gap-2.5 ${entered ? '' : 'nav-in'}`}
-                        style={entered ? undefined : { animationDelay: '420ms' }}
-                    >
+                    <div className="flex items-center gap-2.5">
                         <LanguageSwitcher dark />
                         {user ? (
                             <div className="relative" ref={userMenuRef}>
@@ -397,10 +377,10 @@ export default function Navbar() {
                                     href={link.href}
                                     onClick={() => setOpen(false)}
                                     aria-current={isActive(link.href) ? 'page' : undefined}
-                                    className={`block px-3 py-1.5 text-[13px] ${
+                                    className={`block rounded-md px-3 py-1.5 text-[13px] ${
                                         isActive(link.href)
-                                            ? 'rounded-full border border-gold-500/70 font-bold text-gold-300'
-                                            : 'rounded-md font-medium text-sand-100/85 hover:bg-nile-800'
+                                            ? 'font-bold text-gold-300'
+                                            : 'font-medium text-sand-100/85 hover:bg-nile-800'
                                     }`}
                                 >
                                     {link.label}
@@ -448,15 +428,6 @@ export default function Navbar() {
                         </li>
                     </ul>
                 )}
-
-                {/* The navbar's gold frame line — draws itself across
-                    the bar the first time the site opens. */}
-                <span
-                    aria-hidden="true"
-                    className={`absolute bottom-0 start-0 h-[2px] w-full bg-gold-500 transition-opacity duration-300 ${
-                        solid ? 'opacity-70' : 'opacity-30'
-                    } ${entered ? '' : 'nav-frame'}`}
-                />
             </nav>
         </header>
     );
