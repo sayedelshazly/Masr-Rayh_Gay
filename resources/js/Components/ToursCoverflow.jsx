@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { router } from '@inertiajs/react';
 import TourImageCard from './TourImageCard';
 
 /**
@@ -20,6 +21,11 @@ export default function ToursCoverflow({ tours }) {
     const velocityRef = useRef(0);
     const dragRef = useRef(null);
     const draggedRef = useRef(false);
+    // Live card positions from the render loop, so a click that
+    // lands on the inert duplicate sitting in the centre can be
+    // routed to that card's tour by the stage itself.
+    const positionsRef = useRef([]);
+    const stepRef = useRef(0);
 
     const count = tours.length;
     // The set is doubled on the ring so the stage stays full even
@@ -55,6 +61,7 @@ export default function ToursCoverflow({ tours }) {
             const stageW = stage.clientWidth;
             const cardW = stageW < 640 ? 248 : 300;
             const step = cardW * 0.74;
+            stepRef.current = step;
             const total = step * items.length;
             const half = total / 2;
 
@@ -65,6 +72,7 @@ export default function ToursCoverflow({ tours }) {
                 }
                 const x = ((((k * step + offset) % total) + total) % total) - half;
                 const ax = Math.abs(x);
+                positionsRef.current[k] = { x, ax, slug: items[k].slug };
                 if (ax > stageW / 2 + cardW) {
                     el.style.visibility = 'hidden';
                     return;
@@ -131,6 +139,30 @@ export default function ToursCoverflow({ tours }) {
             onPointerMove={onPointerMove}
             onPointerUp={endDrag}
             onPointerCancel={endDrag}
+            onClick={(event) => {
+                // A real link under the cursor handles itself. But the
+                // card in the centre may be the inert duplicate copy —
+                // clicks pass through it to the stage, so navigate to
+                // whichever card is centred under the click ourselves.
+                if (event.target.closest('a')) {
+                    return;
+                }
+                const stage = stageRef.current;
+                if (!stage) {
+                    return;
+                }
+                const rect = stage.getBoundingClientRect();
+                const clickX = event.clientX - rect.left - rect.width / 2;
+                let best = null;
+                positionsRef.current.forEach((pos) => {
+                    if (pos && (!best || Math.abs(pos.x - clickX) < Math.abs(best.x - clickX))) {
+                        best = pos;
+                    }
+                });
+                if (best && best.ax < stepRef.current * 0.5) {
+                    router.visit(`/tours/${best.slug}`);
+                }
+            }}
             onClickCapture={(event) => {
                 if (draggedRef.current) {
                     event.preventDefault();
