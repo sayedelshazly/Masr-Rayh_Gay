@@ -19,6 +19,7 @@ export default function Footer() {
         { label: t('nav.tours'), href: '/tours' },
         { label: t('nav.destinations'), href: '/destinations' },
         { label: t('nav.academy'), href: '/#academy' },
+        { label: t('collections.kicker'), href: '/collections' },
         { label: t('planTrip.title'), href: '/plan-your-trip' },
         { label: t('nav.about'), href: '#' },
     ];

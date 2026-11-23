@@ -13,6 +13,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TripRequestController;
+use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\DestinationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MyBookingController;
@@ -43,6 +44,9 @@ Route::get('/tours/{tour:slug}/book', [BookingController::class, 'create'])->nam
 Route::post('/tours/{tour:slug}/bookings', [BookingController::class, 'store'])->name('bookings.store');
 Route::get('/booking/{booking:reference}', [BookingController::class, 'show'])->name('bookings.show');
 Route::post('/booking/{booking:reference}/review', [ReviewController::class, 'store'])->name('bookings.review');
+
+Route::get('/collections', [CollectionController::class, 'index'])->name('collections.index');
+Route::get('/collections/{slug}', [CollectionController::class, 'show'])->name('collections.show');
 
 Route::get('/plan-your-trip', [TripRequestController::class, 'create'])->name('plan-trip.create');
 Route::post('/plan-your-trip', [TripRequestController::class, 'store'])->name('plan-trip.store');

@@ -4,6 +4,7 @@ import AppLayout from '../Layouts/AppLayout';
 import HieroglyphStrip from '../Components/HieroglyphStrip';
 import DestinationPanels from '../Components/DestinationPanels';
 import ToursCoverflow from '../Components/ToursCoverflow';
+import CollectionCard from '../Components/CollectionCard';
 import Button from '../Components/Button';
 import OrnamentDivider from '../Components/OrnamentDivider';
 import Reveal from '../Components/Reveal';
@@ -634,7 +635,7 @@ function CtaBanner() {
     );
 }
 
-export default function Home({ featuredDestinations = [], featuredTours = [] }) {
+export default function Home({ featuredDestinations = [], featuredTours = [], collections = [] }) {
     const { t } = useLocale();
 
     return (
@@ -646,6 +647,23 @@ export default function Home({ featuredDestinations = [], featuredTours = [] }) 
                 <FeaturedDestinations destinations={featuredDestinations} />
             </Reveal>
             <Reveal>
+                {collections.length > 0 && (
+                    <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
+                        <SectionHeading
+                            dark
+                            kicker={t('collections.kicker')}
+                            title={t('collections.title')}
+                            subtitle={t('collections.subtitle')}
+                        />
+                        <div className="grid gap-6 md:grid-cols-3">
+                            {collections.map((collection, index) => (
+                                <Reveal key={collection.slug} delay={index * 110}>
+                                    <CollectionCard collection={collection} />
+                                </Reveal>
+                            ))}
+                        </div>
+                    </section>
+                )}
                 <FeaturedTours tours={featuredTours} />
             </Reveal>
             <div className="mx-auto max-w-7xl px-4 sm:px-6">

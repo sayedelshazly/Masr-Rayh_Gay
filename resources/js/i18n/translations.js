@@ -122,6 +122,15 @@ export const translations = {
                 bookNote: 'الدفع لاحقًا عند تأكيد الحجز مع فريقنا — الأطفال يدفعون ٥٠٪ فقط من سعر الفرد.',
             },
         },
+        collections: {
+            metaTitle: 'حزم جاهزة — مصر رايح جاي',
+            kicker: 'حزم جاهزة',
+            title: 'رحلة على قد مزاجك',
+            subtitle: 'مش لازم تلف على كل الرحلات — جمعنا لك الأقرب لقلبك في حزم جاهزة: شهر عسل، عيلة، أو مغامرة.',
+            toursLabel: 'رحلة',
+            explore: 'اكتشف الحزمة',
+            othersTitle: 'حزم تانية على مزاجك',
+        },
         planTrip: {
             metaTitle: 'صمّم رحلتك — مصر رايح جاي',
             kicker: 'رحلة على مزاجك',
@@ -691,6 +700,15 @@ export const translations = {
                 related: 'More tours in this destination',
                 bookNote: 'Pay later when our team confirms your booking — children pay only 50% of the per-person price.',
             },
+        },
+        collections: {
+            metaTitle: 'Ready Packages — Masr Rayh Gay',
+            kicker: 'Ready packages',
+            title: 'A trip for every mood',
+            subtitle: 'No need to browse everything — we grouped the closest to your heart into ready packages: honeymoon, family, or adventure.',
+            toursLabel: 'tours',
+            explore: 'Explore package',
+            othersTitle: 'More packages for your mood',
         },
         planTrip: {
             metaTitle: 'Design Your Trip — Masr Rayh Gay',
