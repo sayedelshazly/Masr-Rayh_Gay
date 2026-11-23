@@ -100,9 +100,8 @@ export function isOverlayRoute(url) {
 
 export default function Navbar() {
     const { t } = useLocale();
-    const { props, url } = usePage();
+    const { props } = usePage();
     const user = props.auth?.user ?? null;
-    const [scrolled, setScrolled] = useState(false);
     const [userOpen, setUserOpen] = useState(false);
 
     const handleLogout = () => {
@@ -110,16 +109,6 @@ export default function Navbar() {
         router.post('/logout');
     };
     const userMenuRef = useRef(null);
-
-    const overlay = isOverlayRoute(url);
-    const solid = !overlay || scrolled;
-
-    useEffect(() => {
-        const onScroll = () => setScrolled(window.scrollY > 24);
-        onScroll();
-        window.addEventListener('scroll', onScroll, { passive: true });
-        return () => window.removeEventListener('scroll', onScroll);
-    }, []);
 
     // Account dropdown: close on outside click or Escape.
     useEffect(() => {
@@ -141,12 +130,8 @@ export default function Navbar() {
     }, [userOpen]);
 
     return (
-        <header
-            className={`absolute inset-x-0 top-0 z-50 transition-colors duration-300 ease-stone ${
-                solid ? 'bg-nile-950/95 shadow-md shadow-ink-900/10 backdrop-blur' : 'bg-transparent'
-            }`}
-        >
-            <nav className={solid ? 'border-b-2 border-gold-500/70' : 'border-b-2 border-transparent'}>
+        <header className="absolute inset-x-0 top-0 z-50">
+            <nav>
                 <div className="mx-auto max-w-7xl px-4 pb-3 pt-4 sm:px-6">
                     {/* The brand, centred: the living eye over the name */}
                     <a href="/" className="mx-auto flex w-fit flex-col items-center">
