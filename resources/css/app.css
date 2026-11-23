@@ -357,6 +357,100 @@ html {
     animation: door-seal 2.2s ease-in-out infinite;
 }
 
+/* Inside the tomb: torch flame jitter */
+@keyframes torch-flicker {
+    0%,
+    100% {
+        transform: scale(1, 1) skewX(0deg);
+    }
+    25% {
+        transform: scale(0.94, 1.09) skewX(1.6deg);
+    }
+    50% {
+        transform: scale(1.05, 0.94) skewX(-2deg);
+    }
+    75% {
+        transform: scale(0.97, 1.05) skewX(1deg);
+    }
+}
+.animate-torch-flicker {
+    animation: torch-flicker 0.9s ease-in-out infinite;
+    transform-origin: 50% 92%;
+}
+
+/* Torch ambient glow breathing */
+@keyframes glow-flicker {
+    0%,
+    100% {
+        opacity: 0.65;
+    }
+    40% {
+        opacity: 1;
+    }
+    70% {
+        opacity: 0.8;
+    }
+}
+.animate-glow-flicker {
+    animation: glow-flicker 1.7s ease-in-out infinite;
+}
+
+/* Dust sifting down from the chamber ceiling */
+@keyframes dust-fall {
+    0% {
+        transform: translate3d(0, -4vh, 0);
+        opacity: 0;
+    }
+    12% {
+        opacity: 0.9;
+    }
+    100% {
+        transform: translate3d(2.5vw, 104vh, 0);
+        opacity: 0.35;
+    }
+}
+.animate-dust-fall {
+    animation: dust-fall 2.6s linear forwards;
+}
+
+/* Small stones shaken loose above the door */
+@keyframes stone-fall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(44vh) rotate(150deg);
+        opacity: 0.85;
+    }
+}
+.animate-stone-fall {
+    animation: stone-fall 0.65s cubic-bezier(0.5, 0, 0.9, 0.6) forwards;
+}
+
+/* The chamber trembles as the door grinds */
+@keyframes tomb-rumble {
+    0%,
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    20% {
+        transform: translate(0.6px, -0.4px) rotate(0.04deg);
+    }
+    40% {
+        transform: translate(-0.7px, 0.5px) rotate(-0.05deg);
+    }
+    60% {
+        transform: translate(0.5px, 0.6px) rotate(0.03deg);
+    }
+    80% {
+        transform: translate(-0.4px, -0.6px) rotate(-0.04deg);
+    }
+}
+.animate-tomb-rumble {
+    animation: tomb-rumble 0.45s linear infinite;
+}
+
 /* Reveal on scroll: sections rise in gently as they enter the viewport */
 .reveal {
     opacity: 0;
