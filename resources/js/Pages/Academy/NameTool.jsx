@@ -64,7 +64,7 @@ export default function AcademyNameTool({ glyphMap }) {
         <AppLayout>
             <Head title={page.nameMeta} />
 
-            <section className="bg-nile-950 text-sand-100">
+            <section className="text-sand-100">
                 <div className="mx-auto max-w-4xl px-4 pb-12 pt-12 text-center sm:px-6">
                     <p className="font-display text-sm font-bold tracking-wide text-gold-300">{t('academy.kicker')}</p>
                     <h1 className="font-display mx-auto mt-2 max-w-3xl text-4xl font-extrabold leading-snug">{page.namePageTitle}</h1>

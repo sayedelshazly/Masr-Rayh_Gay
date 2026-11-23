@@ -14,7 +14,7 @@ export default function AcademyLesson({ lesson, questions, previousLesson, nextL
         <AppLayout>
             <Head title={`${pick(lesson, 'title')} — ${page.metaTitle}`} />
 
-            <section className="bg-nile-950 text-sand-100">
+            <section className="text-sand-100">
                 <div className="mx-auto max-w-4xl px-4 pb-10 pt-12 sm:px-6">
                     <Link href="/academy" className="text-sm font-bold text-gold-300 hover:underline">
                         ← {page.backToAcademy}

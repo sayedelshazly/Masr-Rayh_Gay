@@ -12,20 +12,9 @@ export default function DestinationShow({ destination, tours }) {
         <AppLayout backdrop={destination.image ?? undefined}>
             <Head title={`${localized(destination, 'name', locale)} — ${t('brand.name')}`} />
 
-            {/* Hero band: photo under a dark nile overlay (gradient fallback) */}
-            <section className="relative overflow-hidden">
-                {destination.image ? (
-                    <>
-                        <img
-                            src={destination.image}
-                            alt={localized(destination, 'name', locale)}
-                            className="absolute inset-0 h-full w-full object-cover"
-                        />
-                        <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-b from-nile-950/80 via-nile-950/55 to-nile-950/85" />
-                    </>
-                ) : (
-                    <div aria-hidden="true" className={`absolute inset-0 bg-gradient-to-br ${destination.gradient ?? 'from-nile-800 via-sky-600 to-nile-950'}`} />
-                )}
+            {/* Hero: transparent — the page backdrop (this destination's
+                own photo, via AppLayout) is the only background */}
+            <section className="relative">
                 <div className="relative mx-auto max-w-7xl px-4 py-14 sm:px-6">
                     <Link href="/destinations" className="text-sm font-semibold text-white/85 transition-colors hover:text-gold-300">
                         ← {t('destinationPage.title')}
