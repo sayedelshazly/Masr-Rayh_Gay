@@ -8,6 +8,7 @@ use App\Models\TourDeparture;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Support\Seo;
 
 class TourController extends Controller
 {
@@ -70,6 +71,14 @@ class TourController extends Controller
         $tour->load(['destination', 'itineraryDays']);
         Tour::applyRealRatings([$tour]);
 
+        $reviews = $tour->reviews()->approved()->latest()->limit(10)->get()
+            ->map(fn ($review) => [
+                'id' => $review->id,
+                'author_name' => $review->author_name,
+                'rating' => $review->rating,
+                'body' => $review->body,
+                'created_at' => $review->created_at->format('Y-m-d'),
+            ]);
         $related = Tour::active()
             ->with('destination')
             ->where('destination_id', $tour->destination_id)
@@ -81,14 +90,8 @@ class TourController extends Controller
 
         return Inertia::render('Tours/Show', [
             'tour' => $tour,
-            'reviews' => $tour->reviews()->approved()->latest()->limit(10)->get()
-                ->map(fn ($review) => [
-                    'id' => $review->id,
-                    'author_name' => $review->author_name,
-                    'rating' => $review->rating,
-                    'body' => $review->body,
-                    'created_at' => $review->created_at->format('Y-m-d'),
-                ]),
+            'reviews' => $reviews,
+            'seo' => Seo::forTour($tour, $reviews->isNotEmpty()),
             'departures' => $tour->departures()->upcoming()->get()
                 ->map(fn (TourDeparture $departure) => $departure->toPublicArray()),
             'relatedTours' => $related,

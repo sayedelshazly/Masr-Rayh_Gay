@@ -6,6 +6,20 @@
 
         <title inertia>Masr Rayh Gay — مصر رايح جاي</title>
 
+        {{-- Search & sharing: per-page values arrive via the `seo` prop --}}
+        @php($seo = $page['props']['seo'] ?? [])
+        <meta name="description" content="{{ $seo['description'] ?? 'رحلات مصممة بعناية في مصر — الأهرامات، الأقصر، أسوان، والبحر الأحمر — بمرشدين مصريين خبراء وتجربة فاخرة من أول خطوة. Tours across 7,000 years of Egyptian civilisation.' }}">
+        <meta property="og:type" content="website">
+        <meta property="og:site_name" content="Masr Rayh Gay — مصر رايح جاي">
+        <meta property="og:title" content="{{ $seo['title'] ?? 'Masr Rayh Gay — مصر رايح جاي' }}">
+        <meta property="og:description" content="{{ $seo['description'] ?? 'رحلات مصممة بعناية في مصر — الأهرامات، الأقصر، أسوان، والبحر الأحمر. Tours across 7,000 years of Egyptian civilisation.' }}">
+        <meta property="og:url" content="{{ url()->current() }}">
+        <meta property="og:image" content="{{ $seo['image'] ?? url('/images/destinations/cairo-giza.jpg') }}">
+        <meta name="twitter:card" content="summary_large_image">
+        @if(!empty($seo['jsonLd']))
+        <script type="application/ld+json">{!! json_encode($seo['jsonLd'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) !!}</script>
+        @endif
+
         {{-- Brand favicon: the Eye of Horus --}}
         <link rel="icon" type="image/svg+xml" href="/favicon.svg">
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
