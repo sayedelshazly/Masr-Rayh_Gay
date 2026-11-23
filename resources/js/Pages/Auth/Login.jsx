@@ -1,5 +1,6 @@
 import { Head, Link, useForm } from '@inertiajs/react';
 import AppLayout from '../../Layouts/AppLayout';
+import { playDoorOpen } from '../../lib/door';
 import Reveal from '../../Components/Reveal';
 import { useLocale } from '../../i18n/LocaleContext';
 
@@ -29,7 +30,7 @@ export default function Login() {
 
     const submit = (event) => {
         event.preventDefault();
-        post('/login');
+        post('/login', { onSuccess: () => playDoorOpen() });
     };
 
     return (

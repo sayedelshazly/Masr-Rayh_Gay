@@ -1,5 +1,6 @@
 import { Head, Link, useForm } from '@inertiajs/react';
 import AppLayout from '../../Layouts/AppLayout';
+import { playDoorOpen } from '../../lib/door';
 import Reveal from '../../Components/Reveal';
 import { useLocale } from '../../i18n/LocaleContext';
 
@@ -31,6 +32,7 @@ export default function Register() {
     const submit = (event) => {
         event.preventDefault();
         post('/register', {
+            onSuccess: () => playDoorOpen(),
             onFinish: () => setData('password_confirmation', ''),
         });
     };

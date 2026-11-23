@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, usePage } from '@inertiajs/react';
+import { Link, router, usePage } from '@inertiajs/react';
 import { useLocale } from '../i18n/LocaleContext';
 import LanguageSwitcher from './LanguageSwitcher';
+import { playDoorClose, playDoorOpen } from '../lib/door';
 
 /** Inline SVG brand mark: the Eye of Horus in gold inside a nile ring. */
 export function BrandMark({ className = 'h-11 w-11' }) {
@@ -50,6 +51,20 @@ export default function Navbar() {
     const [open, setOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [userOpen, setUserOpen] = useState(false);
+
+    // Logout through the tomb door: the doors sweep shut, the logout
+    // posts behind them, and they open again on the page we land on.
+    const handleLogout = () => {
+        setUserOpen(false);
+        playDoorClose(() => {
+            router.post('/logout', {}, {
+                // The doors open on the page we land on — success or
+                // not, the user is never left behind closed doors.
+                onSuccess: () => playDoorOpen(),
+                onError: () => playDoorOpen(),
+            });
+        });
+    };
     const userMenuRef = useRef(null);
 
     const overlay = isOverlayRoute(url);
@@ -178,15 +193,14 @@ export default function Navbar() {
                                                 {t('admin.panel')}
                                             </Link>
                                         )}
-                                        <Link
-                                            href="/logout"
-                                            method="post"
-                                            as="button"
+                                        <button
+                                            type="button"
                                             role="menuitem"
+                                            onClick={handleLogout}
                                             className="block w-full rounded-md px-3 py-2 text-start text-[13px] font-bold text-gold-300 transition-colors hover:bg-nile-800"
                                         >
                                             {t('auth.logout')}
-                                        </Link>
+                                        </button>
                                     </div>
                                 )}
                             </div>

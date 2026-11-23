@@ -339,6 +339,24 @@ html {
     animation: float-mote 5s ease-in-out infinite;
 }
 
+/* Tomb door seal: a slow golden breathing glow */
+@keyframes door-seal {
+    0%,
+    100% {
+        box-shadow:
+            0 0 22px rgba(201, 162, 75, 0.25),
+            0 0 60px rgba(201, 162, 75, 0.08);
+    }
+    50% {
+        box-shadow:
+            0 0 36px rgba(201, 162, 75, 0.55),
+            0 0 95px rgba(201, 162, 75, 0.2);
+    }
+}
+.animate-door-seal {
+    animation: door-seal 2.2s ease-in-out infinite;
+}
+
 /* Reveal on scroll: sections rise in gently as they enter the viewport */
 .reveal {
     opacity: 0;

@@ -4,6 +4,7 @@ import { createInertiaApp } from '@inertiajs/react';
 import { createRoot } from 'react-dom/client';
 import { LocaleProvider } from './i18n/LocaleContext';
 import Preloader from './Components/Preloader';
+import TombDoor from './Components/TombDoor';
 
 createInertiaApp({
     resolve: (name) => {
@@ -14,6 +15,7 @@ createInertiaApp({
         createRoot(el).render(
             <LocaleProvider>
                 <Preloader />
+                <TombDoor />
                 <App {...props} />
             </LocaleProvider>,
         );
