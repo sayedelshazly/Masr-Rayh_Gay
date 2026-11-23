@@ -1,6 +1,8 @@
 import { usePage } from '@inertiajs/react';
 import Footer from '../Components/Footer';
+import LoginInvite from '../Components/LoginInvite';
 import Navbar, { isOverlayRoute } from '../Components/Navbar';
+import WhatsAppFloat from '../Components/WhatsAppFloat';
 
 /**
  * Site-wide chrome: fixed navbar on top, footer at the bottom, page
@@ -49,6 +51,8 @@ export default function AppLayout({ children, backdrop }) {
             {!overlay && <div className="h-[169px] shrink-0" aria-hidden="true" />}
             <main className="flex-1">{children}</main>
             <Footer />
+            <WhatsAppFloat />
+            <LoginInvite />
         </div>
     );
 }
