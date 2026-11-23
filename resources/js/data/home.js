@@ -51,10 +51,10 @@ export const destinations = [
 ];
 
 export const stats = [
-    { value: '+25', key: 'destinations' },
-    { value: '+500', key: 'tours' },
-    { value: '+15', key: 'years' },
-    { value: '4.9/5', key: 'rating' },
+    { target: 25, suffix: '+', glyph: '𓇋', key: 'destinations' },
+    { target: 500, suffix: '+', glyph: '𓂀', key: 'tours' },
+    { target: 15, suffix: '+', glyph: '𓋹', key: 'years' },
+    { target: 4.9, suffix: '/5', decimals: 1, glyph: '𓆣', key: 'rating' },
 ];
 
 /**

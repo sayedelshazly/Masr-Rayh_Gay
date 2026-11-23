@@ -103,18 +103,68 @@ function Hero() {
     );
 }
 
+function CountUp({ target, decimals = 0, suffix = '' }) {
+    const ref = useRef(null);
+    const [value, setValue] = useState(0);
+
+    useEffect(() => {
+        const el = ref.current;
+        if (!el) {
+            return undefined;
+        }
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            setValue(target);
+            return undefined;
+        }
+        let raf = 0;
+        let started = false;
+        const io = new IntersectionObserver(
+            (entries) => {
+                if (!entries[0].isIntersecting || started) {
+                    return;
+                }
+                started = true;
+                const start = performance.now();
+                const tick = (now) => {
+                    const progress = Math.min((now - start) / 1300, 1);
+                    setValue(target * (1 - Math.pow(1 - progress, 3)));
+                    if (progress < 1) {
+                        raf = requestAnimationFrame(tick);
+                    }
+                };
+                raf = requestAnimationFrame(tick);
+                io.disconnect();
+            },
+            { threshold: 0.4 },
+        );
+        io.observe(el);
+        return () => {
+            io.disconnect();
+            cancelAnimationFrame(raf);
+        };
+    }, [target]);
+
+    return (
+        <span ref={ref} dir="ltr" className="tabular-nums">
+            {value.toFixed(decimals)}
+            <span className="text-gold-300">{suffix}</span>
+        </span>
+    );
+}
+
 function StatsStrip() {
     const { t } = useLocale();
 
     return (
-        <section className="border-y-2 border-gold-500/60 bg-nile-950">
-            <div className="mx-auto grid max-w-7xl grid-cols-2 divide-sand-300/10 px-4 sm:px-6 lg:grid-cols-4">
+        <section className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-8 lg:grid-cols-4">
                 {stats.map((stat) => (
-                    <div key={stat.key} className="py-7 text-center">
-                        <p className="font-display text-3xl font-bold text-gold-500" dir="ltr">
-                            {stat.value}
+                    <div key={stat.key} className="text-center">
+                        <p aria-hidden="true" className="font-glyph text-lg leading-none text-gold-500/60">{stat.glyph}</p>
+                        <p className="font-display mt-2 text-4xl font-bold text-sand-100">
+                            <CountUp target={stat.target} decimals={stat.decimals ?? 0} suffix={stat.suffix} />
                         </p>
-                        <p className="mt-1 text-sm text-sand-100/80">{t(`stats.${stat.key}`)}</p>
+                        <p className="mt-1 text-sm text-sand-100/60">{t(`stats.${stat.key}`)}</p>
                     </div>
                 ))}
             </div>
