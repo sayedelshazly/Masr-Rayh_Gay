@@ -1,4 +1,5 @@
-import { Head, Link } from '@inertiajs/react';
+import { useState } from 'react';
+import { Head, Link, useForm } from '@inertiajs/react';
 import AppLayout from '../../Layouts/AppLayout';
 import Reveal from '../../Components/Reveal';
 import { DurationLabel } from '../../Components/TourCard';
@@ -38,7 +39,7 @@ function DetailRow({ label, children }) {
     );
 }
 
-export default function BookingShow({ booking }) {
+export default function BookingShow({ booking, canReview = false }) {
     const { t, locale } = useLocale();
     const tour = booking.tour ?? {};
     const destination = tour.destination ?? {};
@@ -50,6 +51,15 @@ export default function BookingShow({ booking }) {
     ]
         .filter(Boolean)
         .join(' · ');
+
+    const review = booking.review ?? null;
+    const [hoverRating, setHoverRating] = useState(0);
+    const reviewForm = useForm({ rating: 5, body: '' });
+    const submitReview = (event) => {
+        event.preventDefault();
+        reviewForm.post(`/booking/${booking.reference}/review`, { preserveScroll: true });
+    };
+    const shownRating = hoverRating || reviewForm.data.rating;
 
     return (
         <AppLayout backdrop={tour.image ?? undefined}>
@@ -116,6 +126,61 @@ export default function BookingShow({ booking }) {
                     </DetailRow>
                 </div>
                 </Reveal>
+
+                {(review || canReview) && (
+                    <div className="mx-auto mt-8 max-w-3xl rounded-lg bg-nile-950/70 p-6 text-start shadow-lg shadow-black/25 ring-1 ring-white/10 backdrop-blur sm:p-8">
+                        <h2 className="font-display text-xl font-bold text-sand-100">{t('reviews.formTitle')}</h2>
+                        {review ? (
+                            <div className="mt-4">
+                                <p aria-label={`${review.rating}/5`} className="text-lg tracking-widest">
+                                    <span className="text-gold-400">{'★'.repeat(review.rating)}</span>
+                                    <span className="text-white/20">{'★'.repeat(5 - review.rating)}</span>
+                                </p>
+                                <p className="mt-3 leading-relaxed text-sand-100/80">{review.body}</p>
+                                <p className="mt-4 rounded-md bg-white/5 px-4 py-3 text-sm text-gold-300 ring-1 ring-gold-500/25">
+                                    {review.is_approved ? t('reviews.publishedNote') : t('reviews.pendingNote')}
+                                </p>
+                            </div>
+                        ) : (
+                            <form onSubmit={submitReview} className="mt-4">
+                                <p className="text-sm leading-relaxed text-sand-100/65">{t('reviews.formText')}</p>
+                                <p className="mt-4 text-sm font-bold text-sand-100/80">{t('reviews.ratingLabel')}</p>
+                                <div className="mt-1 flex gap-1" onMouseLeave={() => setHoverRating(0)}>
+                                    {[1, 2, 3, 4, 5].map((value) => (
+                                        <button
+                                            key={value}
+                                            type="button"
+                                            aria-label={`${value}/5`}
+                                            onMouseEnter={() => setHoverRating(value)}
+                                            onClick={() => reviewForm.setData('rating', value)}
+                                            className={`text-3xl leading-none transition ${value <= shownRating ? 'text-gold-400' : 'text-white/20'}`}
+                                        >
+                                            ★
+                                        </button>
+                                    ))}
+                                </div>
+                                {reviewForm.errors.rating && <p className="mt-1.5 text-xs font-medium text-red-300">{reviewForm.errors.rating}</p>}
+                                <label htmlFor="review_body" className="mt-4 block text-sm font-bold text-sand-100/80">{t('reviews.bodyLabel')}</label>
+                                <textarea
+                                    id="review_body"
+                                    rows="3"
+                                    className="mt-1.5 w-full rounded-md border border-sand-100/20 bg-white/5 px-4 py-3 text-sm font-medium text-sand-100 outline-none transition-colors placeholder:text-sand-100/35 focus:border-gold-500"
+                                    placeholder={t('reviews.bodyPlaceholder')}
+                                    value={reviewForm.data.body}
+                                    onChange={(event) => reviewForm.setData('body', event.target.value)}
+                                />
+                                {reviewForm.errors.body && <p className="mt-1.5 text-xs font-medium text-red-300">{reviewForm.errors.body}</p>}
+                                <button
+                                    type="submit"
+                                    disabled={reviewForm.processing}
+                                    className="font-subhead mt-4 min-h-[44px] rounded-md bg-gold-500 px-6 py-2.5 font-bold text-ink-900 transition-colors hover:bg-gold-300 disabled:opacity-60"
+                                >
+                                    {t('reviews.submit')}
+                                </button>
+                            </form>
+                        )}
+                    </div>
+                )}
 
                 <div className="mt-8 flex flex-wrap justify-center gap-3">
                     <Link

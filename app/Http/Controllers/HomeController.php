@@ -16,16 +16,19 @@ class HomeController extends Controller
             ->withCount('activeTours as tours_count')
             ->get();
 
+        $featuredTours = Tour::active()
+            ->featured()
+            ->with('destination')
+            ->orderByDesc('rating')
+            ->limit(6)
+            ->get();
+        Tour::applyRealRatings($featuredTours);
+
         return Inertia::render('Home', [
             // All destinations feed the hero search select; featured ones feed the cards grid.
             'destinations' => $destinations,
             'featuredDestinations' => $destinations->where('is_featured', true)->values(),
-            'featuredTours' => Tour::active()
-                ->featured()
-                ->with('destination')
-                ->orderByDesc('rating')
-                ->limit(6)
-                ->get(),
+            'featuredTours' => $featuredTours,
         ]);
     }
 }

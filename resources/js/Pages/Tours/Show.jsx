@@ -10,7 +10,7 @@ function SectionTitle({ children }) {
     return <h2 className="font-display text-2xl font-bold text-sand-100 sm:text-3xl">{children}</h2>;
 }
 
-export default function TourShow({ tour, relatedTours, departures = [] }) {
+export default function TourShow({ tour, relatedTours, departures = [], reviews = [] }) {
     const { t, locale } = useLocale();
     const destination = tour.destination ?? {};
     const includes = localized(tour, 'includes', locale) || [];
@@ -254,6 +254,38 @@ export default function TourShow({ tour, relatedTours, departures = [] }) {
                         </div>
                     </aside>
                 </div>
+
+                {/* Real traveller reviews (approved only) */}
+                {reviews.length > 0 && (
+                    <div className="mt-16">
+                        <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+                            <SectionTitle>{t('reviews.title')}</SectionTitle>
+                            <p className="text-sm font-semibold text-sand-100/60">
+                                <span className="text-gold-400">★</span> {Number(tour.rating).toFixed(1)} · {tour.reviews_count} {t('reviews.countLabel')}
+                            </p>
+                        </div>
+                        <div className="mt-6 grid gap-5 md:grid-cols-2">
+                            {reviews.map((review) => (
+                                <article key={review.id} className="rounded-lg bg-nile-950/70 p-6 shadow-lg shadow-black/25 ring-1 ring-white/10 backdrop-blur">
+                                    <div className="flex items-center gap-3">
+                                        <span aria-hidden="true" className="font-display flex h-10 w-10 items-center justify-center rounded-full bg-gold-500/15 text-base font-bold text-gold-300 ring-1 ring-gold-500/40">
+                                            {review.author_name.trim().charAt(0)}
+                                        </span>
+                                        <div>
+                                            <p className="font-display text-sm font-bold text-sand-100">{review.author_name}</p>
+                                            <p className="text-xs text-sand-100/50">{formatShortDate(review.created_at, locale)}</p>
+                                        </div>
+                                        <p aria-label={`${review.rating}/5`} className="ms-auto tracking-widest">
+                                            <span className="text-gold-400">{'★'.repeat(review.rating)}</span>
+                                            <span className="text-white/20">{'★'.repeat(5 - review.rating)}</span>
+                                        </p>
+                                    </div>
+                                    <p className="mt-4 leading-relaxed text-sand-100/80">{review.body}</p>
+                                </article>
+                            ))}
+                        </div>
+                    </div>
+                )}
 
                 {/* Related tours */}
                 {relatedTours.length > 0 && (

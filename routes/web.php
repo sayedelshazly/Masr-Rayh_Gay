@@ -3,12 +3,14 @@
 use App\Http\Controllers\AcademyController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\DepartureController as AdminDepartureController;
+use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\DestinationController as AdminDestinationController;
 use App\Http\Controllers\Admin\TourController as AdminTourController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\DestinationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MyBookingController;
@@ -38,6 +40,7 @@ Route::get('/tours/{tour:slug}', [TourController::class, 'show'])->name('tours.s
 Route::get('/tours/{tour:slug}/book', [BookingController::class, 'create'])->name('bookings.create');
 Route::post('/tours/{tour:slug}/bookings', [BookingController::class, 'store'])->name('bookings.store');
 Route::get('/booking/{booking:reference}', [BookingController::class, 'show'])->name('bookings.show');
+Route::post('/booking/{booking:reference}/review', [ReviewController::class, 'store'])->name('bookings.review');
 
 Route::get('/academy', [AcademyController::class, 'index'])->name('academy.index');
 Route::get('/academy/glyphs', [AcademyController::class, 'glyphs'])->name('academy.glyphs');
@@ -47,6 +50,10 @@ Route::get('/academy/quiz', [AcademyController::class, 'quiz'])->name('academy.q
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', AdminDashboardController::class)->name('dashboard');
+
+    Route::get('/reviews', [AdminReviewController::class, 'index'])->name('reviews.index');
+    Route::patch('/reviews/{review}/toggle', [AdminReviewController::class, 'toggle'])->name('reviews.toggle');
+    Route::delete('/reviews/{review}', [AdminReviewController::class, 'destroy'])->name('reviews.destroy');
 
     Route::get('/bookings', [AdminBookingController::class, 'index'])->name('bookings.index');
     Route::get('/bookings/{booking:reference}', [AdminBookingController::class, 'show'])->name('bookings.show');

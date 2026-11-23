@@ -72,6 +72,39 @@ class Tour extends Model
         return $this->hasMany(TourItineraryDay::class)->orderBy('day_number');
     }
 
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    /**
+     * Overlay real traveller ratings onto the given tours: when a
+     * tour has approved reviews, its public rating and review count
+     * come from them; otherwise the seeded editorial values stay.
+     */
+    public static function applyRealRatings(iterable $tours): void
+    {
+        $ids = collect($tours)->pluck('id')->filter()->unique();
+
+        if ($ids->isEmpty()) {
+            return;
+        }
+
+        $stats = Review::approved()
+            ->whereIn('tour_id', $ids)
+            ->selectRaw('tour_id, AVG(rating) as avg_rating, COUNT(*) as total')
+            ->groupBy('tour_id')
+            ->get()
+            ->keyBy('tour_id');
+
+        foreach ($tours as $tour) {
+            if (isset($stats[$tour->id])) {
+                $tour->rating = round((float) $stats[$tour->id]->avg_rating, 1);
+                $tour->reviews_count = (int) $stats[$tour->id]->total;
+            }
+        }
+    }
+
     public function departures(): HasMany
     {
         return $this->hasMany(TourDeparture::class);

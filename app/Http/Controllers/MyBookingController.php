@@ -24,9 +24,13 @@ class MyBookingController extends Controller
                 $query->where('user_id', $user->id)
                     ->orWhere('customer_email', $user->email);
             })
-            ->with(['tour.destination'])
+            ->with(['tour.destination', 'review'])
             ->orderByDesc('travel_date')
-            ->get();
+            ->get()
+            ->each(function (Booking $booking) {
+                $booking->setAttribute('can_review', $booking->canBeReviewed() && $booking->review === null);
+                $booking->setAttribute('has_review', $booking->review !== null);
+            });
 
         return Inertia::render('Bookings/Mine', [
             'bookings' => $bookings,

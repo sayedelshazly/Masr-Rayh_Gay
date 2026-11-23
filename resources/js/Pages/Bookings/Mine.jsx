@@ -86,6 +86,16 @@ function BookingCard({ booking, onCancel, cancelling }) {
                 </div>
             </dl>
 
+            {booking.can_review && (
+                <div className="mt-4 border-t border-white/10 pt-4">
+                    <a
+                        href={`/booking/${booking.reference}`}
+                        className="font-display inline-flex min-h-[40px] items-center rounded-md bg-gold-500 px-4 py-2 text-sm font-bold text-ink-900 transition-colors hover:bg-gold-300"
+                    >
+                        ★ {t('reviews.rateCta')}
+                    </a>
+                </div>
+            )}
             {cancellable && (
                 <div className="mt-5 border-t border-white/10 pt-4 text-end">
                     <button

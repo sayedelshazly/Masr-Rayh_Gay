@@ -47,6 +47,8 @@ class TourController extends Controller
             })
             ->get();
 
+        Tour::applyRealRatings($tours);
+
         return Inertia::render('Tours/Index', [
             'tours' => $tours,
             'destinations' => Destination::ordered()->get(['id', 'slug', 'name_ar', 'name_en']),
@@ -66,18 +68,30 @@ class TourController extends Controller
         abort_unless($tour->is_active, 404);
 
         $tour->load(['destination', 'itineraryDays']);
+        Tour::applyRealRatings([$tour]);
+
+        $related = Tour::active()
+            ->with('destination')
+            ->where('destination_id', $tour->destination_id)
+            ->whereKeyNot($tour->id)
+            ->orderByDesc('rating')
+            ->limit(3)
+            ->get();
+        Tour::applyRealRatings($related);
 
         return Inertia::render('Tours/Show', [
             'tour' => $tour,
+            'reviews' => $tour->reviews()->approved()->latest()->limit(10)->get()
+                ->map(fn ($review) => [
+                    'id' => $review->id,
+                    'author_name' => $review->author_name,
+                    'rating' => $review->rating,
+                    'body' => $review->body,
+                    'created_at' => $review->created_at->format('Y-m-d'),
+                ]),
             'departures' => $tour->departures()->upcoming()->get()
                 ->map(fn (TourDeparture $departure) => $departure->toPublicArray()),
-            'relatedTours' => Tour::active()
-                ->with('destination')
-                ->where('destination_id', $tour->destination_id)
-                ->whereKeyNot($tour->id)
-                ->orderByDesc('rating')
-                ->limit(3)
-                ->get(),
+            'relatedTours' => $related,
         ]);
     }
 }

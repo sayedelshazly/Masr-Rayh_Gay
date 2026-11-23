@@ -127,10 +127,11 @@ class BookingController extends Controller
     /** Confirmation page, addressed by the public booking reference. */
     public function show(Booking $booking): Response
     {
-        $booking->load(['tour.destination', 'departure']);
+        $booking->load(['tour.destination', 'departure', 'review']);
 
         return Inertia::render('Bookings/Show', [
             'booking' => $booking,
+            'canReview' => $booking->canBeReviewed() && $booking->review === null,
         ]);
     }
 

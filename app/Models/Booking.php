@@ -86,6 +86,22 @@ class Booking extends Model
         return $this->belongsTo(TourDeparture::class, 'departure_id');
     }
 
+    public function review(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Review::class);
+    }
+
+    /**
+     * A booking can be reviewed once its trip actually happened:
+     * confirmed, and the travel date is in the past.
+     */
+    public function canBeReviewed(): bool
+    {
+        return $this->status === self::STATUS_CONFIRMED
+            && $this->travel_date !== null
+            && $this->travel_date->lt(now()->startOfDay());
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
