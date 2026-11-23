@@ -147,7 +147,7 @@ export default function DestinationShowcase({ destinations }) {
                                         aria-label="Previous"
                                         className="flex h-9 w-9 items-center justify-center rounded-full ring-1 ring-gold-500/50 text-gold-300 transition hover:bg-gold-500 hover:text-ink-900"
                                     >
-                                        <svg viewBox="0 0 24 24" className="h-4 w-4 rtl:rotate-180" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M15 5l-7 7 7 7" /></svg>
+                                        <svg viewBox="0 0 24 24" className="h-5 w-5 rtl:rotate-180" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 5l-7 7 7 7" /></svg>
                                     </button>
                                     <button
                                         type="button"
@@ -155,7 +155,7 @@ export default function DestinationShowcase({ destinations }) {
                                         aria-label="Next"
                                         className="flex h-9 w-9 items-center justify-center rounded-full ring-1 ring-gold-500/50 text-gold-300 transition hover:bg-gold-500 hover:text-ink-900"
                                     >
-                                        <svg viewBox="0 0 24 24" className="h-4 w-4 rtl:rotate-180" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5l7 7-7 7" /></svg>
+                                        <svg viewBox="0 0 24 24" className="h-5 w-5 rtl:rotate-180" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5l7 7-7 7" /></svg>
                                     </button>
                                 </div>
                                 <p className="font-display text-sm font-bold text-sand-100/60">
@@ -222,17 +222,17 @@ export default function DestinationShowcase({ destinations }) {
                     type="button"
                     onClick={() => scrollRail(-1)}
                     aria-label="Scroll back"
-                    className="absolute start-1 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-nile-950/85 text-gold-300 shadow-lg ring-1 ring-gold-500/50 backdrop-blur transition hover:bg-gold-500 hover:text-ink-900"
+                    className="absolute start-0.5 top-1/2 z-10 flex h-10 w-7 -translate-y-1/2 items-center justify-center text-gold-500/75 drop-shadow-[0_1px_5px_rgba(0,0,0,0.65)] transition hover:text-gold-300"
                 >
-                    <svg viewBox="0 0 24 24" className="h-4 w-4 rtl:rotate-180" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M15 5l-7 7 7 7" /></svg>
+                    <svg viewBox="0 0 24 24" className="h-5 w-5 rtl:rotate-180" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 5l-7 7 7 7" /></svg>
                 </button>
                 <button
                     type="button"
                     onClick={() => scrollRail(1)}
                     aria-label="Scroll forward"
-                    className="absolute end-1 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-nile-950/85 text-gold-300 shadow-lg ring-1 ring-gold-500/50 backdrop-blur transition hover:bg-gold-500 hover:text-ink-900"
+                    className="absolute end-0.5 top-1/2 z-10 flex h-10 w-7 -translate-y-1/2 items-center justify-center text-gold-500/75 drop-shadow-[0_1px_5px_rgba(0,0,0,0.65)] transition hover:text-gold-300"
                 >
-                    <svg viewBox="0 0 24 24" className="h-4 w-4 rtl:rotate-180" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5l7 7-7 7" /></svg>
+                    <svg viewBox="0 0 24 24" className="h-5 w-5 rtl:rotate-180" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5l7 7-7 7" /></svg>
                 </button>
             </div>
         </div>
