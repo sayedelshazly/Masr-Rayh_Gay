@@ -6,6 +6,12 @@
 
         <title inertia>Masr Rayh Gay — مصر رايح جاي</title>
 
+        {{-- Brand favicon: the Eye of Horus --}}
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+        <link rel="icon" href="/favicon.ico" sizes="any">
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
         {{-- Masr Rayh Gay type system (Design System v0.1): Reem Kufi (AR display) + Cormorant Garamond (EN display), Marcellus (subheads), IBM Plex Sans Arabic (AR body) + Inter (EN body), Noto Sans Egyptian Hieroglyphs (glyphs) --}}
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
