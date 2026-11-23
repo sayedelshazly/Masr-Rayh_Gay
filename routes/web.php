@@ -17,9 +17,11 @@ use App\Http\Controllers\DestinationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MyBookingController;
 use App\Http\Controllers\SeoController;
+use App\Http\Controllers\AssistantController;
 use App\Http\Controllers\TourController;
 use Illuminate\Support\Facades\Route;
 
+Route::post('/assistant/recommend', [AssistantController::class, 'recommend'])->name('assistant.recommend');
 Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
 Route::get('/robots.txt', [SeoController::class, 'robots'])->name('robots');
 

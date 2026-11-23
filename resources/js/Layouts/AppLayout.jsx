@@ -3,6 +3,7 @@ import Footer from '../Components/Footer';
 import LoginInvite from '../Components/LoginInvite';
 import Navbar, { isOverlayRoute } from '../Components/Navbar';
 import WhatsAppFloat from '../Components/WhatsAppFloat';
+import TripAssistant from '../Components/TripAssistant';
 
 /**
  * Site-wide chrome: fixed navbar on top, footer at the bottom, page
@@ -52,6 +53,7 @@ export default function AppLayout({ children, backdrop }) {
             <main className="flex-1">{children}</main>
             <Footer />
             <WhatsAppFloat />
+            <TripAssistant />
             <LoginInvite />
         </div>
     );
