@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Destination;
 use App\Models\Tour;
-use App\Support\Collections;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -30,7 +29,6 @@ class HomeController extends Controller
             'destinations' => $destinations,
             'featuredDestinations' => $destinations->where('is_featured', true)->values(),
             'featuredTours' => $featuredTours,
-            'collections' => Collections::summaries(),
         ]);
     }
 }
