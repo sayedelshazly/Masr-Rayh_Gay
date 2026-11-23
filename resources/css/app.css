@@ -443,6 +443,15 @@ html {
         transform: scale(1);
     }
 }
+/* Rails hide their scrollbar — dragging, swiping and the edge
+   arrows are the visible way to move them. */
+.no-scrollbar {
+    scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
 .animate-stage-photo {
     animation: stage-photo 1.1s var(--ease-stone) both;
 }

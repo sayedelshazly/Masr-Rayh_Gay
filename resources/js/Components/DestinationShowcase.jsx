@@ -41,6 +41,40 @@ export default function DestinationShowcase({ destinations }) {
         else if (dx >= 40) go(-1);
     };
 
+    // The rail: no visible scrollbar — it is dragged by hand
+    // (mouse), swiped (touch), or paged with the edge arrows.
+    const railRef = useRef(null);
+    const railDrag = useRef(null);
+    const railMoved = useRef(0);
+
+    const scrollRail = (dir) => {
+        const rail = railRef.current;
+        if (!rail) return;
+        const sign = locale === 'ar' ? -1 : 1;
+        rail.scrollBy({ left: dir * 340 * sign, behavior: 'smooth' });
+    };
+    const onRailDown = (e) => {
+        if (e.pointerType !== 'mouse') return;
+        railDrag.current = { x: e.clientX, scroll: railRef.current?.scrollLeft ?? 0 };
+        railMoved.current = 0;
+    };
+    const onRailMove = (e) => {
+        if (!railDrag.current || !railRef.current) return;
+        const dx = e.clientX - railDrag.current.x;
+        railMoved.current = Math.max(railMoved.current, Math.abs(dx));
+        railRef.current.scrollLeft = railDrag.current.scroll - dx;
+    };
+    const onRailUp = () => {
+        railDrag.current = null;
+    };
+    const onRailClickCapture = (e) => {
+        if (railMoved.current > 6) {
+            e.preventDefault();
+            e.stopPropagation();
+            railMoved.current = 0;
+        }
+    };
+
     return (
         <div>
             {/* The stage */}
@@ -134,7 +168,16 @@ export default function DestinationShowcase({ destinations }) {
             </div>
 
             {/* The rail */}
-            <div className="mt-4 flex snap-x gap-3 overflow-x-auto pb-2">
+            <div className="relative mt-4">
+                <div
+                    ref={railRef}
+                    onPointerDown={onRailDown}
+                    onPointerMove={onRailMove}
+                    onPointerUp={onRailUp}
+                    onPointerLeave={onRailUp}
+                    onClickCapture={onRailClickCapture}
+                    className="no-scrollbar flex cursor-grab snap-x gap-3 overflow-x-auto pb-1 select-none active:cursor-grabbing"
+                >
                 {destinations.map((item, i) => {
                     const isActive = i === active;
                     return (
@@ -174,6 +217,23 @@ export default function DestinationShowcase({ destinations }) {
                         </button>
                     );
                 })}
+                </div>
+                <button
+                    type="button"
+                    onClick={() => scrollRail(-1)}
+                    aria-label="Scroll back"
+                    className="absolute start-1 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-nile-950/85 text-gold-300 shadow-lg ring-1 ring-gold-500/50 backdrop-blur transition hover:bg-gold-500 hover:text-ink-900"
+                >
+                    <svg viewBox="0 0 24 24" className="h-4 w-4 rtl:rotate-180" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M15 5l-7 7 7 7" /></svg>
+                </button>
+                <button
+                    type="button"
+                    onClick={() => scrollRail(1)}
+                    aria-label="Scroll forward"
+                    className="absolute end-1 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-nile-950/85 text-gold-300 shadow-lg ring-1 ring-gold-500/50 backdrop-blur transition hover:bg-gold-500 hover:text-ink-900"
+                >
+                    <svg viewBox="0 0 24 24" className="h-4 w-4 rtl:rotate-180" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5l7 7-7 7" /></svg>
+                </button>
             </div>
         </div>
     );
