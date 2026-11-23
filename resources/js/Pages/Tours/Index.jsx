@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Head, Link, router } from '@inertiajs/react';
 import AppLayout from '../../Layouts/AppLayout';
+import Reveal from '../../Components/Reveal';
 import TourCard from '../../Components/TourCard';
 import { useLocale } from '../../i18n/LocaleContext';
 import { formatPrice, localized } from '../../lib/format';
@@ -18,7 +19,7 @@ const SORT_LABEL_KEYS = {
 };
 
 const inputClass =
-    'w-full rounded-md border border-gold-500/40 bg-white px-4 py-2.5 text-sm font-medium text-ink-900 outline-none transition-colors focus:border-gold-deep';
+    'w-full rounded-md border border-sand-100/20 bg-white/5 px-4 py-2.5 text-sm font-medium text-sand-100 outline-none transition-colors placeholder:text-sand-100/35 focus:border-gold-500 [&>option]:text-ink-900';
 
 export default function ToursIndex({ tours, destinations, types, filters }) {
     const { t, locale } = useLocale();
@@ -50,19 +51,22 @@ export default function ToursIndex({ tours, destinations, types, filters }) {
         <AppLayout>
             <Head title={t('tours.metaTitle')} />
 
-            <section className="bg-gradient-to-b from-sand-300 via-sand-100 to-sand-100">
-                <div className="mx-auto max-w-7xl px-4 pb-10 pt-12 text-center sm:px-6">
-                    <p className="font-display text-sm font-bold tracking-wide text-gold-deep">{t('tours.kicker')}</p>
-                    <h1 className="font-display mx-auto mt-2 max-w-3xl text-4xl font-extrabold leading-snug text-nile-950 sm:text-5xl">
-                        {t('tours.title')}
-                    </h1>
-                    <p className="mx-auto mt-4 max-w-2xl leading-loose text-ink-900/70">{t('tours.subtitle')}</p>
-                </div>
-            </section>
+            <Reveal>
+                <section>
+                    <div className="mx-auto max-w-7xl px-4 pb-10 pt-12 text-center sm:px-6">
+                        <p className="font-display text-sm font-bold tracking-wide text-gold-300">{t('tours.kicker')}</p>
+                        <h1 className="font-display mx-auto mt-2 max-w-3xl text-4xl font-extrabold leading-snug text-sand-100 sm:text-5xl">
+                            {t('tours.title')}
+                        </h1>
+                        <p className="mx-auto mt-4 max-w-2xl leading-loose text-sand-100/70">{t('tours.subtitle')}</p>
+                    </div>
+                </section>
+            </Reveal>
 
+            <Reveal>
             <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6">
                 {/* Filters — every change re-queries the server (Inertia, state preserved) */}
-                <div className="grid gap-3 rounded-lg border border-gold-500/40 bg-white/80 p-4 shadow-lg shadow-ink-900/5 backdrop-blur sm:grid-cols-2 lg:grid-cols-5">
+                <div className="grid gap-3 rounded-lg bg-nile-950/70 p-4 shadow-lg shadow-black/25 ring-1 ring-white/10 backdrop-blur sm:grid-cols-2 lg:grid-cols-5">
                     <input
                         type="search"
                         value={search}
@@ -126,8 +130,8 @@ export default function ToursIndex({ tours, destinations, types, filters }) {
                 </div>
 
                 <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
-                    <p className="text-sm font-medium text-ink-900/60">
-                        <span className="font-display text-lg font-bold text-gold-deep">{tours.total}</span>{' '}
+                    <p className="text-sm font-medium text-sand-100/55">
+                        <span className="font-display text-lg font-bold text-gold-300">{tours.total}</span>{' '}
                         {t('tours.results')}
                     </p>
                     {hasFilters && (
@@ -137,7 +141,7 @@ export default function ToursIndex({ tours, destinations, types, filters }) {
                                 setSearch('');
                                 apply({ search: '', destination: '', type: '', max_price: '', sort: filters.sort });
                             }}
-                            className="text-sm font-semibold text-lapis-600 transition-colors hover:text-gold-deep"
+                            className="text-sm font-semibold text-gold-300 transition-colors hover:text-gold-500"
                         >
                             {t('tours.resetFilters')}
                         </button>
@@ -151,12 +155,12 @@ export default function ToursIndex({ tours, destinations, types, filters }) {
                         ))}
                     </div>
                 ) : (
-                    <div className="mt-6 rounded-lg bg-white p-12 text-center shadow-sm ring-1 ring-sand-300">
+                    <div className="mt-6 rounded-lg bg-nile-950/70 p-12 text-center shadow-lg shadow-black/25 ring-1 ring-white/10 backdrop-blur">
                         <p aria-hidden="true" className="font-glyph text-5xl text-gold-500/60">𓂀</p>
-                        <h2 className="font-display mt-4 text-2xl font-bold text-nile-950">
+                        <h2 className="font-display mt-4 text-2xl font-bold text-sand-100">
                             {t('tours.noResultsTitle')}
                         </h2>
-                        <p className="mx-auto mt-2 max-w-md text-ink-900/60">{t('tours.noResultsText')}</p>
+                        <p className="mx-auto mt-2 max-w-md text-sand-100/55">{t('tours.noResultsText')}</p>
                     </div>
                 )}
 
@@ -171,15 +175,15 @@ export default function ToursIndex({ tours, destinations, types, filters }) {
                                     preserveScroll
                                     className={`rounded-md px-4 py-2 text-sm font-semibold transition-colors ${
                                         link.active
-                                            ? 'bg-nile-800 text-sand-100'
-                                            : 'bg-white text-ink-900/70 ring-1 ring-sand-300 hover:text-gold-deep'
+                                            ? 'bg-gold-500 text-ink-900'
+                                            : 'bg-white/5 text-sand-100/70 ring-1 ring-white/10 hover:text-gold-300'
                                     }`}
                                     dangerouslySetInnerHTML={{ __html: link.label }}
                                 />
                             ) : (
                                 <span
                                     key={index}
-                                    className="rounded-md px-4 py-2 text-sm text-ink-900/35"
+                                    className="rounded-md px-4 py-2 text-sm text-sand-100/35"
                                     dangerouslySetInnerHTML={{ __html: link.label }}
                                 />
                             ),
@@ -187,6 +191,7 @@ export default function ToursIndex({ tours, destinations, types, filters }) {
                     </nav>
                 )}
             </section>
+            </Reveal>
         </AppLayout>
     );
 }

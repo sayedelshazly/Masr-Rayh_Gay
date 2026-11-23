@@ -1,6 +1,7 @@
 import { Head, Link } from '@inertiajs/react';
 import AppLayout from '../../Layouts/AppLayout';
 import TourCard from '../../Components/TourCard';
+import Reveal from '../../Components/Reveal';
 import { useLocale } from '../../i18n/LocaleContext';
 import { localized } from '../../lib/format';
 
@@ -8,7 +9,7 @@ export default function DestinationShow({ destination, tours }) {
     const { t, locale } = useLocale();
 
     return (
-        <AppLayout>
+        <AppLayout backdrop={destination.image ?? undefined}>
             <Head title={`${localized(destination, 'name', locale)} — ${t('brand.name')}`} />
 
             {/* Hero band: photo under a dark nile overlay (gradient fallback) */}
@@ -53,24 +54,26 @@ export default function DestinationShow({ destination, tours }) {
                 </div>
             </section>
 
-            <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-                <h2 className="font-display text-2xl font-bold text-nile-950 sm:text-3xl">
-                    {t('destinationPage.toursIn')}
-                </h2>
+            <Reveal>
+                <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
+                    <h2 className="font-display text-2xl font-bold text-sand-100 sm:text-3xl">
+                        {t('destinationPage.toursIn')}
+                    </h2>
 
-                {tours.length > 0 ? (
-                    <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                        {tours.map((tour) => (
-                            <TourCard key={tour.id} tour={tour} />
-                        ))}
-                    </div>
-                ) : (
-                    <div className="mt-6 rounded-lg bg-white p-12 text-center shadow-sm ring-1 ring-sand-300">
-                        <p aria-hidden="true" className="font-glyph text-5xl text-gold-500/60">𓂀</p>
-                        <p className="mx-auto mt-4 max-w-md text-ink-900/60">{t('destinationPage.noTours')}</p>
-                    </div>
-                )}
-            </section>
+                    {tours.length > 0 ? (
+                        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                            {tours.map((tour) => (
+                                <TourCard key={tour.id} tour={tour} />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="mt-6 rounded-lg bg-nile-950/70 p-12 text-center shadow-lg shadow-black/25 ring-1 ring-white/10 backdrop-blur">
+                            <p aria-hidden="true" className="font-glyph text-5xl text-gold-500/60">𓂀</p>
+                            <p className="mx-auto mt-4 max-w-md text-sand-100/60">{t('destinationPage.noTours')}</p>
+                        </div>
+                    )}
+                </section>
+            </Reveal>
         </AppLayout>
     );
 }

@@ -6,7 +6,7 @@ export default function DestinationCard({ destination }) {
     const { t, locale } = useLocale();
 
     return (
-        <article className="group flex flex-col overflow-hidden rounded-lg bg-white text-ink-900 shadow-md shadow-ink-900/5 ring-1 ring-sand-300 transition duration-300 ease-stone hover:-translate-y-1 hover:shadow-xl">
+        <article className="group flex flex-col overflow-hidden rounded-lg bg-nile-950/70 shadow-lg shadow-black/25 ring-1 ring-white/10 backdrop-blur transition duration-300 ease-stone hover:-translate-y-1 hover:shadow-xl">
             {/* Photo header; gradient + glyph fallback when no photo exists */}
             <div className="relative flex h-44 items-end overflow-hidden p-4">
                 {destination.image ? (
@@ -32,14 +32,14 @@ export default function DestinationCard({ destination }) {
                 </h3>
             </div>
             <div className="flex flex-1 flex-col p-5">
-                <p className="min-h-12 text-sm leading-relaxed text-ink-900/65">
+                <p className="min-h-12 text-sm leading-relaxed text-sand-100/70">
                     {localized(destination, 'tagline', locale)}
                 </p>
                 <div className="mt-4 flex items-center justify-between">
                     {destination.from_price != null ? (
-                        <p className="text-sm text-ink-900/60">
+                        <p className="text-sm text-sand-100/60">
                             {t('destinations.from')}{' '}
-                            <span className="font-display text-lg font-bold text-gold-deep">
+                            <span className="font-display text-lg font-bold text-gold-300">
                                 {formatPrice(destination.from_price, locale)}
                             </span>{' '}
                             {t('destinations.currency')}
@@ -49,13 +49,13 @@ export default function DestinationCard({ destination }) {
                     )}
                     <Link
                         href={`/destinations/${destination.slug}`}
-                        className="text-sm font-semibold text-lapis-600 transition-colors hover:text-gold-deep"
+                        className="text-sm font-semibold text-gold-300 transition-colors hover:text-gold-500"
                     >
                         {t('destinationPage.viewDestination')} ←
                     </Link>
                 </div>
                 {destination.tours_count != null && (
-                    <p className="mt-2 text-xs text-ink-900/50">
+                    <p className="mt-2 text-xs text-sand-100/50">
                         {destination.tours_count} {t('destinationPage.toursCount')}
                     </p>
                 )}

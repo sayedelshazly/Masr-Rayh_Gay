@@ -1,17 +1,18 @@
 import { Head, Link, useForm } from '@inertiajs/react';
 import AppLayout from '../../Layouts/AppLayout';
+import Reveal from '../../Components/Reveal';
 import { useLocale } from '../../i18n/LocaleContext';
 
 const fieldClass =
-    'w-full rounded-md border border-gold-500/40 bg-white px-4 py-3 text-sm font-medium text-ink-900 outline-none transition-colors focus:border-gold-deep';
-const labelClass = 'font-display mb-1.5 block text-sm font-bold text-nile-950';
+    'w-full rounded-md border border-sand-100/20 bg-white/5 px-4 py-3 text-sm font-medium text-sand-100 outline-none transition-colors placeholder:text-sand-100/35 focus:border-gold-500';
+const labelClass = 'font-display mb-1.5 block text-sm font-bold text-sand-100/80';
 
 function FieldError({ message }) {
     if (!message) {
         return null;
     }
 
-    return <p className="mt-1.5 text-xs font-medium text-carnelian-600">{message}</p>;
+    return <p className="mt-1.5 text-xs font-medium text-red-300">{message}</p>;
 }
 
 export default function Register() {
@@ -38,11 +39,12 @@ export default function Register() {
         <AppLayout>
             <Head title={t('auth.metaRegister')} />
 
-            <section className="bg-gradient-to-b from-sand-300 via-sand-100 to-sand-100">
+            <section>
                 <div className="mx-auto max-w-md px-4 py-14 sm:px-6">
-                    <div className="rounded-lg bg-white p-6 shadow-sm ring-1 ring-sand-300 sm:p-8">
-                        <h1 className="font-display text-2xl font-extrabold text-nile-950">{t('auth.register')}</h1>
-                        <p className="mt-2 text-sm leading-relaxed text-ink-900/65">{t('auth.registerSubtitle')}</p>
+                    <Reveal>
+                    <div className="rounded-lg bg-nile-950/70 p-6 shadow-lg shadow-black/25 ring-1 ring-white/10 backdrop-blur sm:p-8">
+                        <h1 className="font-display text-2xl font-extrabold text-sand-100">{t('auth.register')}</h1>
+                        <p className="mt-2 text-sm leading-relaxed text-sand-100/75">{t('auth.registerSubtitle')}</p>
 
                         <form onSubmit={submit} noValidate className="mt-6 space-y-5">
                             <div>
@@ -110,13 +112,14 @@ export default function Register() {
                             </button>
                         </form>
 
-                        <p className="mt-6 text-center text-sm text-ink-900/65">
+                        <p className="mt-6 text-center text-sm text-sand-100/55">
                             {t('auth.haveAccount')}{' '}
-                            <Link href="/login" className="font-bold text-gold-deep transition-colors hover:text-lapis-600">
+                            <Link href="/login" className="font-bold text-gold-300 transition-colors hover:text-gold-500">
                                 {t('auth.login')}
                             </Link>
                         </p>
                     </div>
+                    </Reveal>
                 </div>
             </section>
         </AppLayout>

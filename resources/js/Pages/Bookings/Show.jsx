@@ -1,13 +1,14 @@
 import { Head, Link } from '@inertiajs/react';
 import AppLayout from '../../Layouts/AppLayout';
+import Reveal from '../../Components/Reveal';
 import { DurationLabel } from '../../Components/TourCard';
 import { useLocale } from '../../i18n/LocaleContext';
 import { formatPrice, localized } from '../../lib/format';
 
 const STATUS_STYLES = {
-    pending: 'bg-gold/20 text-gold-deep ring-gold/50',
-    confirmed: 'bg-turquoise-600/15 text-ink ring-turquoise-600/50',
-    cancelled: 'bg-carnelian-600/10 text-carnelian-600 ring-carnelian-600/40',
+    pending: 'bg-gold-500/15 text-gold-300 ring-gold-500/40',
+    confirmed: 'bg-teal-400/10 text-teal-300 ring-teal-400/40',
+    cancelled: 'bg-red-400/10 text-red-300 ring-red-400/40',
 };
 
 function formatDate(value, locale) {
@@ -30,8 +31,8 @@ function formatDate(value, locale) {
 function DetailRow({ label, children }) {
     return (
         <div className="flex flex-wrap items-baseline justify-between gap-2 py-3">
-            <span className="text-sm font-medium text-ink/55">{label}</span>
-            <span className="font-display text-base font-bold text-ink">{children}</span>
+            <span className="text-sm font-medium text-sand-100/60">{label}</span>
+            <span className="font-display text-base font-bold text-sand-100">{children}</span>
         </div>
     );
 }
@@ -50,74 +51,78 @@ export default function BookingShow({ booking }) {
         .join(' · ');
 
     return (
-        <AppLayout>
+        <AppLayout backdrop={tour.image ?? undefined}>
             <Head title={t('booking.confirmationMetaTitle')} />
 
-            <section className="bg-gradient-to-b from-sand via-ivory to-ivory">
+            <section>
                 <div className="mx-auto max-w-3xl px-4 py-14 text-center sm:px-6">
-                    <span
-                        aria-hidden="true"
-                        className="font-display mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gold text-4xl font-extrabold text-ink shadow-lg shadow-gold/30"
-                    >
-                        ✓
-                    </span>
-                    <h1 className="font-display mt-6 text-3xl font-extrabold leading-snug text-lapis-deep sm:text-4xl">
-                        {t('booking.successTitle')}
-                    </h1>
-                    <p className="mx-auto mt-4 max-w-2xl leading-loose text-ink/70">{t('booking.successText')}</p>
+                    <Reveal>
+                        <span
+                            aria-hidden="true"
+                            className="font-display mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gold-500 text-4xl font-extrabold text-ink-900 shadow-lg shadow-gold-500/30"
+                        >
+                            ✓
+                        </span>
+                        <h1 className="font-display mt-6 text-3xl font-extrabold leading-snug text-sand-100 sm:text-4xl">
+                            {t('booking.successTitle')}
+                        </h1>
+                        <p className="mx-auto mt-4 max-w-2xl leading-loose text-sand-100/75">{t('booking.successText')}</p>
+                    </Reveal>
                 </div>
             </section>
 
             <section className="mx-auto max-w-3xl px-4 pb-16 sm:px-6">
+                <Reveal>
                 {/* Reference card */}
-                <div className="rounded-3xl border-2 border-dashed border-gold/60 bg-white px-6 py-7 text-center shadow-sm">
-                    <p className="text-sm font-semibold text-ink/55">{t('booking.reference')}</p>
-                    <p className="font-display mt-2 text-4xl font-extrabold tracking-[0.2em] text-gold-deep sm:text-5xl">
+                <div className="rounded-lg border-2 border-dashed border-gold-500/50 bg-nile-950/70 px-6 py-7 text-center shadow-lg shadow-black/25 backdrop-blur">
+                    <p className="text-sm font-semibold text-sand-100/55">{t('booking.reference')}</p>
+                    <p className="font-display mt-2 text-4xl font-extrabold tracking-[0.2em] text-gold-300 sm:text-5xl">
                         {booking.reference}
                     </p>
-                    <p className="mt-3 text-xs leading-relaxed text-ink/50">{t('booking.referenceHint')}</p>
+                    <p className="mt-3 text-xs leading-relaxed text-sand-100/55">{t('booking.referenceHint')}</p>
                     <span className={`mt-4 inline-block rounded-full px-4 py-1.5 text-sm font-bold ring-1 ${statusStyle}`}>
                         {t('booking.status')}: {t(`booking.statuses.${booking.status}`)}
                     </span>
                 </div>
 
                 {/* Booking details */}
-                <div className="mt-6 rounded-3xl bg-white px-6 py-3 shadow-sm ring-1 ring-sand sm:px-8">
+                <div className="mt-6 rounded-lg bg-nile-950/70 px-6 py-3 shadow-lg shadow-black/25 ring-1 ring-white/10 backdrop-blur sm:px-8">
                     <DetailRow label={t('booking.tourLabel')}>
-                        <Link href={`/tours/${tour.slug}`} className="text-lapis transition-colors hover:text-gold-deep">
+                        <Link href={`/tours/${tour.slug}`} className="text-gold-300 transition-colors hover:text-gold-500">
                             {localized(tour, 'title', locale)}
                         </Link>
                     </DetailRow>
-                    <div className="border-t border-sand" />
+                    <div className="border-t border-white/10" />
                     <DetailRow label={localized(destination, 'name', locale) || t('booking.tourLabel')}>
                         <span aria-hidden="true" className="me-2">{destination.glyph ?? '𓂀'}</span>
                         <DurationLabel tour={tour} />
                     </DetailRow>
-                    <div className="border-t border-sand" />
+                    <div className="border-t border-white/10" />
                     <DetailRow label={t('booking.dateLabel')}>{formatDate(booking.travel_date, locale)}</DetailRow>
-                    <div className="border-t border-sand" />
+                    <div className="border-t border-white/10" />
                     <DetailRow label={t('booking.guestsLine')}>{guests}</DetailRow>
-                    <div className="border-t border-sand" />
+                    <div className="border-t border-white/10" />
                     <DetailRow label={t('booking.customerLabel')}>{booking.customer_name}</DetailRow>
-                    <div className="border-t border-sand" />
+                    <div className="border-t border-white/10" />
                     <DetailRow label={t('booking.totalLabel')}>
-                        <span className="text-2xl font-extrabold text-gold-deep">
+                        <span className="font-display text-2xl font-extrabold text-gold-300">
                             {formatPrice(booking.total_price, locale)}{' '}
-                            <span className="text-sm font-semibold text-ink/70">{t('common.currency')}</span>
+                            <span className="text-sm font-semibold text-sand-100/60">{t('common.currency')}</span>
                         </span>
                     </DetailRow>
                 </div>
+                </Reveal>
 
                 <div className="mt-8 flex flex-wrap justify-center gap-3">
                     <Link
                         href="/tours"
-                        className="font-display rounded-full bg-gold px-6 py-3 font-bold text-ink transition-colors hover:bg-gold-deep hover:text-ivory"
+                        className="font-display rounded-md bg-gold-500 px-6 py-3 font-bold text-ink-900 transition-colors hover:bg-gold-300"
                     >
                         {t('booking.browseTours')}
                     </Link>
                     <Link
                         href={`/tours/${tour.slug}`}
-                        className="font-display rounded-full bg-white px-6 py-3 font-bold text-lapis ring-1 ring-sand transition-colors hover:text-gold-deep"
+                        className="font-display rounded-md border border-gold-500 bg-transparent px-6 py-3 font-bold text-gold-300 ring-1 ring-white/10 backdrop-blur transition-colors hover:bg-gold-500/10"
                     >
                         {t('booking.backToTour')}
                     </Link>

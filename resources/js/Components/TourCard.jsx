@@ -19,8 +19,8 @@ export default function TourCard({ tour }) {
 
     return (
         <article
-            className={`group flex flex-col overflow-hidden rounded-lg bg-white text-ink-900 shadow-md shadow-ink-900/5 transition duration-300 ease-stone hover:-translate-y-1 hover:shadow-xl ${
-                tour.is_featured ? 'border border-gold-500 ring-1 ring-gold-500' : 'ring-1 ring-sand-300'
+            className={`group flex flex-col overflow-hidden rounded-lg bg-nile-950/70 shadow-lg shadow-black/25 backdrop-blur transition duration-300 ease-stone hover:-translate-y-1 hover:shadow-2xl ${
+                tour.is_featured ? 'border border-gold-500 ring-1 ring-gold-500' : 'ring-1 ring-white/10'
             }`}
         >
             {/* Photo header; gradient + glyph fallback when no photo exists */}
@@ -59,7 +59,7 @@ export default function TourCard({ tour }) {
             </div>
 
             <div className="flex flex-1 flex-col p-5">
-                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-medium text-ink-900/55">
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-medium text-sand-100/55">
                     <span>{localized(destination, 'name', locale)}</span>
                     <span aria-hidden="true">•</span>
                     <DurationLabel tour={tour} />
@@ -67,22 +67,22 @@ export default function TourCard({ tour }) {
                     <span>{t(`tours.types.${tour.type}`)}</span>
                 </div>
 
-                <p className="mt-3 line-clamp-2 min-h-10 text-sm leading-relaxed text-ink-900/65">
+                <p className="mt-3 line-clamp-2 min-h-10 text-sm leading-relaxed text-sand-100/70">
                     {localized(tour, 'summary', locale)}
                 </p>
 
-                <div className="mt-4 flex items-end justify-between border-t border-sand-300 pt-4">
-                    <p className="text-sm text-ink-900/60">
+                <div className="mt-4 flex items-end justify-between border-t border-white/10 pt-4">
+                    <p className="text-sm text-sand-100/60">
                         {tour.old_price && (
                             <span className="me-2 text-xs line-through">
                                 {formatPrice(tour.old_price, locale)}
                             </span>
                         )}
-                        <span className="font-display text-xl font-bold text-gold-deep">
+                        <span className="font-display text-xl font-bold text-gold-300">
                             {formatPrice(tour.price, locale)}
                         </span>{' '}
                         {t('common.currency')}
-                        <span className="block text-xs text-ink-900/50">{t('common.perPerson')}</span>
+                        <span className="block text-xs text-sand-100/50">{t('common.perPerson')}</span>
                     </p>
                     <Button href={`/tours/${tour.slug}`} className="px-4">
                         {t('common.viewDetails')}

@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Head, Link } from '@inertiajs/react';
 import AppLayout from '../../Layouts/AppLayout';
+import Reveal from '../../Components/Reveal';
 import { useLocale } from '../../i18n/LocaleContext';
 
 export default function AcademyGlyphs({ glyphs, categories }) {
@@ -23,7 +24,9 @@ export default function AcademyGlyphs({ glyphs, categories }) {
             type="button"
             onClick={() => setFilter(key)}
             className={`font-display rounded-full px-5 py-2 text-sm font-bold transition-colors ${
-                filter === key ? 'bg-lapis-deep text-gold-light' : 'bg-white text-ink/75 ring-1 ring-sand hover:bg-sand'
+                filter === key
+                    ? 'bg-gold-500 text-ink-900'
+                    : 'bg-white/5 text-sand-100/75 ring-1 ring-white/10 hover:ring-gold-500/50'
             }`}
         >
             {label}
@@ -34,24 +37,26 @@ export default function AcademyGlyphs({ glyphs, categories }) {
         <AppLayout>
             <Head title={page.glyphsMeta} />
 
-            <section className="bg-gradient-to-b from-sand via-ivory to-ivory">
-                <div className="mx-auto max-w-7xl px-4 pb-8 pt-12 text-center sm:px-6">
-                    <p className="font-display text-sm font-bold tracking-wide text-gold-deep">{t('academy.kicker')}</p>
-                    <h1 className="font-display mx-auto mt-2 max-w-3xl text-4xl font-extrabold leading-snug text-lapis-deep sm:text-5xl">
+            <section className="bg-nile-950 text-sand-100">
+                <div className="mx-auto max-w-7xl px-4 pb-10 pt-12 text-center sm:px-6">
+                    <p className="font-display text-sm font-bold tracking-wide text-gold-300">{t('academy.kicker')}</p>
+                    <h1 className="font-display mx-auto mt-2 max-w-3xl text-4xl font-extrabold leading-snug text-sand-100 sm:text-5xl">
                         {page.glyphsTitle}
                     </h1>
-                    <p className="mx-auto mt-4 max-w-2xl leading-loose text-ink/70">{page.glyphsSubtitle}</p>
-                    <Link href="/academy" className="mt-4 inline-block text-sm font-bold text-gold-deep hover:underline">
+                    <p className="mx-auto mt-4 max-w-2xl leading-loose text-sand-100/75">{page.glyphsSubtitle}</p>
+                    <Link href="/academy" className="mt-4 inline-block text-sm font-bold text-gold-300 hover:underline">
                         ← {page.backToAcademy}
                     </Link>
                 </div>
             </section>
 
-            <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6">
-                <div className="flex flex-wrap justify-center gap-2">
-                    {filterButton('all', page.categories.all)}
-                    {categories.map((category) => filterButton(category, page.categories[category] ?? category))}
-                </div>
+            <section className="mx-auto max-w-7xl px-4 pb-16 pt-10 sm:px-6">
+                <Reveal>
+                    <div className="flex flex-wrap justify-center gap-2">
+                        {filterButton('all', page.categories.all)}
+                        {categories.map((category) => filterButton(category, page.categories[category] ?? category))}
+                    </div>
+                </Reveal>
 
                 <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_340px]">
                     {/* Chart grid */}
@@ -62,26 +67,20 @@ export default function AcademyGlyphs({ glyphs, categories }) {
                                 type="button"
                                 onClick={() => setSelectedId(glyph.id)}
                                 aria-pressed={selected?.id === glyph.id}
-                                className={`rounded-3xl p-4 text-center shadow-sm ring-1 transition-all ${
+                                className={`rounded-lg p-4 text-center ring-1 transition-all duration-300 ease-stone ${
                                     selected?.id === glyph.id
-                                        ? 'bg-lapis-deep ring-gold'
-                                        : 'bg-white ring-sand hover:ring-gold/60'
+                                        ? 'bg-gold-500/15 ring-gold-500'
+                                        : 'bg-white/5 ring-white/10 hover:-translate-y-0.5 hover:ring-gold-500/60'
                                 }`}
                             >
-                                <span
-                                    className={`block font-glyph text-4xl ${selected?.id === glyph.id ? 'text-gold-light' : 'text-lapis'}`}
-                                    aria-hidden="true"
-                                >
+                                <span className="block font-glyph text-4xl text-gold-300" aria-hidden="true">
                                     {glyph.symbol}
                                 </span>
-                                <span
-                                    className={`mt-2 block text-sm font-extrabold ${selected?.id === glyph.id ? 'text-ivory' : 'text-lapis-deep'}`}
-                                    dir="ltr"
-                                >
+                                <span className="mt-2 block text-sm font-extrabold text-sand-100" dir="ltr">
                                     {glyph.transliteration}
                                 </span>
                                 <span
-                                    className={`block truncate text-[11px] ${selected?.id === glyph.id ? 'text-ivory/65' : 'text-ink/55'}`}
+                                    className={`block truncate text-[11px] ${selected?.id === glyph.id ? 'text-sand-100/75' : 'text-sand-100/55'}`}
                                 >
                                     {pick(glyph, 'name')}
                                 </span>
@@ -90,40 +89,40 @@ export default function AcademyGlyphs({ glyphs, categories }) {
                     </div>
 
                     {/* Detail card */}
-                    <aside className="self-start rounded-3xl bg-lapis-deep p-6 text-ivory lg:sticky lg:top-32">
+                    <aside className="self-start rounded-lg bg-nile-950/70 p-6 text-sand-100 shadow-lg shadow-black/25 ring-1 ring-white/10 backdrop-blur lg:sticky lg:top-32">
                         {selected ? (
                             <>
-                                <div className="flex items-center justify-center rounded-3xl border border-gold/40 bg-lapis/40 py-6">
-                                    <span className="font-glyph text-8xl text-gold-light" aria-hidden="true">
+                                <div className="flex items-center justify-center rounded-lg border border-gold-500/40 bg-nile-800/40 py-6">
+                                    <span className="font-glyph text-8xl text-gold-300" aria-hidden="true">
                                         {selected.symbol}
                                     </span>
                                 </div>
                                 <h2 className="font-display mt-5 text-2xl font-bold">{pick(selected, 'name')}</h2>
                                 <dl className="mt-4 space-y-3 text-sm leading-relaxed">
                                     <div>
-                                        <dt className="font-bold text-gold-light">{page.transliteration}</dt>
+                                        <dt className="font-bold text-gold-300">{page.transliteration}</dt>
                                         <dd dir="ltr" className="text-start text-lg font-bold">
                                             {selected.transliteration}
                                         </dd>
                                     </div>
                                     {selected.pronunciation && (
                                         <div>
-                                            <dt className="font-bold text-gold-light">{page.pronunciation}</dt>
-                                            <dd className="text-ivory/85">{selected.pronunciation}</dd>
+                                            <dt className="font-bold text-gold-300">{page.pronunciation}</dt>
+                                            <dd className="text-sand-100/85">{selected.pronunciation}</dd>
                                         </div>
                                     )}
                                     <div>
-                                        <dt className="font-bold text-gold-light">{page.meaning}</dt>
-                                        <dd className="text-ivory/85">{pick(selected, 'meaning')}</dd>
+                                        <dt className="font-bold text-gold-300">{page.meaning}</dt>
+                                        <dd className="text-sand-100/85">{pick(selected, 'meaning')}</dd>
                                     </div>
                                     <div>
-                                        <dt className="font-bold text-gold-light">{page.categories[selected.category]}</dt>
-                                        <dd className="text-ivory/60">{page.categories[selected.category]}</dd>
+                                        <dt className="font-bold text-gold-300">{page.categories[selected.category]}</dt>
+                                        <dd className="text-sand-100/60">{page.categories[selected.category]}</dd>
                                     </div>
                                 </dl>
                             </>
                         ) : (
-                            <p className="text-ivory/75">{page.selectGlyph}</p>
+                            <p className="text-sand-100/75">{page.selectGlyph}</p>
                         )}
                     </aside>
                 </div>

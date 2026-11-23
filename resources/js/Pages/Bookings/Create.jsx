@@ -1,19 +1,20 @@
 import { Head, Link, useForm } from '@inertiajs/react';
 import AppLayout from '../../Layouts/AppLayout';
+import Reveal from '../../Components/Reveal';
 import { DurationLabel } from '../../Components/TourCard';
 import { useLocale } from '../../i18n/LocaleContext';
 import { formatPrice, localized } from '../../lib/format';
 
 const fieldClass =
-    'w-full rounded-md border border-gold-500/40 bg-white px-4 py-3 text-sm font-medium text-ink-900 outline-none transition-colors focus:border-gold-deep';
-const labelClass = 'font-display mb-1.5 block text-sm font-bold text-nile-950';
+    'w-full rounded-md border border-sand-100/20 bg-white/5 px-4 py-3 text-sm font-medium text-sand-100 outline-none transition-colors placeholder:text-sand-100/35 focus:border-gold-500';
+const labelClass = 'font-display mb-1.5 block text-sm font-bold text-sand-100/80';
 
 function FieldError({ message }) {
     if (!message) {
         return null;
     }
 
-    return <p className="mt-1.5 text-xs font-medium text-carnelian-600">{message}</p>;
+    return <p className="mt-1.5 text-xs font-medium text-red-300">{message}</p>;
 }
 
 export default function BookingCreate({ tour, initial }) {
@@ -46,17 +47,19 @@ export default function BookingCreate({ tour, initial }) {
     };
 
     return (
-        <AppLayout>
+        <AppLayout backdrop={tour.image ?? undefined}>
             <Head title={`${t('booking.metaTitle')}`} />
 
             {/* Hero band */}
-            <section className="border-b border-sand-300 bg-sand-300/50">
+            <section className="border-b border-white/10">
                 <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-                    <Link href={`/tours/${tour.slug}`} className="text-sm font-semibold text-lapis-600 transition-colors hover:text-gold-deep">
-                        ← {t('booking.backToTour')}
-                    </Link>
-                    <h1 className="font-display mt-4 text-3xl font-extrabold text-nile-950 sm:text-4xl">{t('booking.title')}</h1>
-                    <p className="mt-3 max-w-2xl leading-loose text-ink-900/70">{t('booking.subtitle')}</p>
+                    <Reveal>
+                        <Link href={`/tours/${tour.slug}`} className="text-sm font-semibold text-gold-300 transition-colors hover:text-gold-500">
+                            ← {t('booking.backToTour')}
+                        </Link>
+                        <h1 className="font-display mt-4 text-3xl font-extrabold text-sand-100 sm:text-4xl">{t('booking.title')}</h1>
+                        <p className="mt-3 max-w-2xl leading-loose text-sand-100/75">{t('booking.subtitle')}</p>
+                    </Reveal>
                 </div>
             </section>
 
@@ -64,8 +67,8 @@ export default function BookingCreate({ tour, initial }) {
                 <form onSubmit={submit} noValidate>
                     <div className="grid items-start gap-10 lg:grid-cols-[1fr_340px]">
                         {/* Booking form */}
-                        <div className="rounded-lg bg-white p-6 shadow-sm ring-1 ring-sand-300 sm:p-8">
-                            <h2 className="font-display text-xl font-bold text-nile-950">{t('booking.formTitle')}</h2>
+                        <div className="rounded-lg bg-nile-950/70 p-6 shadow-lg shadow-black/25 ring-1 ring-white/10 backdrop-blur sm:p-8">
+                            <h2 className="font-display text-xl font-bold text-sand-100">{t('booking.formTitle')}</h2>
 
                             <div className="mt-6 grid gap-5 sm:grid-cols-3">
                                 <div>
@@ -74,7 +77,7 @@ export default function BookingCreate({ tour, initial }) {
                                         id="travel_date"
                                         type="date"
                                         min={today}
-                                        className={fieldClass}
+                                        className={`${fieldClass} [color-scheme:dark]`}
                                         value={data.travel_date}
                                         onChange={(event) => setData('travel_date', event.target.value)}
                                     />
@@ -104,7 +107,7 @@ export default function BookingCreate({ tour, initial }) {
                                         value={data.children}
                                         onChange={(event) => setData('children', event.target.value)}
                                     />
-                                    <p className="mt-1.5 text-xs font-medium text-gold-deep">{t('booking.childrenHint')}</p>
+                                    <p className="mt-1.5 text-xs font-medium text-sand-100/55">{t('booking.childrenHint')}</p>
                                     <FieldError message={errors.children} />
                                 </div>
                             </div>
@@ -164,32 +167,32 @@ export default function BookingCreate({ tour, initial }) {
                         </div>
 
                         {/* Tour summary */}
-                        <aside className="rounded-lg border border-gold-500/50 bg-white p-6 shadow-xl shadow-ink-900/5 lg:sticky lg:top-40">
-                            <h2 className="font-display text-lg font-bold text-nile-950">{t('booking.summary')}</h2>
-                            <p className="font-display mt-3 text-xl font-bold leading-snug text-ink-900">{localized(tour, 'title', locale)}</p>
-                            <div className="mt-3 space-y-2 text-sm text-ink-900/70">
-                                <p className="font-semibold">{localized(destination, 'name', locale)}</p>
+                        <aside className="rounded-lg bg-nile-950/70 p-6 shadow-lg shadow-black/25 ring-1 ring-white/10 backdrop-blur lg:sticky lg:top-40">
+                            <h2 className="font-display text-lg font-bold text-sand-100">{t('booking.summary')}</h2>
+                            <p className="font-display mt-3 text-xl font-bold leading-snug text-sand-100">{localized(tour, 'title', locale)}</p>
+                            <div className="mt-3 space-y-2 text-sm text-sand-100/60">
+                                <p className="font-semibold text-sand-100">{localized(destination, 'name', locale)}</p>
                                 <p className="flex justify-between">
                                     <span><DurationLabel tour={tour} /></span>
-                                    <span>★ {Number(tour.rating).toFixed(1)} ({tour.reviews_count})</span>
+                                    <span className="text-sand-100">★ {Number(tour.rating).toFixed(1)} ({tour.reviews_count})</span>
                                 </p>
                             </div>
 
-                            <div className="mt-5 space-y-2.5 border-t border-sand-300 pt-5 text-sm text-ink-900/75">
+                            <div className="mt-5 space-y-2.5 border-t border-white/10 pt-5 text-sm text-sand-100/60">
                                 <p className="flex justify-between">
                                     <span>{adults} × {t('booking.perAdult')}</span>
-                                    <span className="font-semibold">{formatPrice(price * adults, locale)} {t('common.currency')}</span>
+                                    <span className="font-semibold text-sand-100">{formatPrice(price * adults, locale)} {t('common.currency')}</span>
                                 </p>
                                 {childrenCount > 0 && (
                                     <p className="flex justify-between">
                                         <span>{childrenCount} × {t('booking.perChild')}</span>
-                                        <span className="font-semibold">{formatPrice(childPrice * childrenCount, locale)} {t('common.currency')}</span>
+                                        <span className="font-semibold text-sand-100">{formatPrice(childPrice * childrenCount, locale)} {t('common.currency')}</span>
                                     </p>
                                 )}
-                                <p className="flex justify-between border-t border-sand-300 pt-3 text-base">
-                                    <span className="font-display font-bold text-nile-950">{t('booking.total')}</span>
-                                    <span className="font-display text-2xl font-extrabold text-gold-deep">
-                                        {formatPrice(total, locale)} <span className="text-sm font-semibold text-ink-900/70">{t('common.currency')}</span>
+                                <p className="flex justify-between border-t border-white/10 pt-3 text-base">
+                                    <span className="font-display font-bold text-sand-100">{t('booking.total')}</span>
+                                    <span className="font-display text-2xl font-extrabold text-gold-300">
+                                        {formatPrice(total, locale)} <span className="text-sm font-semibold text-sand-100/60">{t('common.currency')}</span>
                                     </span>
                                 </p>
                             </div>
@@ -201,7 +204,7 @@ export default function BookingCreate({ tour, initial }) {
                             >
                                 {processing ? t('booking.processing') : t('booking.confirm')}
                             </button>
-                            <p className="mt-3 text-center text-xs leading-relaxed text-ink-900/50">{t('booking.payLaterNote')}</p>
+                            <p className="mt-3 text-center text-xs leading-relaxed text-sand-100/55">{t('booking.payLaterNote')}</p>
                         </aside>
                     </div>
                 </form>

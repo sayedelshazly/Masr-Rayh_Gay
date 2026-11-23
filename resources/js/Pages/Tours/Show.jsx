@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { Head, Link } from '@inertiajs/react';
 import AppLayout from '../../Layouts/AppLayout';
+import Reveal from '../../Components/Reveal';
 import TourCard, { DurationLabel } from '../../Components/TourCard';
 import { useLocale } from '../../i18n/LocaleContext';
 import { formatPrice, localized } from '../../lib/format';
 
 function SectionTitle({ children }) {
-    return <h2 className="font-display text-2xl font-bold text-nile-950 sm:text-3xl">{children}</h2>;
+    return <h2 className="font-display text-2xl font-bold text-sand-100 sm:text-3xl">{children}</h2>;
 }
 
 export default function TourShow({ tour, relatedTours }) {
@@ -33,11 +34,11 @@ export default function TourShow({ tour, relatedTours }) {
     const bookHref = `/tours/${tour.slug}/book?${bookParams.toString()}`;
 
     const miniFieldClass =
-        'w-full rounded-md border border-gold-500/40 bg-white px-3 py-2 text-sm font-medium text-ink-900 outline-none transition-colors focus:border-gold-deep';
-    const miniLabelClass = 'mb-1 block text-xs font-bold text-ink-900/60';
+        'w-full rounded-md border border-sand-100/20 bg-white/5 px-3 py-2 text-sm font-medium text-sand-100 outline-none transition-colors placeholder:text-sand-100/35 focus:border-gold-500 [color-scheme:dark]';
+    const miniLabelClass = 'mb-1 block text-xs font-bold text-sand-100/55';
 
     return (
-        <AppLayout>
+        <AppLayout backdrop={tour.image ?? undefined}>
             <Head title={`${localized(tour, 'title', locale)} — ${t('brand.name')}`} />
 
             {/* Hero band: photo under a dark nile overlay (gradient fallback) */}
@@ -55,7 +56,7 @@ export default function TourShow({ tour, relatedTours }) {
                     <div aria-hidden="true" className={`absolute inset-0 bg-gradient-to-br ${destination.gradient ?? 'from-nile-800 via-sky-600 to-nile-950'}`} />
                 )}
                 <div className="relative mx-auto max-w-7xl px-4 py-14 sm:px-6">
-                    <Link href="/tours" className="text-sm font-semibold text-white/85 transition-colors hover:text-gold-300">
+                    <Link href="/tours" className="text-sm font-semibold text-sand-100/85 transition-colors hover:text-gold-300">
                         ← {t('tours.show.back')}
                     </Link>
                     <div className="mt-6 flex flex-wrap items-start justify-between gap-6">
@@ -67,10 +68,10 @@ export default function TourShow({ tour, relatedTours }) {
                                 {' · '}
                                 {t(`tours.types.${tour.type}`)}
                             </p>
-                            <h1 className="font-display mt-2 text-3xl font-extrabold leading-snug text-white drop-shadow sm:text-5xl">
+                            <h1 className="font-display mt-2 text-3xl font-extrabold leading-snug text-sand-100 drop-shadow sm:text-5xl">
                                 {localized(tour, 'title', locale)}
                             </h1>
-                            <p className="mt-4 leading-loose text-white/85">{localized(tour, 'summary', locale)}</p>
+                            <p className="mt-4 leading-loose text-sand-100/85">{localized(tour, 'summary', locale)}</p>
                             <div className="mt-6 flex flex-wrap gap-3 text-sm font-semibold">
                                 <span className="rounded-sm bg-nile-950/60 px-4 py-2 text-gold-300">
                                     ★ {Number(tour.rating).toFixed(1)} · {tour.reviews_count} {t('common.reviews')}
@@ -84,7 +85,7 @@ export default function TourShow({ tour, relatedTours }) {
                             </div>
                         </div>
                         {!(tour.image ?? destination.image) && (
-                            <span aria-hidden="true" className="font-glyph hidden text-8xl text-white/50 lg:block">
+                            <span aria-hidden="true" className="font-glyph hidden text-8xl text-sand-100/50 lg:block">
                                 {destination.glyph ?? '𓂀'}
                             </span>
                         )}
@@ -92,10 +93,11 @@ export default function TourShow({ tour, relatedTours }) {
                 </div>
             </section>
 
+            <Reveal>
             <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
                 <div className="grid gap-10 lg:grid-cols-[1fr_340px]">
                     <div>
-                        <p className="leading-loose text-ink-900/75">{localized(tour, 'description', locale)}</p>
+                        <p className="leading-loose text-sand-100/75">{localized(tour, 'description', locale)}</p>
 
                         {/* Itinerary */}
                         <div className="mt-12">
@@ -106,14 +108,14 @@ export default function TourShow({ tour, relatedTours }) {
                                         {index < itinerary.length - 1 && (
                                             <span aria-hidden="true" className="absolute start-[22px] top-12 h-[calc(100%-3rem)] w-0.5 bg-gold-500/40" />
                                         )}
-                                        <span className="font-display z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-nile-950 text-base font-bold text-gold-500">
+                                        <span className="font-display z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-nile-950/80 text-base font-bold text-gold-300 ring-1 ring-gold-500/60 backdrop-blur">
                                             {day.day_number}
                                         </span>
                                         <div className="pt-1.5">
-                                            <h3 className="font-display text-lg font-bold text-nile-950">
+                                            <h3 className="font-display text-lg font-bold text-sand-100">
                                                 {t('tours.show.day')} {day.day_number}: {localized(day, 'title', locale)}
                                             </h3>
-                                            <p className="mt-1.5 leading-relaxed text-ink-900/65">
+                                            <p className="mt-1.5 leading-relaxed text-sand-100/75">
                                                 {localized(day, 'description', locale)}
                                             </p>
                                         </div>
@@ -128,8 +130,8 @@ export default function TourShow({ tour, relatedTours }) {
                                 <SectionTitle>{t('tours.show.includes')}</SectionTitle>
                                 <ul className="mt-5 grid gap-3 sm:grid-cols-2">
                                     {includes.map((item) => (
-                                        <li key={item} className="flex items-start gap-2.5 rounded-lg bg-white px-4 py-3 text-sm text-ink-900/75 shadow-sm ring-1 ring-sand-300">
-                                            <span aria-hidden="true" className="mt-0.5 font-bold text-gold-deep">✓</span>
+                                        <li key={item} className="flex items-start gap-2.5 rounded-lg bg-nile-950/70 px-4 py-3 text-sm text-sand-100/75 shadow-lg shadow-black/25 ring-1 ring-white/10 backdrop-blur">
+                                            <span aria-hidden="true" className="mt-0.5 font-bold text-gold-300">✓</span>
                                             {item}
                                         </li>
                                     ))}
@@ -138,8 +140,8 @@ export default function TourShow({ tour, relatedTours }) {
                         )}
 
                         {localized(tour, 'meeting_point', locale) && (
-                            <p className="mt-10 rounded-lg bg-sand-300/70 px-5 py-4 text-sm text-ink-900/75">
-                                <span className="font-display font-bold text-nile-950">{t('tours.show.meetingPoint')}: </span>
+                            <p className="mt-10 rounded-lg bg-nile-950/70 px-5 py-4 text-sm text-sand-100/75 shadow-lg shadow-black/25 ring-1 ring-white/10 backdrop-blur">
+                                <span className="font-display font-bold text-sand-100">{t('tours.show.meetingPoint')}: </span>
                                 {localized(tour, 'meeting_point', locale)}
                             </p>
                         )}
@@ -147,20 +149,20 @@ export default function TourShow({ tour, relatedTours }) {
 
                     {/* Price card */}
                     <aside className="lg:sticky lg:top-40 lg:self-start">
-                        <div className="rounded-lg border border-gold-500/50 bg-white p-6 shadow-xl shadow-ink-900/5">
-                            <p className="text-sm text-ink-900/55">{t('common.perPerson')}</p>
+                        <div className="rounded-lg bg-nile-950/70 p-6 shadow-lg shadow-black/25 ring-1 ring-gold-500/50 backdrop-blur">
+                            <p className="text-sm text-sand-100/55">{t('common.perPerson')}</p>
                             <p className="mt-1">
                                 {tour.old_price && (
-                                    <span className="me-2 align-middle text-base text-ink-900/45 line-through">
+                                    <span className="me-2 align-middle text-base text-sand-100/45 line-through">
                                         {formatPrice(tour.old_price, locale)} {t('common.currency')}
                                     </span>
                                 )}
-                                <span className="font-display align-middle text-4xl font-extrabold text-gold-deep">
+                                <span className="font-display align-middle text-4xl font-extrabold text-gold-300">
                                     {formatPrice(tour.price, locale)}
                                 </span>{' '}
-                                <span className="font-semibold text-ink-900/70">{t('common.currency')}</span>
+                                <span className="font-semibold text-sand-100/70">{t('common.currency')}</span>
                             </p>
-                            <div className="mt-5 space-y-2.5 border-t border-sand-300 pt-5 text-sm text-ink-900/70">
+                            <div className="mt-5 space-y-2.5 border-t border-white/10 pt-5 text-sm text-sand-100/70">
                                 <p className="flex justify-between">
                                     <span>{localized(destination, 'name', locale)}</span>
                                     <span aria-hidden="true">{destination.glyph}</span>
@@ -171,7 +173,7 @@ export default function TourShow({ tour, relatedTours }) {
                                 </p>
                             </div>
                             {/* Booking mini-form */}
-                            <div className="mt-5 border-t border-sand-300 pt-5">
+                            <div className="mt-5 border-t border-white/10 pt-5">
                                 <div>
                                     <label htmlFor="mini_travel_date" className={miniLabelClass}>{t('booking.travelDate')}</label>
                                     <input
@@ -209,12 +211,12 @@ export default function TourShow({ tour, relatedTours }) {
                                         />
                                     </div>
                                 </div>
-                                <p className="mt-1.5 text-[11px] font-medium text-gold-deep">{t('booking.childrenHint')}</p>
+                                <p className="mt-1.5 text-[11px] font-medium text-gold-300">{t('booking.childrenHint')}</p>
                                 <p className="mt-4 flex items-baseline justify-between">
-                                    <span className="font-display text-sm font-bold text-nile-950">{t('booking.total')}</span>
-                                    <span className="font-display text-2xl font-extrabold text-gold-deep">
+                                    <span className="font-display text-sm font-bold text-sand-100">{t('booking.total')}</span>
+                                    <span className="font-display text-2xl font-extrabold text-gold-300">
                                         {formatPrice(liveTotal, locale)}{' '}
-                                        <span className="text-xs font-semibold text-ink-900/70">{t('common.currency')}</span>
+                                        <span className="text-xs font-semibold text-sand-100/70">{t('common.currency')}</span>
                                     </span>
                                 </p>
                             </div>
@@ -224,7 +226,7 @@ export default function TourShow({ tour, relatedTours }) {
                             >
                                 {t('booking.cta')}
                             </Link>
-                            <p className="mt-3 text-center text-xs leading-relaxed text-ink-900/50">{t('tours.show.bookNote')}</p>
+                            <p className="mt-3 text-center text-xs leading-relaxed text-sand-100/50">{t('tours.show.bookNote')}</p>
                         </div>
                     </aside>
                 </div>
@@ -241,6 +243,7 @@ export default function TourShow({ tour, relatedTours }) {
                     </div>
                 )}
             </section>
+            </Reveal>
         </AppLayout>
     );
 }
