@@ -171,6 +171,26 @@ export const translations = {
             totalLabel: 'الإجمالي المستحق عند التأكيد',
             browseTours: 'تصفح رحلات أخرى',
         },
+        errors: {
+            home: 'العودة للرئيسية',
+            toursBtn: 'تصفح الرحلات',
+            404: {
+                title: 'الصفحة دي ضاعت في رمال الزمن',
+                text: 'الرابط اللي بتدوّر عليه مش موجود — يمكن اتكتب غلط، أو الصفحة اتنقلت لمقبرة تانية. ارجع للرئيسية وكمّل رحلتك من هناك.',
+            },
+            403: {
+                title: 'الحجرة دي مقفولة عليك',
+                text: 'معندكش تصريح تدخل المنطقة دي. لو شايف إن ده غلط، سجّل دخول بحسابك أو كلّمنا وهنساعدك.',
+            },
+            500: {
+                title: 'حصل شرخ في حجر المعبد',
+                text: 'حصلت مشكلة عندنا وإحنا بنجهز الصفحة. جرّب تاني كمان شوية، ولو المشكلة استمرت كلّمنا على واتساب.',
+            },
+            503: {
+                title: 'الموقع في ترميم دلوقتي',
+                text: 'بنعمل شوية صيانة عشان نرجع لك بتجربة أحسن. عدّي علينا كمان شوية.',
+            },
+        },
         auth: {
             metaLogin: 'تسجيل الدخول — مصر رايح جاي',
             metaRegister: 'إنشاء حساب — مصر رايح جاي',
@@ -645,6 +665,26 @@ export const translations = {
             customerLabel: 'Booked by',
             totalLabel: 'Total due on confirmation',
             browseTours: 'Browse more tours',
+        },
+        errors: {
+            home: 'Back to home',
+            toursBtn: 'Browse tours',
+            404: {
+                title: 'Lost in the sands of time',
+                text: 'The page you are looking for does not exist — the link may be mistyped, or the page moved to another tomb. Head back home and continue your journey from there.',
+            },
+            403: {
+                title: 'This chamber is sealed',
+                text: 'You do not have permission to enter this area. If you think this is a mistake, log in with your account or message us and we will help.',
+            },
+            500: {
+                title: 'A stone cracked in the temple',
+                text: 'Something went wrong on our side while preparing this page. Try again in a little while — and if it keeps happening, reach us on WhatsApp.',
+            },
+            503: {
+                title: 'Under restoration',
+                text: 'We are doing a little maintenance to come back with a better experience. Check back soon.',
+            },
         },
         auth: {
             metaLogin: 'Log In — Masr Rayh Gay',
