@@ -82,7 +82,7 @@ export function BrandMark({ className = 'h-11 w-11', alive = false, gaze = 0 }) 
 
 /**
  * Routes whose top band is genuinely dark (video/photo hero or nile band),
- * so the fixed navbar can start transparent over it. Light-topped pages
+ * so the navbar can start transparent over it. Light-topped pages
  * (tours/destinations indexes, academy glyphs/quiz, auth, and the calm
  * booking checkout at /tours/{slug}/book) are deliberately excluded —
  * AppLayout gives them a spacer under the solid navbar instead.
@@ -142,7 +142,7 @@ export default function Navbar() {
 
     return (
         <header
-            className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ease-stone ${
+            className={`absolute inset-x-0 top-0 z-50 transition-colors duration-300 ease-stone ${
                 solid ? 'bg-nile-950/95 shadow-md shadow-ink-900/10 backdrop-blur' : 'bg-transparent'
             }`}
         >
