@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Head, Link, router } from '@inertiajs/react';
 import AppLayout from '../../Layouts/AppLayout';
 import Reveal from '../../Components/Reveal';
-import TourCard from '../../Components/TourCard';
+import TourShowcase from '../../Components/TourShowcase';
 import { useLocale } from '../../i18n/LocaleContext';
 import { formatPrice, localized } from '../../lib/format';
 
@@ -149,10 +149,8 @@ export default function ToursIndex({ tours, destinations, types, filters }) {
                 </div>
 
                 {tours.data.length > 0 ? (
-                    <div className="pyramid-grid mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                        {tours.data.map((tour, i) => (
-                            <TourCard key={tour.id} tour={tour} index={i} cols={3} />
-                        ))}
+                    <div className="mt-6">
+                        <TourShowcase key={tours.data.map((tour) => tour.id).join('-')} tours={tours.data} />
                     </div>
                 ) : (
                     <div className="mt-6 rounded-lg bg-nile-950/70 p-12 text-center shadow-lg shadow-black/25 ring-1 ring-white/10 backdrop-blur">

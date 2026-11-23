@@ -1,6 +1,6 @@
 import { Head } from '@inertiajs/react';
 import AppLayout from '../../Layouts/AppLayout';
-import DestinationCard from '../../Components/DestinationCard';
+import DestinationShowcase from '../../Components/DestinationShowcase';
 import Reveal from '../../Components/Reveal';
 import { useLocale } from '../../i18n/LocaleContext';
 
@@ -27,11 +27,7 @@ export default function DestinationsIndex({ destinations }) {
 
             <Reveal>
                 <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6">
-                    <div className="pyramid-grid grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                        {destinations.map((destination, i) => (
-                            <DestinationCard key={destination.id} destination={destination} index={i} cols={4} />
-                        ))}
-                    </div>
+                    <DestinationShowcase destinations={destinations} />
                 </section>
             </Reveal>
         </AppLayout>

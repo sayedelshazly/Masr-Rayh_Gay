@@ -50,9 +50,9 @@ export default function DestinationShow({ destination, tours }) {
                     </h2>
 
                     {tours.length > 0 ? (
-                        <div className="pyramid-grid mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                            {tours.map((tour, i) => (
-                                <TourCard key={tour.id} tour={tour} index={i} cols={3} />
+                        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                            {tours.map((tour) => (
+                                <TourCard key={tour.id} tour={tour} />
                             ))}
                         </div>
                     ) : (
