@@ -158,7 +158,7 @@ export default function Navbar() {
                                     aria-haspopup="menu"
                                     aria-label={t('auth.account')}
                                     title={user.name}
-                                    className="flex h-8 w-8 items-center justify-center rounded-full border border-gold-500/50 bg-nile-800 text-gold-300 transition-colors duration-150 ease-stone hover:text-gold-500"
+                                    className="flex h-7 w-7 items-center justify-center rounded-full border border-gold-500/50 bg-nile-800 text-gold-300 transition-colors duration-150 ease-stone hover:text-gold-500"
                                 >
                                     <svg
                                         viewBox="0 0 24 24"
@@ -166,7 +166,7 @@ export default function Navbar() {
                                         stroke="currentColor"
                                         strokeWidth="1.8"
                                         strokeLinecap="round"
-                                        className="h-[18px] w-[18px]"
+                                        className="h-4 w-4"
                                         aria-hidden="true"
                                     >
                                         <circle cx="12" cy="8" r="3.6" />
@@ -214,16 +214,16 @@ export default function Navbar() {
                                 )}
                             </div>
                         ) : (
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-2.5">
                                 <Link
                                     href="/login"
-                                    className="text-[13px] font-medium text-sand-100/80 transition-colors hover:text-gold-300"
+                                    className="text-xs font-medium text-sand-100/80 transition-colors hover:text-gold-300"
                                 >
                                     {t('auth.login')}
                                 </Link>
                                 <Link
                                     href="/register"
-                                    className="rounded-md border border-gold-500/60 px-3 py-1.5 text-[13px] font-bold text-gold-300 transition-colors hover:bg-gold-500 hover:text-ink-900"
+                                    className="rounded-md border border-gold-500/60 px-2.5 py-1 text-xs font-bold text-gold-300 transition-colors hover:bg-gold-500 hover:text-ink-900"
                                 >
                                     {t('auth.register')}
                                 </Link>
