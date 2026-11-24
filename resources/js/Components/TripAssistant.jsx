@@ -153,7 +153,7 @@ export default function TripAssistant() {
     return (
         <>
             {teaser > 0 && !open && (
-                <div className="animate-popup-in fixed bottom-[4.7rem] start-5 z-40 max-w-[248px]">
+                <div className="animate-popup-in fixed bottom-[5.4rem] start-5 z-40 max-w-[248px]">
                     <button
                         type="button"
                         onClick={openAssistant}
@@ -179,10 +179,9 @@ export default function TripAssistant() {
                 type="button"
                 onClick={() => (open ? setOpen(false) : openAssistant())}
                 aria-label={t('assistant.title')}
-                className="fixed bottom-5 start-5 z-40 flex items-center gap-2 rounded-full bg-nile-950/90 py-2.5 pe-4 ps-3 shadow-lg shadow-black/30 ring-1 ring-gold-500/60 backdrop-blur transition hover:bg-gold-500 hover:text-ink-900 hover:ring-gold-500"
+                className="group fixed bottom-5 start-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-nile-950/90 shadow-lg shadow-black/30 ring-1 ring-gold-500/60 backdrop-blur transition hover:bg-gold-500 hover:ring-gold-500"
             >
-                <span className={`font-glyph text-xl leading-none text-gold-300 transition group-hover:text-ink-900 ${open ? '' : 'animate-beckon'}`}>𓂀</span>
-                <span className="text-xs font-bold text-sand-100">{t('assistant.button')}</span>
+                <span className={`font-glyph text-[28px] leading-none text-gold-300 transition group-hover:text-ink-900 ${open ? '' : 'animate-beckon'}`}>𓂀</span>
             </button>
 
             {open && (
