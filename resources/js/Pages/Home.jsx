@@ -409,50 +409,20 @@ function WhyUs() {
     );
 }
 
-const CARTOUCHE_SAMPLES = ['Nefertiti', 'Ramses', 'Cleopatra', 'Sayed'];
-const GOLD_MOTES = [
-    { left: '6%', top: '18%', size: 5, delay: '0s' },
-    { left: '14%', top: '72%', size: 4, delay: '1.2s' },
-    { left: '88%', top: '24%', size: 6, delay: '0.6s' },
-    { left: '93%', top: '66%', size: 4, delay: '2s' },
-    { left: '76%', top: '8%', size: 3, delay: '1.6s' },
-    { left: '28%', top: '4%', size: 4, delay: '2.6s' },
-];
-
 function AcademyTeaser() {
     const { t } = useLocale();
     const [name, setName] = useState('');
-    const [sampleIndex, setSampleIndex] = useState(0);
 
-    // While the visitor hasn't typed, the cartouche performs on its
-    // own: royal names cycle through it every few seconds.
-    useEffect(() => {
-        if (name.trim() !== '') {
-            return undefined;
-        }
-        const id = setInterval(() => {
-            setSampleIndex((value) => (value + 1) % CARTOUCHE_SAMPLES.length);
-        }, 3600);
-        return () => clearInterval(id);
-    }, [name]);
-
-    const isDemo = name.trim() === '';
-    const shownName = isDemo ? CARTOUCHE_SAMPLES[sampleIndex] : name.trim();
+    const shownName = name.trim() === '' ? 'Nefertiti' : name.trim();
     const glyphChars = useMemo(() => Array.from(toHieroglyphs(shownName)), [shownName]);
 
-    // One row, always: the more glyphs a name has, the smaller they
-    // are carved — the line never wraps inside the cartouche.
+    // One row, always: longer names carve smaller so the line never wraps.
     const glyphCount = Math.max(glyphChars.length, 1);
-    const glyphSize = `clamp(0.95rem, ${(88 / glyphCount).toFixed(2)}vw, ${Math.min(3.75, 30 / glyphCount).toFixed(2)}rem)`;
+    const glyphSize = `clamp(0.95rem, ${(88 / glyphCount).toFixed(2)}vw, ${Math.min(3.25, 26 / glyphCount).toFixed(2)}rem)`;
 
     return (
-        <section id="academy" className="relative scroll-mt-32 overflow-hidden bg-nile-950">
-            {/* ambient temple glow */}
-            <div
-                aria-hidden="true"
-                className="pointer-events-none absolute left-1/2 top-1/2 h-[480px] w-[820px] max-w-none -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold-500/10 blur-3xl"
-            />
-            <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6">
+        <section id="academy" className="relative scroll-mt-32">
+            <div className="mx-auto max-w-3xl px-4 py-14 text-center sm:px-6">
                 <SectionHeading
                     dark
                     kicker={t('academy.kicker')}
@@ -460,59 +430,33 @@ function AcademyTeaser() {
                     subtitle={t('academy.subtitle')}
                 />
 
-                {/* ——— the cartouche stage ——— */}
-                <div className="relative mx-auto max-w-2xl">
-                    {GOLD_MOTES.map((mote, index) => (
-                        <span
-                            key={index}
-                            aria-hidden="true"
-                            className="animate-float-mote absolute rounded-full bg-gold-300 shadow-[0_0_10px_rgba(227,201,138,0.9)]"
-                            style={{
-                                left: mote.left,
-                                top: mote.top,
-                                width: mote.size,
-                                height: mote.size,
-                                animationDelay: mote.delay,
-                            }}
-                        />
-                    ))}
-
-                    <div className="relative rounded-[2.5rem] border-2 border-gold-500/70 px-5 py-7 shadow-[0_0_55px_rgba(201,162,75,0.28),inset_0_0_35px_rgba(201,162,75,0.08)] sm:rounded-[999px] sm:px-12 sm:py-9">
-                        {/* the cartouche's end bar */}
-                        <span aria-hidden="true" className="absolute end-3 top-1/2 h-10 w-1.5 -translate-y-1/2 rounded bg-gold-500 sm:end-6 sm:h-14" />
-                        <div aria-live="polite" className="flex min-h-16 flex-nowrap items-center justify-center gap-x-1 px-2 sm:min-h-20 sm:gap-x-1.5" dir="ltr">
-                            {glyphChars.length > 0 ? (
-                                glyphChars.map((glyph, index) => (
-                                    <span
-                                        key={`${shownName}-${index}`}
-                                        className="animate-glyph-in font-glyph text-gold-shine leading-none"
-                                        style={{ animationDelay: `${index * 95}ms`, fontSize: glyphSize }}
-                                    >
-                                        {glyph}
-                                    </span>
-                                ))
-                            ) : (
-                                <span aria-hidden="true" className="font-glyph text-4xl text-gold-500/35">
-                                    𓄿 𓃀 𓂧
+                <div className="rounded-full border border-white/15 px-6 py-5">
+                    <div aria-live="polite" className="flex min-h-12 flex-nowrap items-center justify-center gap-x-1 px-2 sm:min-h-14 sm:gap-x-1.5" dir="ltr">
+                        {glyphChars.length > 0 ? (
+                            glyphChars.map((glyph, index) => (
+                                <span key={`${shownName}-${index}`} className="font-glyph leading-none text-gold-300" style={{ fontSize: glyphSize }}>
+                                    {glyph}
                                 </span>
-                            )}
-                        </div>
-                    </div>
-
-                    <p className="mt-4 h-5 text-center text-sm text-gold-300/90" dir="auto">
-                        {isDemo && (
-                            <>
-                                {t('academy.demoShowing')}{' '}
-                                <span className="font-display font-bold" dir="ltr">
-                                    {shownName}
-                                </span>
-                            </>
+                            ))
+                        ) : (
+                            <span aria-hidden="true" className="font-glyph text-3xl text-gold-500/35">
+                                𓄿 𓃀 𓂧
+                            </span>
                         )}
-                    </p>
+                    </div>
                 </div>
+                <p className="mt-3 h-5 text-sm text-sand-100/50" dir="auto">
+                    {name.trim() === '' && (
+                        <>
+                            {t('academy.demoShowing')}{' '}
+                            <span className="font-display font-bold text-sand-100/75" dir="ltr">
+                                {shownName}
+                            </span>
+                        </>
+                    )}
+                </p>
 
-                {/* ——— one simple line to write on ——— */}
-                <div className="mx-auto mt-6 max-w-md text-center">
+                <div className="mx-auto mt-4 max-w-md">
                     <label htmlFor="glyph-name" className="text-sm font-medium text-sand-100/85">
                         {t('academy.demoLabel')}
                     </label>
@@ -523,18 +467,20 @@ function AcademyTeaser() {
                         value={name}
                         onChange={(event) => setName(event.target.value)}
                         placeholder={t('academy.demoPlaceholder')}
-                        className="mt-2 w-full border-0 border-b-2 border-gold-500/50 bg-transparent px-4 py-3 text-center font-display text-xl tracking-wide text-sand-100 placeholder:text-sand-100/35 focus:border-gold-400 focus:outline-none"
+                        className="mt-2 w-full border-0 border-b border-gold-500/40 bg-transparent px-4 py-2.5 text-center font-display text-lg tracking-wide text-sand-100 placeholder:text-sand-100/35 focus:border-gold-400 focus:outline-none"
                     />
-                    <p className="mt-4 text-xs leading-relaxed text-sand-100/55">{t('academy.demoHint')}</p>
+                    <p className="mt-3 text-xs leading-relaxed text-sand-100/50">{t('academy.demoHint')}</p>
                     <a
                         href="/academy"
-                        className="font-subhead mt-6 inline-flex min-h-[44px] items-center rounded-md bg-gold-500 px-8 py-3 font-bold text-ink-900 shadow-[0_8px_30px_rgba(201,162,75,0.35)] transition-all duration-150 ease-stone hover:bg-gold-300"
+                        className="group mt-5 inline-flex items-center gap-2 text-sm font-bold text-gold-300 transition hover:text-gold-500"
                     >
                         {t('academy.cta')}
+                        <span aria-hidden="true" className="transition-transform group-hover:-translate-x-0.5 rtl:-scale-x-100 rtl:group-hover:translate-x-0.5">
+                            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5l7 7-7 7" /></svg>
+                        </span>
                     </a>
                 </div>
             </div>
-            <HieroglyphStrip className="relative pb-5 text-center text-sm text-gold-500/50" />
         </section>
     );
 }
