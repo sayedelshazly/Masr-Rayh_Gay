@@ -533,6 +533,7 @@ export const translations = {
                 destinations: 'الوجهات',
                 reviews: 'التقييمات',
                 tripRequests: 'طلبات الرحلات المصممة',
+                tomorrow: 'رحلات الغد',
                 filmRequests: 'طلبات الفيلم',
             },
             stats: {
@@ -597,6 +598,16 @@ export const translations = {
                 awaiting: 'بانتظار المراجعة',
                 delete: 'حذف',
                 booking: 'الحجز',
+            },
+            tomorrow: {
+                title: 'رحلات الغد',
+                trips: 'رحلة مؤكدة',
+                travellers: 'مسافر',
+                hint: 'روتين الصباح: ذكّر كل مسافر بضغطة واحدة',
+                empty: 'مفيش رحلات بكرة',
+                emptyText: 'يوم هادي — مفيش حجوزات مؤكدة لرحلات الغد.',
+                departure: 'التحرك',
+                remind: 'تذكير واتساب',
             },
             filmRequests: {
                 title: 'طلبات فيلم الرحلات',
@@ -1209,6 +1220,7 @@ export const translations = {
                 destinations: 'Destinations',
                 reviews: 'Reviews',
                 tripRequests: 'Trip requests',
+                tomorrow: "Tomorrow's trips",
                 filmRequests: 'Film requests',
             },
             stats: {
@@ -1273,6 +1285,16 @@ export const translations = {
                 awaiting: 'Awaiting review',
                 delete: 'Delete',
                 booking: 'Booking',
+            },
+            tomorrow: {
+                title: "Tomorrow's trips",
+                trips: 'confirmed trips',
+                travellers: 'travellers',
+                hint: 'Morning routine: remind every traveller in one tap',
+                empty: 'No trips tomorrow',
+                emptyText: 'A quiet day — no confirmed bookings for tomorrow.',
+                departure: 'Departure',
+                remind: 'WhatsApp reminder',
             },
             filmRequests: {
                 title: 'Trip film requests',

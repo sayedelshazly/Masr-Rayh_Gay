@@ -100,7 +100,8 @@ class Booking extends Model
      * message — the admin confirms a booking in one tap.
      * Egyptian local numbers (01xxxxxxxxx) become +20 format.
      */
-    public function whatsappUrl(): ?string
+    /** The guest's number in wa.me format, or null when unusable. */
+    private function whatsappPhone(): ?string
     {
         $digits = preg_replace('/\D+/', '', $this->customer_phone ?? '');
 
@@ -112,6 +113,17 @@ class Booking extends Model
             $digits = substr($digits, 2);
         } elseif (str_starts_with($digits, '01')) {
             $digits = '20'.substr($digits, 1);
+        }
+
+        return $digits;
+    }
+
+    public function whatsappUrl(): ?string
+    {
+        $digits = $this->whatsappPhone();
+
+        if ($digits === null) {
+            return null;
         }
 
         $people = $this->adults + $this->children;
@@ -128,6 +140,32 @@ class Booking extends Model
             "عدد الأفراد: {$people}",
             'الإجمالي: '.number_format((float) $this->total_price).' ج.م',
             'لو محتاج أي تعديل أو عندك استفسار، رد علينا هنا.',
+        ]);
+
+        return 'https://wa.me/'.$digits.'?text='.rawurlencode($message);
+    }
+
+    /** A wa.me link with a friendly "your trip is tomorrow" reminder. */
+    public function whatsappReminderUrl(): ?string
+    {
+        $digits = $this->whatsappPhone();
+
+        if ($digits === null) {
+            return null;
+        }
+
+        $when = $this->travel_date->format('Y-m-d');
+        if ($this->departure?->time) {
+            $when .= ' — التحرك الساعة '.substr((string) $this->departure->time, 0, 5);
+        }
+
+        $message = implode("\n", [
+            "أهلاً {$this->customer_name}، معاك فريق مصر رايح جاي 𓂀",
+            "بنفكرك إن رحلتك بكرة:",
+            "الرحلة: {$this->tour->title_ar}",
+            "التاريخ: {$when}",
+            "رقم الحجز: {$this->reference}",
+            'جاهز؟ لو حصل أي تغيير أو محتاج مساعدة، رد علينا هنا.',
         ]);
 
         return 'https://wa.me/'.$digits.'?text='.rawurlencode($message);
