@@ -147,101 +147,123 @@ export default function Navbar() {
                         </span>
                     </a>
 
-                    {/* Bottom row: language at the start corner, account at the end corner */}
-                    <div className="mt-2.5 flex items-end justify-between">
-                        <LanguageSwitcher dark />
-                        {user ? (
-                            <div className="relative" ref={userMenuRef}>
-                                <button
-                                    type="button"
-                                    onClick={() => setUserOpen((value) => !value)}
-                                    aria-expanded={userOpen}
-                                    aria-haspopup="menu"
-                                    aria-label={t('auth.account')}
-                                    title={user.name}
-                                    className="group relative flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-b from-gold-300 via-gold-500 to-gold-500 p-[2px] shadow-[0_4px_18px_rgba(201,162,75,0.45)] transition duration-200 ease-stone hover:scale-105"
+                    {/* Bottom row: one account toggle at the end corner — the
+                        language switcher lives inside its menu */}
+                    <div className="mt-2.5 flex items-end justify-end">
+                        <div className="relative" ref={userMenuRef}>
+                            <button
+                                type="button"
+                                onClick={() => setUserOpen((value) => !value)}
+                                aria-expanded={userOpen}
+                                aria-haspopup="menu"
+                                aria-label={t('auth.account')}
+                                title={user?.name}
+                                className="group relative flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-b from-gold-300 via-gold-500 to-gold-500 p-[2px] shadow-[0_4px_18px_rgba(201,162,75,0.45)] transition duration-200 ease-stone hover:scale-105"
+                            >
+                                <span className="font-display flex h-full w-full items-center justify-center rounded-full bg-gradient-to-b from-nile-800 to-nile-950 text-[15px] font-bold text-gold-300 transition group-hover:text-gold-500">
+                                    {user ? (
+                                        initial
+                                    ) : (
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" className="h-[18px] w-[18px]" aria-hidden="true">
+                                            <circle cx="12" cy="8" r="3.6" />
+                                            <path d="M5 19.4c1.2-3.1 3.9-4.7 7-4.7s5.8 1.6 7 4.7" />
+                                        </svg>
+                                    )}
+                                </span>
+                                <span
+                                    aria-hidden="true"
+                                    className={`absolute -bottom-0.5 -end-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-nile-950 text-gold-300 ring-1 ring-gold-500/70 transition-transform duration-300 ease-stone ${userOpen ? 'rotate-180' : ''}`}
                                 >
-                                    <span className="font-display flex h-full w-full items-center justify-center rounded-full bg-gradient-to-b from-nile-800 to-nile-950 text-[15px] font-bold text-gold-300 transition group-hover:text-gold-500">
-                                        {initial}
-                                    </span>
-                                    <span
-                                        aria-hidden="true"
-                                        className={`absolute -bottom-0.5 -end-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-nile-950 text-gold-300 ring-1 ring-gold-500/70 transition-transform duration-300 ease-stone ${userOpen ? 'rotate-180' : ''}`}
-                                    >
-                                        <svg viewBox="0 0 24 24" className="h-2.5 w-2.5" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 9l7 7 7-7" /></svg>
-                                    </span>
-                                </button>
-                                {userOpen && (
-                                    <div
-                                        role="menu"
-                                        className="animate-popup-in absolute end-0 top-[calc(100%+10px)] w-60 rounded-xl bg-nile-950/95 p-1.5 shadow-2xl shadow-black/50 ring-1 ring-gold-500/40 backdrop-blur"
-                                    >
-                                        <span aria-hidden="true" className="pointer-events-none absolute inset-1 rounded-[10px] ring-1 ring-gold-500/15" />
-                                        <div className="relative mb-1 flex items-center gap-3 border-b border-sand-100/10 px-3 pb-3 pt-2.5">
-                                            <span aria-hidden="true" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-gold-300 via-gold-500 to-gold-500 p-[2px]">
-                                                <span className="font-display flex h-full w-full items-center justify-center rounded-full bg-gradient-to-b from-nile-800 to-nile-950 text-lg font-bold text-gold-300">{initial}</span>
-                                            </span>
-                                            <span className="min-w-0">
-                                                <span className="block truncate text-sm font-bold text-sand-100">{user.name}</span>
-                                                <span className="block truncate text-[11px] text-sand-100/55" dir="ltr">{user.email}</span>
-                                            </span>
-                                        </div>
-                                        <Link
-                                            href="/my-bookings"
-                                            role="menuitem"
-                                            onClick={() => setUserOpen(false)}
-                                            className="animate-carve-in group relative flex items-center gap-2.5 rounded-md px-3 py-2 text-[13px] font-medium text-sand-100/85 transition-colors hover:bg-nile-800 hover:text-gold-300"
-                                            style={{ animationDelay: '60ms' }}
-                                        >
-                                            <span aria-hidden="true" className="font-glyph text-base leading-none text-gold-400">𓂀</span>
-                                            {t('auth.myBookings')}
-                                            <span aria-hidden="true" className="ms-auto text-gold-500 opacity-0 transition group-hover:opacity-100"><svg viewBox="0 0 24 24" className="h-3.5 w-3.5 rtl:-scale-x-100" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5l7 7-7 7" /></svg></span>
-                                        </Link>
-                                        {user.is_admin && (
+                                    <svg viewBox="0 0 24 24" className="h-2.5 w-2.5" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 9l7 7 7-7" /></svg>
+                                </span>
+                            </button>
+                            {userOpen && (
+                                <div
+                                    role="menu"
+                                    className="animate-popup-in absolute end-0 top-[calc(100%+10px)] w-60 rounded-xl bg-nile-950/95 p-1.5 shadow-2xl shadow-black/50 ring-1 ring-gold-500/40 backdrop-blur"
+                                >
+                                    <span aria-hidden="true" className="pointer-events-none absolute inset-1 rounded-[10px] ring-1 ring-gold-500/15" />
+                                    {user ? (
+                                        <>
+                                            <div className="relative mb-1 flex items-center gap-3 border-b border-sand-100/10 px-3 pb-3 pt-2.5">
+                                                <span aria-hidden="true" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-gold-300 via-gold-500 to-gold-500 p-[2px]">
+                                                    <span className="font-display flex h-full w-full items-center justify-center rounded-full bg-gradient-to-b from-nile-800 to-nile-950 text-lg font-bold text-gold-300">{initial}</span>
+                                                </span>
+                                                <span className="min-w-0">
+                                                    <span className="block truncate text-sm font-bold text-sand-100">{user.name}</span>
+                                                    <span className="block truncate text-[11px] text-sand-100/55" dir="ltr">{user.email}</span>
+                                                </span>
+                                            </div>
                                             <Link
-                                                href="/admin"
+                                                href="/my-bookings"
                                                 role="menuitem"
                                                 onClick={() => setUserOpen(false)}
                                                 className="animate-carve-in group relative flex items-center gap-2.5 rounded-md px-3 py-2 text-[13px] font-medium text-sand-100/85 transition-colors hover:bg-nile-800 hover:text-gold-300"
-                                                style={{ animationDelay: '130ms' }}
+                                                style={{ animationDelay: '60ms' }}
                                             >
-                                                <span aria-hidden="true" className="font-glyph text-base leading-none text-gold-400">𓋹</span>
-                                                {t('admin.panel')}
+                                                <span aria-hidden="true" className="font-glyph text-base leading-none text-gold-400">𓂀</span>
+                                                {t('auth.myBookings')}
                                                 <span aria-hidden="true" className="ms-auto text-gold-500 opacity-0 transition group-hover:opacity-100"><svg viewBox="0 0 24 24" className="h-3.5 w-3.5 rtl:-scale-x-100" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5l7 7-7 7" /></svg></span>
                                             </Link>
-                                        )}
-                                        <div className="relative mt-1 border-t border-sand-100/10 pt-1">
-                                            <button
-                                                type="button"
+                                            {user.is_admin && (
+                                                <Link
+                                                    href="/admin"
+                                                    role="menuitem"
+                                                    onClick={() => setUserOpen(false)}
+                                                    className="animate-carve-in group relative flex items-center gap-2.5 rounded-md px-3 py-2 text-[13px] font-medium text-sand-100/85 transition-colors hover:bg-nile-800 hover:text-gold-300"
+                                                    style={{ animationDelay: '130ms' }}
+                                                >
+                                                    <span aria-hidden="true" className="font-glyph text-base leading-none text-gold-400">𓋹</span>
+                                                    {t('admin.panel')}
+                                                    <span aria-hidden="true" className="ms-auto text-gold-500 opacity-0 transition group-hover:opacity-100"><svg viewBox="0 0 24 24" className="h-3.5 w-3.5 rtl:-scale-x-100" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5l7 7-7 7" /></svg></span>
+                                                </Link>
+                                            )}
+                                            <div className="relative mt-1 border-t border-sand-100/10 pt-1">
+                                                <button
+                                                    type="button"
+                                                    role="menuitem"
+                                                    onClick={handleLogout}
+                                                    className="animate-carve-in flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-start text-[13px] font-bold text-gold-300 transition-colors hover:bg-nile-800"
+                                                    style={{ animationDelay: '200ms' }}
+                                                >
+                                                    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15 4h3a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-3M10 8l-4 4 4 4M6 12h11" /></svg>
+                                                    {t('auth.logout')}
+                                                </button>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Link
+                                                href="/login"
                                                 role="menuitem"
-                                                onClick={handleLogout}
-                                                className="animate-carve-in flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-start text-[13px] font-bold text-gold-300 transition-colors hover:bg-nile-800"
-                                                style={{ animationDelay: '200ms' }}
+                                                onClick={() => setUserOpen(false)}
+                                                className="animate-carve-in group relative flex items-center gap-2.5 rounded-md px-3 py-2 text-[13px] font-medium text-sand-100/85 transition-colors hover:bg-nile-800 hover:text-gold-300"
+                                                style={{ animationDelay: '60ms' }}
                                             >
-                                                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15 4h3a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-3M10 8l-4 4 4 4M6 12h11" /></svg>
-                                                {t('auth.logout')}
-                                            </button>
-                                        </div>
-                                        <span aria-hidden="true" className="relative mx-auto mb-1 mt-2 block h-1 w-12 rounded-full bg-gold-500/70" />
+                                                <svg viewBox="0 0 24 24" className="h-4 w-4 text-gold-400" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 4H6a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h3M14 8l4 4-4 4M18 12H7" /></svg>
+                                                {t('auth.login')}
+                                                <span aria-hidden="true" className="ms-auto text-gold-500 opacity-0 transition group-hover:opacity-100"><svg viewBox="0 0 24 24" className="h-3.5 w-3.5 rtl:-scale-x-100" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5l7 7-7 7" /></svg></span>
+                                            </Link>
+                                            <Link
+                                                href="/register"
+                                                role="menuitem"
+                                                onClick={() => setUserOpen(false)}
+                                                className="animate-carve-in group relative flex items-center gap-2.5 rounded-md px-3 py-2 text-[13px] font-bold text-gold-300 transition-colors hover:bg-nile-800"
+                                                style={{ animationDelay: '130ms' }}
+                                            >
+                                                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="10" cy="8" r="3.4" /><path d="M3.5 19.2c1.1-2.9 3.6-4.4 6.5-4.4 1.2 0 2.3.25 3.3.75M18 8v6M15 11h6" /></svg>
+                                                {t('auth.register')}
+                                                <span aria-hidden="true" className="ms-auto text-gold-500 opacity-0 transition group-hover:opacity-100"><svg viewBox="0 0 24 24" className="h-3.5 w-3.5 rtl:-scale-x-100" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5l7 7-7 7" /></svg></span>
+                                            </Link>
+                                        </>
+                                    )}
+                                    <div className="relative mt-1 flex items-center justify-center border-t border-sand-100/10 px-3 pb-1 pt-2.5">
+                                        <LanguageSwitcher dark />
                                     </div>
-                                )}
-                            </div>
-                        ) : (
-                            <div className="flex items-center gap-2.5">
-                                <Link
-                                    href="/login"
-                                    className="text-xs font-medium text-sand-100/80 transition-colors hover:text-gold-300"
-                                >
-                                    {t('auth.login')}
-                                </Link>
-                                <Link
-                                    href="/register"
-                                    className="rounded-md border border-gold-500/60 px-2.5 py-1 text-xs font-bold text-gold-300 transition-colors hover:bg-gold-500 hover:text-ink-900"
-                                >
-                                    {t('auth.register')}
-                                </Link>
-                            </div>
-                        )}
+                                    <span aria-hidden="true" className="relative mx-auto mb-1 mt-2 block h-1 w-12 rounded-full bg-gold-500/70" />
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             </nav>
