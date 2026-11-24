@@ -237,7 +237,7 @@ export const translations = {
         ctaText: 'كل رحلاتنا بمرشد من الفريق ده — احجز رحلتك وقابلهم على أرض الواقع.',
         ctaTours: 'تصفح الرحلات',
         ctaPlan: 'صمّم رحلتك',
-        lang: { ar: 'العربية', en: 'English', fr: 'Français', de: 'Deutsch', es: 'Español', ru: 'Русский' },
+        lang: { ar: 'العربية', en: 'English', fr: 'Français', de: 'Deutsch', es: 'Español', ru: 'Русский', it: 'Italiano' },
     },
     film: {
         title: 'فيلم رحلتك السينمائي',
@@ -291,7 +291,7 @@ export const translations = {
         ctaText: 'Every tour is led by one of this team — book your trip and meet them in person.',
         ctaTours: 'Browse tours',
         ctaPlan: 'Design your trip',
-        lang: { ar: 'العربية', en: 'English', fr: 'Français', de: 'Deutsch', es: 'Español', ru: 'Русский' },
+        lang: { ar: 'العربية', en: 'English', fr: 'Français', de: 'Deutsch', es: 'Español', ru: 'Русский', it: 'Italiano' },
     },
     film: {
                 name: 'فيلم رحلتي',

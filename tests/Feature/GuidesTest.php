@@ -16,11 +16,11 @@ class GuidesTest extends TestCase
             ->assertOk()
             ->assertInertia(fn (Assert $page) => $page
                 ->component('Guides/Index')
-                ->has('guides', 4)
+                ->has('guides', 12)
                 ->where('guides.0.name_ar', 'أحمد الشاذلي')
-                ->where('totals.guides', 4)
-                ->where('totals.trips', 1410)
-                ->where('totals.languages', 6)
+                ->where('totals.guides', 12)
+                ->where('totals.trips', 3780)
+                ->where('totals.languages', 7)
             );
     }
 

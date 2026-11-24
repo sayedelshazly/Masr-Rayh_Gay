@@ -69,3 +69,12 @@ owners; replace with licensed/owned photography before commercial launch if need
 - guides/mahmoud-hassan.jpg — Pexels photo 7832476
 - guides/sara-nabil.jpg — Pexels photo 8155030 (Cedric Fauntleroy) — hijabi portrait, replaced 2026-11-24 at the owner's request
 - guides/nourhan-ali.jpg — Pexels photo 20790563 (Safi Erneste) — hijabi portrait, replaced 2026-11-24 at the owner's request
+
+- guides/youssef-karim.jpg — Pexels photo 20243869 (Helmy Zairy)
+- guides/mariam-sami.jpg — Pexels photo 8575377 (PNW Production, hijabi)
+- guides/omar-farouk.jpg — Pexels photo 5497002 (William Sutherland)
+- guides/heba-mahmoud.jpg — Pexels photo 8154419 (Cedric Fauntleroy, hijabi)
+- guides/karim-adel.jpg — Pexels photo 6053232 (TUBARONES PHOTOGRAPHY)
+- guides/dina-hossam.jpg — Pexels photo 8155031 (Cedric Fauntleroy, hijabi)
+- guides/tarek-zidan.jpg — Pexels photo 14391923 (Sandro Tavares)
+- guides/laila-ibrahim.jpg — Pexels photo 8575865 (PNW Production, hijabi)
