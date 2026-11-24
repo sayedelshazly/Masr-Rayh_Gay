@@ -19,6 +19,7 @@ export default function AdminLayout({ children, title }) {
         { label: t('admin.nav.tours'), href: '/admin/tours', active: url.startsWith('/admin/tours') },
         { label: t('admin.nav.destinations'), href: '/admin/destinations', active: url.startsWith('/admin/destinations') },
         { label: t('admin.nav.tripRequests'), href: '/admin/trip-requests', active: url.startsWith('/admin/trip-requests') },
+        { label: t('admin.nav.filmRequests'), href: '/admin/film-requests', active: url.startsWith('/admin/film-requests') },
         { label: t('admin.nav.reviews'), href: '/admin/reviews', active: url.startsWith('/admin/reviews') },
     ];
 

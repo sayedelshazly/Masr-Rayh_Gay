@@ -255,6 +255,25 @@ export default function TourShow({ tour, relatedTours, departures = [], reviews 
                     </aside>
                 </div>
 
+                {/* Cinematic film invitation */}
+                <Reveal>
+                    <Link
+                        href={`/film-your-journey?tour=${tour.slug}`}
+                        className="group mt-12 flex flex-wrap items-center justify-between gap-4 overflow-hidden rounded-lg bg-nile-950/75 px-6 py-5 shadow-lg shadow-black/30 ring-1 ring-gold-500/40 backdrop-blur transition hover:ring-gold-500"
+                    >
+                        <span className="flex items-center gap-4">
+                            <span className="font-glyph text-4xl text-gold-300">𓋹</span>
+                            <span>
+                                <span className="block font-display text-xl text-sand-100">{t('film.bannerTitle')}</span>
+                                <span className="mt-0.5 block text-sm text-sand-100/65">{t('film.bannerText')}</span>
+                            </span>
+                        </span>
+                        <span className="rounded-sm bg-gold-500 px-4 py-2 text-sm font-bold text-ink-900 transition group-hover:bg-gold-300">
+                            {t('film.bannerCta')}
+                        </span>
+                    </Link>
+                </Reveal>
+
                 {/* Real traveller reviews (approved only) */}
                 {reviews.length > 0 && (
                     <div className="mt-16">
