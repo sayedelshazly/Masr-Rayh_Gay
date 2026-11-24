@@ -37,6 +37,7 @@ function Hero() {
         { href: '/guides', label: t('guides.title'), glyph: '𓆣' },
         { href: '/plan-your-trip', label: t('hero.planTrip'), glyph: '𓋹' },
         { href: '/film-your-journey', label: t('hero.film'), glyph: '𓂀' },
+        { href: '/gallery', label: t('gallery.title'), glyph: '𓇳' },
         { href: '/my-bookings', label: t('hero.myBookings'), glyph: '𓇋' },
     ];
 
