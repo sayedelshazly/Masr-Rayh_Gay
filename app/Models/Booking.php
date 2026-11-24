@@ -95,6 +95,44 @@ class Booking extends Model
      * A booking can be reviewed once its trip actually happened:
      * confirmed, and the travel date is in the past.
      */
+    /**
+     * A wa.me link to the guest with a ready-made confirmation
+     * message — the admin confirms a booking in one tap.
+     * Egyptian local numbers (01xxxxxxxxx) become +20 format.
+     */
+    public function whatsappUrl(): ?string
+    {
+        $digits = preg_replace('/\D+/', '', $this->customer_phone ?? '');
+
+        if (strlen($digits) < 10) {
+            return null;
+        }
+
+        if (str_starts_with($digits, '0020')) {
+            $digits = substr($digits, 2);
+        } elseif (str_starts_with($digits, '01')) {
+            $digits = '20'.substr($digits, 1);
+        }
+
+        $people = $this->adults + $this->children;
+        $when = $this->travel_date->format('Y-m-d');
+        if ($this->departure?->time) {
+            $when .= ' — التحرك '.substr((string) $this->departure->time, 0, 5);
+        }
+
+        $message = implode("\n", [
+            "أهلاً {$this->customer_name}، معاك فريق مصر رايح جاي 𓂀",
+            "بنأكد حجزك رقم {$this->reference}:",
+            "الرحلة: {$this->tour->title_ar}",
+            "التاريخ: {$when}",
+            "عدد الأفراد: {$people}",
+            'الإجمالي: '.number_format((float) $this->total_price).' ج.م',
+            'لو محتاج أي تعديل أو عندك استفسار، رد علينا هنا.',
+        ]);
+
+        return 'https://wa.me/'.$digits.'?text='.rawurlencode($message);
+    }
+
     public function canBeReviewed(): bool
     {
         return $this->status === self::STATUS_CONFIRMED

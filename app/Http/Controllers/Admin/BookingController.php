@@ -16,7 +16,7 @@ class BookingController extends Controller
     {
         $filters = $request->only(['status', 'search']);
 
-        $bookings = Booking::with('tour:id,slug,title_ar,title_en')
+        $bookings = Booking::with(['tour:id,slug,title_ar,title_en', 'departure:id,date,time'])
             ->when($filters['status'] ?? null, function ($query, $status) {
                 if (in_array($status, Booking::STATUSES, true)) {
                     $query->where('status', $status);
@@ -31,7 +31,10 @@ class BookingController extends Controller
             })
             ->latest()
             ->paginate(15)
-            ->withQueryString();
+            ->withQueryString()
+            ->through(fn (Booking $booking) => array_merge($booking->toArray(), [
+                'whatsapp_url' => $booking->whatsappUrl(),
+            ]));
 
         return Inertia::render('Admin/Bookings/Index', [
             'bookings' => $bookings,
@@ -45,11 +48,12 @@ class BookingController extends Controller
 
     public function show(Booking $booking): Response
     {
-        $booking->load(['tour.destination', 'user:id,name,email']);
+        $booking->load(['tour.destination', 'user:id,name,email', 'departure']);
 
         return Inertia::render('Admin/Bookings/Show', [
             'booking' => $booking,
             'statuses' => Booking::STATUSES,
+            'whatsappUrl' => $booking->whatsappUrl(),
         ]);
     }
 
