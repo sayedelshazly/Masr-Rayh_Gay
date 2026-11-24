@@ -41,6 +41,7 @@ export const translations = {
             bookTrip: 'احجز رحلتك الآن',
             planTrip: 'صمّم رحلتك',
             myBookings: 'حجوزاتي',
+            film: 'فيلم رحلتك',
         },
         search: {
             title: 'خطط رحلتك',
@@ -714,6 +715,7 @@ export const translations = {
             bookTrip: 'Book Your Trip',
             planTrip: 'Design Your Trip',
             myBookings: 'My Bookings',
+            film: 'Film your trip',
         },
         search: {
             title: 'Plan your trip',

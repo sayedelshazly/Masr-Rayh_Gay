@@ -86,6 +86,13 @@ function Hero() {
                         {t('hero.planTrip')}
                     </Link>
                     <Link
+                        href="/film-your-journey"
+                        className="font-subhead inline-flex min-h-[40px] items-center gap-2 rounded-full bg-white/5 px-5 py-2 text-sm font-bold text-sand-100 ring-1 ring-white/20 backdrop-blur transition-colors duration-150 ease-stone hover:text-gold-300 hover:ring-gold-400/70"
+                    >
+                        <span aria-hidden="true" className="font-glyph text-base leading-none text-gold-400">𓋹</span>
+                        {t('hero.film')}
+                    </Link>
+                    <Link
                         href="/my-bookings"
                         className="font-subhead inline-flex min-h-[40px] items-center gap-2 rounded-full bg-white/5 px-5 py-2 text-sm font-bold text-sand-100 ring-1 ring-white/20 backdrop-blur transition-colors duration-150 ease-stone hover:text-gold-300 hover:ring-gold-400/70"
                     >
