@@ -67,5 +67,5 @@ owners; replace with licensed/owned photography before commercial launch if need
 ## Guide portraits (placeholders — replace with the real team's photos before launch)
 - guides/ahmed-elshazly.jpg — Pexels photo 13108255 (Amir Saeid Dehghan)
 - guides/mahmoud-hassan.jpg — Pexels photo 7832476
-- guides/sara-nabil.jpg — Pexels photo 38197025 (Tony Zohari)
-- guides/nourhan-ali.jpg — Pexels photo 30004320 (Daniel & Hannah Snipes)
+- guides/sara-nabil.jpg — Pexels photo 8155030 (Cedric Fauntleroy) — hijabi portrait, replaced 2026-11-24 at the owner's request
+- guides/nourhan-ali.jpg — Pexels photo 20790563 (Safi Erneste) — hijabi portrait, replaced 2026-11-24 at the owner's request
