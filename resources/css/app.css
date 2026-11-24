@@ -493,3 +493,15 @@ html {
 .animate-carve-in {
     animation: carve-in 0.5s var(--ease-stone) both;
 }
+
+/* Trip assistant attention wiggle */
+@keyframes beckon {
+    0%, 100% { transform: none; }
+    4% { transform: rotate(-8deg) scale(1.18); }
+    8% { transform: rotate(7deg) scale(1.18); }
+    12% { transform: rotate(0deg) scale(1); }
+}
+.animate-beckon {
+    display: inline-block;
+    animation: beckon 4.5s ease-in-out infinite;
+}

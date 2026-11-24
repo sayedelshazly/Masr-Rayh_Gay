@@ -54,7 +54,28 @@ export default function TripAssistant() {
     const [answers, setAnswers] = useState({});
     const [thinking, setThinking] = useState(false);
     const [done, setDone] = useState(false);
+    const [teaser, setTeaser] = useState(0);
     const scrollRef = useRef(null);
+
+    // Attention teaser: a speech bubble over the pill that cycles
+    // three invitations, starting a few seconds after the page
+    // settles. It retires for good once the assistant is opened.
+    useEffect(() => {
+        if (window.localStorage.getItem('masr-assistant-opened')) return undefined;
+        const timers = [
+            setTimeout(() => setTeaser(1), 7000),
+            setTimeout(() => setTeaser(2), 11500),
+            setTimeout(() => setTeaser(3), 16000),
+            setTimeout(() => setTeaser(0), 21500),
+        ];
+        return () => timers.forEach(clearTimeout);
+    }, []);
+
+    const openAssistant = () => {
+        window.localStorage.setItem('masr-assistant-opened', '1');
+        setTeaser(0);
+        setOpen(true);
+    };
 
     const startConversation = () => {
         setMessages([
@@ -131,13 +152,36 @@ export default function TripAssistant() {
 
     return (
         <>
+            {teaser > 0 && !open && (
+                <div className="animate-popup-in fixed bottom-[4.7rem] start-5 z-40 max-w-[248px]">
+                    <button
+                        type="button"
+                        onClick={openAssistant}
+                        className="relative block w-full rounded-lg bg-nile-950/95 px-4 py-3 text-start shadow-xl shadow-black/40 ring-1 ring-gold-500/60 backdrop-blur transition hover:ring-gold-300"
+                    >
+                        <span key={teaser} className="animate-quote-in block text-[13px] font-semibold leading-relaxed text-sand-100">
+                            {t(`assistant.teaser${teaser}`)}
+                        </span>
+                        <span aria-hidden="true" className="absolute -bottom-[5px] start-7 h-2.5 w-2.5 rotate-45 bg-nile-950" />
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setTeaser(0)}
+                        aria-label={t('assistant.close')}
+                        className="absolute -top-2 end-2 flex h-5 w-5 items-center justify-center rounded-full bg-nile-950 text-[10px] text-sand-100/80 ring-1 ring-white/25 transition hover:text-sand-100"
+                    >
+                        ✕
+                    </button>
+                </div>
+            )}
+
             <button
                 type="button"
-                onClick={() => setOpen((value) => !value)}
+                onClick={() => (open ? setOpen(false) : openAssistant())}
                 aria-label={t('assistant.title')}
                 className="fixed bottom-5 start-5 z-40 flex items-center gap-2 rounded-full bg-nile-950/90 py-2.5 pe-4 ps-3 shadow-lg shadow-black/30 ring-1 ring-gold-500/60 backdrop-blur transition hover:bg-gold-500 hover:text-ink-900 hover:ring-gold-500"
             >
-                <span className="font-glyph text-xl leading-none text-gold-300 transition group-hover:text-ink-900">𓂀</span>
+                <span className={`font-glyph text-xl leading-none text-gold-300 transition group-hover:text-ink-900 ${open ? '' : 'animate-beckon'}`}>𓂀</span>
                 <span className="text-xs font-bold text-sand-100">{t('assistant.button')}</span>
             </button>
 
