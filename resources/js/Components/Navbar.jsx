@@ -102,6 +102,7 @@ export default function Navbar() {
     const { t } = useLocale();
     const { props } = usePage();
     const user = props.auth?.user ?? null;
+    const initial = user ? (Array.from(user.name.trim())[0] ?? '').toUpperCase() : '';
     const [userOpen, setUserOpen] = useState(false);
 
     const handleLogout = () => {
@@ -158,58 +159,70 @@ export default function Navbar() {
                                     aria-haspopup="menu"
                                     aria-label={t('auth.account')}
                                     title={user.name}
-                                    className="flex h-7 w-7 items-center justify-center rounded-full border border-gold-500/50 bg-nile-800 text-gold-300 transition-colors duration-150 ease-stone hover:text-gold-500"
+                                    className="group relative flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-b from-gold-300 via-gold-500 to-gold-500 p-[2px] shadow-[0_4px_18px_rgba(201,162,75,0.45)] transition duration-200 ease-stone hover:scale-105"
                                 >
-                                    <svg
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="1.8"
-                                        strokeLinecap="round"
-                                        className="h-4 w-4"
+                                    <span className="font-display flex h-full w-full items-center justify-center rounded-full bg-gradient-to-b from-nile-800 to-nile-950 text-[15px] font-bold text-gold-300 transition group-hover:text-gold-500">
+                                        {initial}
+                                    </span>
+                                    <span
                                         aria-hidden="true"
+                                        className={`absolute -bottom-0.5 -end-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-nile-950 text-gold-300 ring-1 ring-gold-500/70 transition-transform duration-300 ease-stone ${userOpen ? 'rotate-180' : ''}`}
                                     >
-                                        <circle cx="12" cy="8" r="3.6" />
-                                        <path d="M5 19.4c1.2-3.1 3.9-4.7 7-4.7s5.8 1.6 7 4.7" />
-                                    </svg>
+                                        <svg viewBox="0 0 24 24" className="h-2.5 w-2.5" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 9l7 7 7-7" /></svg>
+                                    </span>
                                 </button>
                                 {userOpen && (
                                     <div
                                         role="menu"
-                                        className="absolute end-0 top-[calc(100%+8px)] w-52 rounded-lg border border-gold-500/25 bg-nile-950 p-1.5 shadow-xl shadow-ink-900/30"
+                                        className="animate-popup-in absolute end-0 top-[calc(100%+10px)] w-60 rounded-xl bg-nile-950/95 p-1.5 shadow-2xl shadow-black/50 ring-1 ring-gold-500/40 backdrop-blur"
                                     >
-                                        <div className="mb-1 border-b border-sand-100/10 px-3 py-2">
-                                            <p className="truncate text-[13px] font-bold text-sand-100">{user.name}</p>
-                                            <p className="truncate text-[11px] text-sand-100/55" dir="ltr">
-                                                {user.email}
-                                            </p>
+                                        <span aria-hidden="true" className="pointer-events-none absolute inset-1 rounded-[10px] ring-1 ring-gold-500/15" />
+                                        <div className="relative mb-1 flex items-center gap-3 border-b border-sand-100/10 px-3 pb-3 pt-2.5">
+                                            <span aria-hidden="true" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-gold-300 via-gold-500 to-gold-500 p-[2px]">
+                                                <span className="font-display flex h-full w-full items-center justify-center rounded-full bg-gradient-to-b from-nile-800 to-nile-950 text-lg font-bold text-gold-300">{initial}</span>
+                                            </span>
+                                            <span className="min-w-0">
+                                                <span className="block truncate text-sm font-bold text-sand-100">{user.name}</span>
+                                                <span className="block truncate text-[11px] text-sand-100/55" dir="ltr">{user.email}</span>
+                                            </span>
                                         </div>
                                         <Link
                                             href="/my-bookings"
                                             role="menuitem"
                                             onClick={() => setUserOpen(false)}
-                                            className="block rounded-md px-3 py-2 text-[13px] font-medium text-sand-100/85 transition-colors hover:bg-nile-800"
+                                            className="animate-carve-in group relative flex items-center gap-2.5 rounded-md px-3 py-2 text-[13px] font-medium text-sand-100/85 transition-colors hover:bg-nile-800 hover:text-gold-300"
+                                            style={{ animationDelay: '60ms' }}
                                         >
+                                            <span aria-hidden="true" className="font-glyph text-base leading-none text-gold-400">𓂀</span>
                                             {t('auth.myBookings')}
+                                            <span aria-hidden="true" className="ms-auto text-gold-500 opacity-0 transition group-hover:opacity-100"><svg viewBox="0 0 24 24" className="h-3.5 w-3.5 rtl:-scale-x-100" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5l7 7-7 7" /></svg></span>
                                         </Link>
                                         {user.is_admin && (
                                             <Link
                                                 href="/admin"
                                                 role="menuitem"
                                                 onClick={() => setUserOpen(false)}
-                                                className="block rounded-md px-3 py-2 text-[13px] font-medium text-sand-100/85 transition-colors hover:bg-nile-800"
+                                                className="animate-carve-in group relative flex items-center gap-2.5 rounded-md px-3 py-2 text-[13px] font-medium text-sand-100/85 transition-colors hover:bg-nile-800 hover:text-gold-300"
+                                                style={{ animationDelay: '130ms' }}
                                             >
+                                                <span aria-hidden="true" className="font-glyph text-base leading-none text-gold-400">𓋹</span>
                                                 {t('admin.panel')}
+                                                <span aria-hidden="true" className="ms-auto text-gold-500 opacity-0 transition group-hover:opacity-100"><svg viewBox="0 0 24 24" className="h-3.5 w-3.5 rtl:-scale-x-100" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5l7 7-7 7" /></svg></span>
                                             </Link>
                                         )}
-                                        <button
-                                            type="button"
-                                            role="menuitem"
-                                            onClick={handleLogout}
-                                            className="block w-full rounded-md px-3 py-2 text-start text-[13px] font-bold text-gold-300 transition-colors hover:bg-nile-800"
-                                        >
-                                            {t('auth.logout')}
-                                        </button>
+                                        <div className="relative mt-1 border-t border-sand-100/10 pt-1">
+                                            <button
+                                                type="button"
+                                                role="menuitem"
+                                                onClick={handleLogout}
+                                                className="animate-carve-in flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-start text-[13px] font-bold text-gold-300 transition-colors hover:bg-nile-800"
+                                                style={{ animationDelay: '200ms' }}
+                                            >
+                                                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15 4h3a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-3M10 8l-4 4 4 4M6 12h11" /></svg>
+                                                {t('auth.logout')}
+                                            </button>
+                                        </div>
+                                        <span aria-hidden="true" className="relative mx-auto mb-1 mt-2 block h-1 w-12 rounded-full bg-gold-500/70" />
                                     </div>
                                 )}
                             </div>
