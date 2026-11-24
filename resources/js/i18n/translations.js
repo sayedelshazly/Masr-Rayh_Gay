@@ -42,6 +42,8 @@ export const translations = {
             planTrip: 'صمّم رحلتك',
             myBookings: 'حجوزاتي',
             film: 'فيلم رحلتك',
+        quickLinks: 'روابط سريعة',
+        close: 'إغلاق',
         },
         search: {
             title: 'خطط رحلتك',
@@ -757,6 +759,8 @@ export const translations = {
             planTrip: 'Design Your Trip',
             myBookings: 'My Bookings',
             film: 'Film your trip',
+            quickLinks: 'Quick links',
+            close: 'Close',
         },
         search: {
             title: 'Plan your trip',

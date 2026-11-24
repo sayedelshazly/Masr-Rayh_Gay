@@ -29,6 +29,26 @@ function SectionHeading({ kicker, title, subtitle, dark = false }) {
 
 function Hero() {
     const { t } = useLocale();
+    const [menuOpen, setMenuOpen] = useState(false);
+
+    const heroLinks = [
+        { href: '/tours', label: t('hero.bookTrip'), glyph: null, primary: true },
+        { href: '/tours', label: t('hero.exploreTours'), glyph: '𓅃' },
+        { href: '/plan-your-trip', label: t('hero.planTrip'), glyph: '𓋹' },
+        { href: '/film-your-journey', label: t('hero.film'), glyph: '𓂀' },
+        { href: '/my-bookings', label: t('hero.myBookings'), glyph: '𓇋' },
+    ];
+
+    useEffect(() => {
+        if (!menuOpen) return undefined;
+        document.body.style.overflow = 'hidden';
+        const onKey = (event) => event.key === 'Escape' && setMenuOpen(false);
+        window.addEventListener('keydown', onKey);
+        return () => {
+            document.body.style.overflow = '';
+            window.removeEventListener('keydown', onKey);
+        };
+    }, [menuOpen]);
 
     return (
         <section className="relative flex min-h-[100vh] flex-col overflow-hidden bg-nile-950">
@@ -64,43 +84,74 @@ function Hero() {
                 </h1>
                 <p className="mx-auto mt-6 max-w-2xl leading-loose text-sand-100/75 sm:text-lg">{t('hero.subtitle')}</p>
 
-                <div className="mt-9 flex flex-wrap items-center justify-center gap-2.5">
-                    <Link
-                        href="/tours"
-                        className="font-subhead inline-flex min-h-[40px] items-center rounded-full bg-gold-500 px-5 py-2 text-sm font-bold text-ink-900 shadow-[0_8px_25px_rgba(201,162,75,0.35)] transition-colors duration-150 ease-stone hover:bg-gold-300"
-                    >
-                        {t('hero.bookTrip')}
-                    </Link>
-                    <Link
-                        href="/tours"
-                        className="font-subhead inline-flex min-h-[40px] items-center gap-2 rounded-full bg-white/5 px-5 py-2 text-sm font-bold text-sand-100 ring-1 ring-white/20 backdrop-blur transition-colors duration-150 ease-stone hover:text-gold-300 hover:ring-gold-400/70"
-                    >
-                        <span aria-hidden="true" className="font-glyph text-base leading-none text-gold-400">𓅃</span>
-                        {t('hero.exploreTours')}
-                    </Link>
-                    <Link
-                        href="/plan-your-trip"
-                        className="font-subhead inline-flex min-h-[40px] items-center gap-2 rounded-full bg-white/5 px-5 py-2 text-sm font-bold text-sand-100 ring-1 ring-white/20 backdrop-blur transition-colors duration-150 ease-stone hover:text-gold-300 hover:ring-gold-400/70"
-                    >
-                        <span aria-hidden="true" className="font-glyph text-base leading-none text-gold-400">𓋹</span>
-                        {t('hero.planTrip')}
-                    </Link>
-                    <Link
-                        href="/film-your-journey"
-                        className="font-subhead inline-flex min-h-[40px] items-center gap-2 rounded-full bg-white/5 px-5 py-2 text-sm font-bold text-sand-100 ring-1 ring-white/20 backdrop-blur transition-colors duration-150 ease-stone hover:text-gold-300 hover:ring-gold-400/70"
-                    >
-                        <span aria-hidden="true" className="font-glyph text-base leading-none text-gold-400">𓋹</span>
-                        {t('hero.film')}
-                    </Link>
-                    <Link
-                        href="/my-bookings"
-                        className="font-subhead inline-flex min-h-[40px] items-center gap-2 rounded-full bg-white/5 px-5 py-2 text-sm font-bold text-sand-100 ring-1 ring-white/20 backdrop-blur transition-colors duration-150 ease-stone hover:text-gold-300 hover:ring-gold-400/70"
-                    >
-                        <span aria-hidden="true" className="font-glyph text-base leading-none text-gold-400">𓂀</span>
-                        {t('hero.myBookings')}
-                    </Link>
-                </div>
+                <button
+                    type="button"
+                    onClick={() => setMenuOpen(true)}
+                    className="font-subhead mt-9 inline-flex min-h-[44px] items-center gap-2.5 rounded-full bg-nile-950/60 px-6 py-2.5 text-sm font-bold text-gold-300 ring-1 ring-gold-500/60 backdrop-blur transition hover:bg-nile-950/80 lg:hidden"
+                >
+                    <span aria-hidden="true" className="font-glyph text-lg leading-none">𓂀</span>
+                    {t('hero.quickLinks')}
+                    <span aria-hidden="true" className="text-gold-500">+</span>
+                </button>
             </div>
+
+
+            {/* Vertical quick-links rail (desktop) */}
+            <nav aria-label={t('hero.quickLinks')} className="absolute start-5 top-1/2 z-20 hidden -translate-y-1/2 lg:block xl:start-9">
+                <span aria-hidden="true" className="absolute -start-3 top-1/2 h-[130%] w-px -translate-y-1/2 bg-gradient-to-b from-transparent via-gold-500/40 to-transparent" />
+                <ul className="flex flex-col gap-2.5">
+                    {heroLinks.map((link, index) => (
+                        <li key={link.label} className="animate-rail-in" style={{ animationDelay: `${150 + index * 110}ms` }}>
+                            <Link
+                                href={link.href}
+                                className={link.primary
+                                    ? 'font-subhead flex min-h-[40px] items-center gap-2 whitespace-nowrap rounded-full bg-gold-500 px-4 py-2 text-[13px] font-bold text-ink-900 shadow-[0_8px_25px_rgba(201,162,75,0.35)] transition hover:bg-gold-300'
+                                    : 'font-subhead flex min-h-[40px] items-center gap-2 whitespace-nowrap rounded-full bg-nile-950/55 px-4 py-2 text-[13px] font-bold text-sand-100 ring-1 ring-white/20 backdrop-blur transition hover:text-gold-300 hover:ring-gold-400/70'}
+                            >
+                                {link.glyph && <span aria-hidden="true" className="font-glyph text-base leading-none text-gold-400">{link.glyph}</span>}
+                                {link.label}
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            </nav>
+
+            {/* Cartouche menu (mobile): the links carve into a golden cartouche */}
+            {menuOpen && (
+                <div className="fixed inset-0 z-[70] flex items-center justify-center p-6 lg:hidden" role="dialog" aria-modal="true" aria-label={t('hero.quickLinks')}>
+                    <button type="button" aria-label={t('hero.close')} onClick={() => setMenuOpen(false)} className="absolute inset-0 bg-nile-950/85 backdrop-blur-sm" />
+                    <div className="animate-cartouche-in relative">
+                        <div className="relative rounded-[999px] border-2 border-gold-500/90 px-9 py-11 shadow-[0_0_60px_rgba(201,162,75,0.25)]">
+                            <span aria-hidden="true" className="pointer-events-none absolute inset-2 rounded-[999px] border border-gold-500/40" />
+                            <button
+                                type="button"
+                                onClick={() => setMenuOpen(false)}
+                                aria-label={t('hero.close')}
+                                className="absolute start-1/2 top-4 flex h-8 w-8 -translate-x-1/2 items-center justify-center rounded-full text-lg text-gold-300 ring-1 ring-gold-500/50 transition hover:bg-gold-500/10 rtl:translate-x-1/2"
+                            >
+                                ✕
+                            </button>
+                            <ul className="relative flex flex-col items-center gap-3 pt-4">
+                                {heroLinks.map((link, index) => (
+                                    <li key={link.label} className="animate-carve-in" style={{ animationDelay: `${180 + index * 120}ms` }}>
+                                        <Link
+                                            href={link.href}
+                                            onClick={() => setMenuOpen(false)}
+                                            className={link.primary
+                                                ? 'font-subhead flex min-h-[44px] items-center gap-2 whitespace-nowrap rounded-full bg-gold-500 px-6 py-2.5 text-sm font-bold text-ink-900 shadow-[0_8px_25px_rgba(201,162,75,0.35)]'
+                                                : 'font-subhead flex min-h-[44px] items-center gap-2 whitespace-nowrap rounded-full bg-white/5 px-6 py-2.5 text-sm font-bold text-sand-100 ring-1 ring-white/25 backdrop-blur transition hover:text-gold-300 hover:ring-gold-400/70'}
+                                        >
+                                            {link.glyph && <span aria-hidden="true" className="font-glyph text-base leading-none text-gold-400">{link.glyph}</span>}
+                                            {link.label}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <span aria-hidden="true" className="mx-auto mt-3 block h-1.5 w-28 rounded-full bg-gold-500 shadow-[0_0_18px_rgba(201,162,75,0.6)]" />
+                    </div>
+                </div>
+            )}
 
             {/* Scroll cue */}
             <a
