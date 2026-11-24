@@ -39,7 +39,7 @@ function DetailRow({ label, children }) {
     );
 }
 
-export default function BookingShow({ booking, canReview = false }) {
+export default function BookingShow({ booking, canReview = false, canSharePhotos = false, photos = [] }) {
     const { t, locale } = useLocale();
     const tour = booking.tour ?? {};
     const destination = tour.destination ?? {};
@@ -60,6 +60,15 @@ export default function BookingShow({ booking, canReview = false }) {
         reviewForm.post(`/booking/${booking.reference}/review`, { preserveScroll: true });
     };
     const shownRating = hoverRating || reviewForm.data.rating;
+    const photoForm = useForm({ photo: null, caption: '' });
+    const submitPhoto = (event) => {
+        event.preventDefault();
+        photoForm.post(`/booking/${booking.reference}/photos`, {
+            forceFormData: true,
+            preserveScroll: true,
+            onSuccess: () => photoForm.reset(),
+        });
+    };
 
     return (
         <AppLayout backdrop={tour.image ?? undefined}>
@@ -179,6 +188,65 @@ export default function BookingShow({ booking, canReview = false }) {
                                 </button>
                             </form>
                         )}
+                    </div>
+                )}
+
+                {canSharePhotos && (
+                    <div className="mx-auto mt-8 max-w-3xl rounded-lg bg-nile-950/70 p-6 text-start shadow-lg shadow-black/25 ring-1 ring-white/10 backdrop-blur sm:p-8">
+                        <h2 className="font-display text-xl font-bold text-sand-100">{t('gallery.shareTitle')}</h2>
+                        <p className="mt-2 text-sm leading-relaxed text-sand-100/65">{t('gallery.shareText')}</p>
+
+                        {photos.length > 0 && (
+                            <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3">
+                                {photos.map((photo) => (
+                                    <figure key={photo.id} className="relative h-32 overflow-hidden rounded-md ring-1 ring-white/10">
+                                        <img src={photo.url} alt={photo.caption ?? ''} className="h-full w-full object-cover" />
+                                        <span className={`absolute start-2 top-2 rounded-full px-2 py-0.5 text-[10px] font-bold ring-1 ${photo.is_approved ? 'bg-teal-400/15 text-teal-300 ring-teal-400/40' : 'bg-gold-500/15 text-gold-300 ring-gold-500/40'}`}>
+                                            {photo.is_approved ? t('gallery.publishedChip') : t('gallery.pendingChip')}
+                                        </span>
+                                    </figure>
+                                ))}
+                            </div>
+                        )}
+
+                        <form onSubmit={submitPhoto} className="mt-5">
+                            <label
+                                htmlFor="gallery_photo"
+                                className="flex min-h-[52px] cursor-pointer items-center justify-center gap-2 rounded-md border border-dashed border-gold-500/50 bg-white/5 px-4 py-3 text-sm font-bold text-gold-300 transition hover:bg-gold-500/10"
+                            >
+                                <span aria-hidden="true" className="font-glyph text-lg leading-none">𓂀</span>
+                                {photoForm.data.photo ? photoForm.data.photo.name : t('gallery.pickPhoto')}
+                            </label>
+                            <input
+                                id="gallery_photo"
+                                type="file"
+                                accept="image/jpeg,image/png,image/webp"
+                                className="sr-only"
+                                onChange={(event) => photoForm.setData('photo', event.target.files?.[0] ?? null)}
+                            />
+                            {photoForm.errors.photo && <p className="mt-1.5 text-xs font-medium text-red-300">{photoForm.errors.photo}</p>}
+                            <input
+                                type="text"
+                                maxLength={140}
+                                value={photoForm.data.caption}
+                                onChange={(event) => photoForm.setData('caption', event.target.value)}
+                                placeholder={t('gallery.captionPlaceholder')}
+                                className="mt-3 w-full rounded-md border border-sand-100/20 bg-white/5 px-4 py-3 text-sm font-medium text-sand-100 outline-none transition-colors placeholder:text-sand-100/35 focus:border-gold-500"
+                            />
+                            {photoForm.errors.caption && <p className="mt-1.5 text-xs font-medium text-red-300">{photoForm.errors.caption}</p>}
+                            <div className="mt-4 flex flex-wrap items-center gap-3">
+                                <button
+                                    type="submit"
+                                    disabled={photoForm.processing || !photoForm.data.photo}
+                                    className="font-subhead min-h-[44px] rounded-md bg-gold-500 px-6 py-2.5 font-bold text-ink-900 transition-colors hover:bg-gold-300 disabled:opacity-50"
+                                >
+                                    {t('gallery.submit')}
+                                </button>
+                                <Link href="/gallery" className="text-sm font-bold text-gold-300 transition hover:text-gold-500">
+                                    {t('gallery.viewGallery')}
+                                </Link>
+                            </div>
+                        </form>
                     </div>
                 )}
 

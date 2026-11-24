@@ -227,6 +227,17 @@ class Booking extends Model
             && $this->travel_date->lt(now()->startOfDay());
     }
 
+    /** Post-trip contributions (reviews, gallery photos) share one rule. */
+    public function canSharePhotos(): bool
+    {
+        return $this->canBeReviewed();
+    }
+
+    public function galleryPhotos(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(GalleryPhoto::class);
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

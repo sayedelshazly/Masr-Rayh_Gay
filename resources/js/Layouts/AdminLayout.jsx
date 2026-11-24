@@ -23,6 +23,7 @@ export default function AdminLayout({ children, title }) {
         { label: t('admin.nav.announcement'), href: '/admin/announcement', active: url.startsWith('/admin/announcement') },
         { label: t('admin.nav.reviewRequests'), href: '/admin/review-requests', active: url.startsWith('/admin/review-requests') },
         { label: t('admin.nav.filmRequests'), href: '/admin/film-requests', active: url.startsWith('/admin/film-requests') },
+        { label: t('admin.nav.gallery'), href: '/admin/gallery', active: url.startsWith('/admin/gallery') },
         { label: t('admin.nav.reviews'), href: '/admin/reviews', active: url.startsWith('/admin/reviews') },
     ];
 
