@@ -32,6 +32,7 @@ class FilmRequestController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        abort_if(! \App\Models\SiteSetting::singleton()->film_enabled, 403);
         $validated = $request->validate([
             'package' => ['required', 'string', 'in:'.implode(',', array_keys(FilmRequest::PACKAGES))],
             'tour_id' => ['nullable', 'integer', 'exists:tours,id'],

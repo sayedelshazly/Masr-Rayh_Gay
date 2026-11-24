@@ -42,6 +42,7 @@ class GalleryController extends Controller
      */
     public function store(Request $request, Booking $booking): RedirectResponse
     {
+        abort_if(! \App\Models\SiteSetting::singleton()->photos_enabled, 403);
         abort_unless($booking->canSharePhotos(), 422);
 
         if ($booking->galleryPhotos()->count() >= GalleryPhoto::MAX_PER_BOOKING) {

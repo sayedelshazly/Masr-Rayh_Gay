@@ -1,3 +1,4 @@
+import { usePage } from '@inertiajs/react';
 import { useLocale } from '../i18n/LocaleContext';
 import { destinations } from '../data/home';
 import HieroglyphStrip from './HieroglyphStrip';
@@ -12,6 +13,9 @@ import { BrandMark } from './Navbar';
  */
 export default function Footer() {
     const { t, strings, locale } = useLocale();
+    const { props } = usePage();
+    const contactPhone = props.site?.whatsapp || strings.topbar.phone;
+    const contactEmail = props.site?.email || strings.topbar.email;
     const year = new Date().getFullYear();
 
     const quickLinks = [
@@ -23,6 +27,7 @@ export default function Footer() {
                         { label: t('film.title'), href: '/film-your-journey' },
                         { label: t('guides.title'), href: '/guides' },
                         { label: t('gallery.title'), href: '/gallery' },
+                        { label: t('privacy.title'), href: '/privacy' },
         { label: t('nav.about'), href: '#' },
     ];
 
@@ -83,19 +88,19 @@ export default function Footer() {
                             <span>{t('footer.address')}</span>
                         </li>
                         <li>
-                            <a href={`tel:${strings.topbar.phone.replace(/\s/g, '')}`} className="flex items-center gap-2.5 transition-colors hover:text-gold-300 sm:justify-start justify-center">
+                            <a href={`tel:${contactPhone.replace(/\s/g, '')}`} className="flex items-center gap-2.5 transition-colors hover:text-gold-300 sm:justify-start justify-center">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" className="h-4 w-4 shrink-0 text-gold-500" aria-hidden="true">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
                                 </svg>
-                                <span dir="ltr">{strings.topbar.phone}</span>
+                                <span dir="ltr">{contactPhone}</span>
                             </a>
                         </li>
                         <li>
-                            <a href={`mailto:${strings.topbar.email}`} className="flex items-center gap-2.5 transition-colors hover:text-gold-300 sm:justify-start justify-center">
+                            <a href={`mailto:${contactEmail}`} className="flex items-center gap-2.5 transition-colors hover:text-gold-300 sm:justify-start justify-center">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" className="h-4 w-4 shrink-0 text-gold-500" aria-hidden="true">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
                                 </svg>
-                                <span dir="ltr">{strings.topbar.email}</span>
+                                <span dir="ltr">{contactEmail}</span>
                             </a>
                         </li>
                     </ul>

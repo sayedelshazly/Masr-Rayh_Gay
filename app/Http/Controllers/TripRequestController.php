@@ -27,6 +27,7 @@ class TripRequestController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        abort_if(! \App\Models\SiteSetting::singleton()->plan_enabled, 403);
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:120'],
             'email' => ['required', 'email', 'max:160'],

@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\DepartureController as AdminDepartureController;
 use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
 use App\Http\Controllers\Admin\GalleryController as AdminGalleryController;
+use App\Http\Controllers\Admin\SiteSettingController as AdminSiteSettingController;
 use App\Http\Controllers\Admin\TripRequestController as AdminTripRequestController;
 use App\Http\Controllers\Admin\FilmRequestController as AdminFilmRequestController;
 use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
@@ -37,9 +38,9 @@ Route::get('/', HomeController::class)->name('home');
 
 Route::middleware('guest')->group(function () {
     Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
-    Route::post('/register', [RegisteredUserController::class, 'store']);
+    Route::post('/register', [RegisteredUserController::class, 'store'])->middleware('throttle:10,1');
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
-    Route::post('/login', [AuthenticatedSessionController::class, 'store']);
+    Route::post('/login', [AuthenticatedSessionController::class, 'store'])->middleware('throttle:10,1');
 });
 
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
@@ -58,6 +59,7 @@ Route::post('/tours/{tour:slug}/bookings', [BookingController::class, 'store'])-
 Route::get('/booking/{booking:reference}', [BookingController::class, 'show'])->name('bookings.show');
 Route::post('/booking/{booking:reference}/review', [ReviewController::class, 'store'])->name('bookings.review');
 Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index');
+Route::inertia('/privacy', 'Privacy')->name('privacy');
 Route::post('/booking/{booking:reference}/photos', [GalleryController::class, 'store'])->name('bookings.photos');
 
 Route::get('/guides', [GuidesController::class, 'index'])->name('guides.index');
@@ -87,6 +89,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::patch('/trip-requests/{tripRequest}/status', [AdminTripRequestController::class, 'updateStatus'])->name('trip-requests.status');
     Route::delete('/trip-requests/{tripRequest}', [AdminTripRequestController::class, 'destroy'])->name('trip-requests.destroy');
 
+    Route::get('/settings', [AdminSiteSettingController::class, 'edit'])->name('settings.edit');
+    Route::put('/settings', [AdminSiteSettingController::class, 'update'])->name('settings.update');
     Route::get('/gallery', [AdminGalleryController::class, 'index'])->name('gallery.index');
     Route::patch('/gallery/{photo}/toggle', [AdminGalleryController::class, 'toggle'])->name('gallery.toggle');
     Route::delete('/gallery/{photo}', [AdminGalleryController::class, 'destroy'])->name('gallery.destroy');

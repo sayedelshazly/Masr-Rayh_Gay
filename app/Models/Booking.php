@@ -227,6 +227,16 @@ class Booking extends Model
             && $this->travel_date->lt(now()->startOfDay());
     }
 
+    /** The live hold window: the admin setting wins over the default. */
+    public static function holdMinutes(): int
+    {
+        if (! \Illuminate\Support\Facades\Schema::hasTable('site_settings')) {
+            return self::HOLD_MINUTES;
+        }
+
+        return (int) (SiteSetting::singleton()->hold_minutes ?: self::HOLD_MINUTES);
+    }
+
     /** Post-trip contributions (reviews, gallery photos) share one rule. */
     public function canSharePhotos(): bool
     {

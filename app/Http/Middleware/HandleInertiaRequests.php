@@ -43,6 +43,11 @@ class HandleInertiaRequests extends Middleware
                     ? $request->user()->only('id', 'name', 'email', 'is_admin')
                     : null,
             ],
+            'site' => fn () => ($settings = \App\Models\SiteSetting::singleton()) ? [
+                'whatsapp' => $settings->whatsapp_number,
+                'email' => $settings->contact_email,
+                'features' => $settings->features(),
+            ] : null,
             'announcement' => fn () => ($current = Announcement::current())
                 ? $current->only('id', 'text_ar', 'text_en', 'link', 'updated_at')
                 : null,

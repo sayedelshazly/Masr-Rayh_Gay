@@ -1,3 +1,4 @@
+import { usePage } from '@inertiajs/react';
 import { useLocale } from '../i18n/LocaleContext';
 
 /**
@@ -7,7 +8,8 @@ import { useLocale } from '../i18n/LocaleContext';
  */
 export default function WhatsAppFloat() {
     const { t } = useLocale();
-    const phone = t('topbar.phone').replace(/\D/g, '');
+    const { props } = usePage();
+    const phone = (props.site?.whatsapp || t('topbar.phone')).replace(/\D/g, '');
     const href = `https://wa.me/${phone}?text=${encodeURIComponent(t('topbar.whatsappMessage'))}`;
 
     return (

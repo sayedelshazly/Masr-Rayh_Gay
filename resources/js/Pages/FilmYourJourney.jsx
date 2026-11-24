@@ -1,4 +1,4 @@
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, useForm, usePage} from '@inertiajs/react';
 import AppLayout from '../Layouts/AppLayout';
 import Reveal from '../Components/Reveal';
 import Button from '../Components/Button';
@@ -21,6 +21,7 @@ function FilmStrip() {
 
 export default function FilmYourJourney({ packages, tours, initial, submitted }) {
     const { t, locale } = useLocale();
+    const filmEnabled = usePage().props.site?.features?.film !== false;
     const form = useForm({
         package: 'film',
         tour_id: initial.tour_id ?? '',
@@ -167,7 +168,12 @@ export default function FilmYourJourney({ packages, tours, initial, submitted })
 
                     <Reveal delay={120} className="lg:col-span-3">
                         <div className="rounded-lg bg-nile-950/75 p-6 shadow-xl shadow-black/30 ring-1 ring-white/10 backdrop-blur sm:p-8">
-                            {submitted ? (
+                            {!filmEnabled ? (
+                                <div className="py-8 text-center">
+                                    <p className="font-glyph text-5xl text-gold-300">𓋹</p>
+                                    <p className="mx-auto mt-4 max-w-md leading-relaxed text-sand-100/70">{t('common.featureClosed')}</p>
+                                </div>
+                            ) : submitted ? (
                                 <div className="py-8 text-center">
                                     <p className="font-glyph text-5xl text-gold-300">𓋹</p>
                                     <h3 className="mt-4 font-display text-2xl text-sand-100">{t('film.successTitle')}</h3>

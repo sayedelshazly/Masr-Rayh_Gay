@@ -1,4 +1,4 @@
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, useForm, usePage} from '@inertiajs/react';
 import AppLayout from '../Layouts/AppLayout';
 import Reveal from '../Components/Reveal';
 import { useLocale } from '../i18n/LocaleContext';
@@ -51,6 +51,7 @@ function Stepper({ label, value, onChange, min, max }) {
  */
 export default function PlanTrip({ destinations = [], submitted = false, prefill = null }) {
     const { t, locale } = useLocale();
+    const planEnabled = usePage().props.site?.features?.plan !== false;
 
     const form = useForm({
         name: prefill?.name ?? '',
@@ -91,7 +92,14 @@ export default function PlanTrip({ destinations = [], submitted = false, prefill
                 </div>
 
                 <div className="mx-auto max-w-3xl px-4 pb-20 pt-10 sm:px-6">
-                    {submitted ? (
+                    {!planEnabled ? (
+                        <Reveal>
+                            <div className="rounded-lg bg-nile-950/70 p-8 text-center shadow-lg shadow-black/25 ring-1 ring-white/10 backdrop-blur sm:p-10">
+                                <p aria-hidden="true" className="font-glyph text-5xl text-gold-400">𓂀</p>
+                                <p className="mx-auto mt-4 max-w-md leading-loose text-sand-100/70">{t('common.featureClosed')}</p>
+                            </div>
+                        </Reveal>
+                    ) : submitted ? (
                         <Reveal>
                             <div className="rounded-lg bg-nile-950/70 p-8 text-center shadow-lg shadow-black/25 ring-1 ring-gold-500/30 backdrop-blur sm:p-10">
                                 <p aria-hidden="true" className="font-glyph text-5xl text-gold-400">𓂀</p>

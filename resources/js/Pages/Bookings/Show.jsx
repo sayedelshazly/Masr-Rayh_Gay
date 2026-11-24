@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import AppLayout from '../../Layouts/AppLayout';
 import Reveal from '../../Components/Reveal';
 import { DurationLabel } from '../../Components/TourCard';
@@ -40,6 +40,7 @@ function DetailRow({ label, children }) {
 }
 
 export default function BookingShow({ booking, canReview = false, canSharePhotos = false, photos = [] }) {
+    const features = usePage().props.site?.features ?? {};
     const { t, locale } = useLocale();
     const tour = booking.tour ?? {};
     const destination = tour.destination ?? {};
@@ -136,7 +137,7 @@ export default function BookingShow({ booking, canReview = false, canSharePhotos
                 </div>
                 </Reveal>
 
-                {(review || canReview) && (
+                {(features.reviews !== false && (review || canReview)) && (
                     <div className="mx-auto mt-8 max-w-3xl rounded-lg bg-nile-950/70 p-6 text-start shadow-lg shadow-black/25 ring-1 ring-white/10 backdrop-blur sm:p-8">
                         <h2 className="font-display text-xl font-bold text-sand-100">{t('reviews.formTitle')}</h2>
                         {review ? (
@@ -191,7 +192,7 @@ export default function BookingShow({ booking, canReview = false, canSharePhotos
                     </div>
                 )}
 
-                {canSharePhotos && (
+                {features.photos !== false && canSharePhotos && (
                     <div className="mx-auto mt-8 max-w-3xl rounded-lg bg-nile-950/70 p-6 text-start shadow-lg shadow-black/25 ring-1 ring-white/10 backdrop-blur sm:p-8">
                         <h2 className="font-display text-xl font-bold text-sand-100">{t('gallery.shareTitle')}</h2>
                         <p className="mt-2 text-sm leading-relaxed text-sand-100/65">{t('gallery.shareText')}</p>

@@ -5,6 +5,7 @@ import AnnouncementBar from '../Components/AnnouncementBar';
 import Navbar, { isOverlayRoute } from '../Components/Navbar';
 import WhatsAppFloat from '../Components/WhatsAppFloat';
 import TripAssistant from '../Components/TripAssistant';
+import CookieNotice from '../Components/CookieNotice';
 
 /**
  * Site-wide chrome: fixed navbar on top, footer at the bottom, page
@@ -58,6 +59,7 @@ export default function AppLayout({ children, backdrop }) {
             </div>
             <WhatsAppFloat />
             <TripAssistant />
+            <CookieNotice />
             <LoginInvite />
         </div>
     );

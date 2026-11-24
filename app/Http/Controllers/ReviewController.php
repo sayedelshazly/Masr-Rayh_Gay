@@ -17,6 +17,7 @@ class ReviewController extends Controller
      */
     public function store(Request $request, Booking $booking): RedirectResponse
     {
+        abort_if(! \App\Models\SiteSetting::singleton()->reviews_enabled, 403);
         if ($booking->review()->exists()) {
             throw ValidationException::withMessages([
                 'body' => $request->input('locale') === 'en'

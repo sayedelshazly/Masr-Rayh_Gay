@@ -21,7 +21,7 @@ class ExpireBookingHolds extends Command
     {
         $expired = Booking::where('status', Booking::STATUS_PENDING)
             ->whereNotNull('departure_id')
-            ->where('created_at', '<=', now()->subMinutes(Booking::HOLD_MINUTES))
+            ->where('created_at', '<=', now()->subMinutes(Booking::holdMinutes()))
             ->update(['status' => Booking::STATUS_EXPIRED]);
 
         $this->info("Expired {$expired} booking hold(s).");
