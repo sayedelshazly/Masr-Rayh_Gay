@@ -1,6 +1,7 @@
 import { usePage } from '@inertiajs/react';
 import Footer from '../Components/Footer';
 import LoginInvite from '../Components/LoginInvite';
+import AnnouncementBar from '../Components/AnnouncementBar';
 import Navbar, { isOverlayRoute } from '../Components/Navbar';
 import WhatsAppFloat from '../Components/WhatsAppFloat';
 import TripAssistant from '../Components/TripAssistant';
@@ -48,10 +49,13 @@ export default function AppLayout({ children, backdrop }) {
                 <img src={image} alt="" className="h-full w-full object-cover opacity-40" />
                 <div className="absolute inset-0 bg-gradient-to-b from-nile-950/60 via-nile-950/30 to-nile-950/70" />
             </div>
-            <Navbar />
-            {!overlay && <div className="h-[169px] shrink-0" aria-hidden="true" />}
-            <main className="flex-1">{children}</main>
-            <Footer />
+            <AnnouncementBar />
+            <div className="relative flex flex-1 flex-col">
+                <Navbar />
+                {!overlay && <div className="h-[169px] shrink-0" aria-hidden="true" />}
+                <main className="flex-1">{children}</main>
+                <Footer />
+            </div>
             <WhatsAppFloat />
             <TripAssistant />
             <LoginInvite />

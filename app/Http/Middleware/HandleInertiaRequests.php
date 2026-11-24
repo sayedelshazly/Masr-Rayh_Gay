@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Announcement;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -42,6 +43,9 @@ class HandleInertiaRequests extends Middleware
                     ? $request->user()->only('id', 'name', 'email', 'is_admin')
                     : null,
             ],
+            'announcement' => fn () => ($current = Announcement::current())
+                ? $current->only('id', 'text_ar', 'text_en', 'link', 'updated_at')
+                : null,
             'flash' => [
                 'success' => $request->session()->get('success'),
             ],

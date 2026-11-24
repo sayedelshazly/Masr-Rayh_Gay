@@ -171,6 +171,55 @@ class Booking extends Model
         return 'https://wa.me/'.$digits.'?text='.rawurlencode($message);
     }
 
+    /** A wa.me link with a post-trip thank-you message. */
+    public function whatsappThanksUrl(): ?string
+    {
+        $digits = $this->whatsappPhone();
+
+        if ($digits === null) {
+            return null;
+        }
+
+        $message = implode("\n", [
+            "أهلاً {$this->customer_name}، معاك فريق مصر رايح جاي 𓂀",
+            "نتمنى تكون رحلة «{$this->tour->title_ar}» عجبتك وصنعت ذكريات حلوة.",
+            'شكرًا لثقتك فينا، ونستنى نشوفك في رحلة جديدة قريب.',
+        ]);
+
+        return 'https://wa.me/'.$digits.'?text='.rawurlencode($message);
+    }
+
+    /** A wa.me link asking the guest to review, with their booking page link. */
+    public function whatsappReviewUrl(): ?string
+    {
+        $digits = $this->whatsappPhone();
+
+        if ($digits === null) {
+            return null;
+        }
+
+        $message = implode("\n", [
+            "أهلاً {$this->customer_name}، معاك فريق مصر رايح جاي 𓂀",
+            "رأيك في رحلة «{$this->tour->title_ar}» يهمنا جدًا وبيساعد مسافرين غيرك يختاروا صح.",
+            'قيّم رحلتك من صفحة حجزك هنا:',
+            url('/booking/'.$this->reference),
+            'شكرًا ليك!',
+        ]);
+
+        return 'https://wa.me/'.$digits.'?text='.rawurlencode($message);
+    }
+
+    /** All one-tap WhatsApp templates for the admin, keyed by name. */
+    public function whatsappTemplates(): array
+    {
+        return array_filter([
+            'confirm' => $this->whatsappUrl(),
+            'remind' => $this->whatsappReminderUrl(),
+            'thanks' => $this->whatsappThanksUrl(),
+            'review' => $this->whatsappReviewUrl(),
+        ]);
+    }
+
     public function canBeReviewed(): bool
     {
         return $this->status === self::STATUS_CONFIRMED

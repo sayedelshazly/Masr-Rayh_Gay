@@ -20,6 +20,8 @@ export default function AdminLayout({ children, title }) {
         { label: t('admin.nav.destinations'), href: '/admin/destinations', active: url.startsWith('/admin/destinations') },
         { label: t('admin.nav.tripRequests'), href: '/admin/trip-requests', active: url.startsWith('/admin/trip-requests') },
         { label: t('admin.nav.tomorrow'), href: '/admin/tomorrow', active: url.startsWith('/admin/tomorrow') },
+        { label: t('admin.nav.announcement'), href: '/admin/announcement', active: url.startsWith('/admin/announcement') },
+        { label: t('admin.nav.reviewRequests'), href: '/admin/review-requests', active: url.startsWith('/admin/review-requests') },
         { label: t('admin.nav.filmRequests'), href: '/admin/film-requests', active: url.startsWith('/admin/film-requests') },
         { label: t('admin.nav.reviews'), href: '/admin/reviews', active: url.startsWith('/admin/reviews') },
     ];

@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\DepartureController as AdminDepartureController;
 use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
 use App\Http\Controllers\Admin\TripRequestController as AdminTripRequestController;
 use App\Http\Controllers\Admin\FilmRequestController as AdminFilmRequestController;
+use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
+use App\Http\Controllers\Admin\ReviewRequestController as AdminReviewRequestController;
 use App\Http\Controllers\Admin\TomorrowController as AdminTomorrowController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\DestinationController as AdminDestinationController;
@@ -71,6 +73,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/', AdminDashboardController::class)->name('dashboard');
 
     Route::get('/trip-requests', [AdminTripRequestController::class, 'index'])->name('trip-requests.index');
+    Route::get('/announcement', [AdminAnnouncementController::class, 'edit'])->name('announcement.edit');
+    Route::put('/announcement', [AdminAnnouncementController::class, 'update'])->name('announcement.update');
+    Route::get('/review-requests', [AdminReviewRequestController::class, 'index'])->name('review-requests.index');
     Route::get('/tomorrow', [AdminTomorrowController::class, 'index'])->name('tomorrow.index');
     Route::get('/film-requests', [AdminFilmRequestController::class, 'index'])->name('film-requests.index');
     Route::patch('/film-requests/{filmRequest}', [AdminFilmRequestController::class, 'update'])->name('film-requests.update');

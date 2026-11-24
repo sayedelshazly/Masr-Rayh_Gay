@@ -54,6 +54,7 @@ class BookingController extends Controller
             'booking' => $booking,
             'statuses' => Booking::STATUSES,
             'whatsappUrl' => $booking->whatsappUrl(),
+            'whatsappTemplates' => $booking->whatsappTemplates(),
         ]);
     }
 
