@@ -45,7 +45,7 @@ class BookingController extends Controller
             'customer_name' => ['required', 'string', 'max:255'],
             'customer_email' => ['required', 'email', 'max:255'],
             'customer_phone' => ['required', 'string', 'min:7', 'max:20'],
-            'travel_date' => ['required_without:departure_id', 'nullable', 'date', 'after_or_equal:today'],
+            'travel_date' => ['nullable', 'date', 'after_or_equal:today'],
             'departure_id' => ['nullable', 'integer'],
             'adults' => ['required', 'integer', 'min:1', 'max:30'],
             'children' => ['nullable', 'integer', 'min:0', 'max:30'],
@@ -56,6 +56,19 @@ class BookingController extends Controller
         $adults = (int) $validated['adults'];
         $children = (int) ($validated['children'] ?? 0);
         $locale = $validated['locale'] ?? 'ar';
+
+        // A booking always needs a date: either a scheduled departure or a
+        // free travel date. The error lands on the field the checkout
+        // actually shows, so the traveller is never left without a message.
+        if (empty($validated['departure_id']) && empty($validated['travel_date'])) {
+            $needsDeparture = $tour->departures()->upcoming()->exists();
+
+            throw ValidationException::withMessages([
+                ($needsDeparture ? 'departure_id' : 'travel_date') => $locale === 'en'
+                    ? ($needsDeparture ? 'Choose one of the scheduled departures for this trip.' : 'Choose your travel date.')
+                    : ($needsDeparture ? 'اختر موعد الرحلة من المواعيد المتاحة.' : 'اختر تاريخ السفر الأول.'),
+            ]);
+        }
 
         $attributes = [
             'tour_id' => $tour->id,

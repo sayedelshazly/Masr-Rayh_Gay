@@ -4,7 +4,7 @@ import QuizBlock from '../../Components/QuizBlock';
 import Reveal from '../../Components/Reveal';
 import { useLocale } from '../../i18n/LocaleContext';
 
-export default function AcademyLesson({ lesson, questions, previousLesson, nextLesson }) {
+export default function AcademyLesson({ lesson, questions, best = null, previousLesson, nextLesson }) {
     const { t, locale } = useLocale();
     const page = t('academy.page');
     const pick = (item, field) => item[`${field}_${locale}`] ?? item[`${field}_ar`];
@@ -51,7 +51,7 @@ export default function AcademyLesson({ lesson, questions, previousLesson, nextL
                             <h2 className="font-display text-2xl font-extrabold text-sand-100">{page.lessonQuizTitle}</h2>
                             <p className="mt-2 leading-relaxed text-sand-100/75">{page.lessonQuizText}</p>
                             <div className="mt-6">
-                                <QuizBlock questions={questions} />
+                                <QuizBlock questions={questions} lesson={lesson.slug} best={best} />
                             </div>
                         </section>
                     </Reveal>

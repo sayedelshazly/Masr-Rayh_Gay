@@ -24,9 +24,9 @@ class BookingController extends Controller
             })
             ->when($filters['search'] ?? null, function ($query, $search) {
                 $query->where(function ($query) use ($search) {
-                    $query->where('reference', 'like', "%{$search}%")
-                        ->orWhere('customer_email', 'like', "%{$search}%")
-                        ->orWhere('customer_name', 'like', "%{$search}%");
+                    $query->whereLike('reference', "%{$search}%")
+                        ->orWhereLike('customer_email', "%{$search}%")
+                        ->orWhereLike('customer_name', "%{$search}%");
                 });
             })
             ->latest()

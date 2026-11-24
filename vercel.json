@@ -1,0 +1,17 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm ci && npm run build",
+  "functions": {
+    "api/index.php": {
+      "runtime": "vercel-php@0.7.4",
+      "memory": 1024,
+      "maxDuration": 30
+    }
+  },
+  "routes": [
+    { "src": "/(favicon\\.svg|favicon-32\\.png|favicon\\.ico|apple-touch-icon\\.png)", "dest": "/public/$1" },
+    { "src": "/(build|images|videos)/(.*)", "dest": "/public/$1/$2" },
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/api/index.php" }
+  ]
+}

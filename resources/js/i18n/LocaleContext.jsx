@@ -40,6 +40,9 @@ export function LocaleProvider({ children }) {
 
         try {
             window.localStorage.setItem(STORAGE_KEY, locale);
+            // The same choice goes to the server as a cookie, so validation
+            // and auth messages come back in the language on screen.
+            document.cookie = `locale=${locale}; path=/; max-age=31536000; samesite=lax`;
         } catch {
             // Private mode etc. — locale simply won't persist.
         }
