@@ -29,6 +29,7 @@ class MyBookingController extends Controller
             ->get()
             ->each(function (Booking $booking) {
                 $booking->setAttribute('can_review', $booking->canBeReviewed() && $booking->review === null);
+                $booking->setAttribute('can_share_photos', $booking->canSharePhotos());
                 $booking->setAttribute('has_review', $booking->review !== null);
             });
 

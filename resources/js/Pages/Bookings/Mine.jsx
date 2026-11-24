@@ -86,16 +86,31 @@ function BookingCard({ booking, onCancel, cancelling }) {
                 </div>
             </dl>
 
-            {booking.can_review && (
-                <div className="mt-4 border-t border-white/10 pt-4">
+            <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-white/10 pt-4">
+                <a
+                    href={`/booking/${booking.reference}`}
+                    className="group inline-flex items-center gap-1.5 text-sm font-bold text-gold-300 transition-colors hover:text-gold-500"
+                >
+                    {t('common.viewDetails')}
+                    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5 rtl:-scale-x-100 rtl:group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
+                </a>
+                {booking.can_review && (
                     <a
                         href={`/booking/${booking.reference}`}
-                        className="font-display inline-flex min-h-[40px] items-center rounded-md bg-gold-500 px-4 py-2 text-sm font-bold text-ink-900 transition-colors hover:bg-gold-300"
+                        className="font-display ms-auto inline-flex min-h-[40px] items-center rounded-md bg-gold-500 px-4 py-2 text-sm font-bold text-ink-900 transition-colors hover:bg-gold-300"
                     >
                         ★ {t('reviews.rateCta')}
                     </a>
-                </div>
-            )}
+                )}
+                {booking.can_share_photos && (
+                    <a
+                        href={`/booking/${booking.reference}`}
+                        className={`font-display inline-flex min-h-[40px] items-center rounded-md border border-gold-500/60 px-4 py-2 text-sm font-bold text-gold-300 transition-colors hover:bg-gold-500/10 ${booking.can_review ? '' : 'ms-auto'}`}
+                    >
+                        𓂀 {t('gallery.shareTitle')}
+                    </a>
+                )}
+            </div>
             {cancellable && (
                 <div className="mt-5 border-t border-white/10 pt-4 text-end">
                     <button

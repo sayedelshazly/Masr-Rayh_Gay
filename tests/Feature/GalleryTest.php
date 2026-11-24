@@ -99,6 +99,23 @@ class GalleryTest extends TestCase
         Storage::disk('public')->assertMissing('gallery/a.jpg');
     }
 
+    public function test_my_bookings_flags_photo_sharing_for_finished_trips(): void
+    {
+        $user = User::factory()->create();
+        $tour = Tour::factory()->create();
+        Booking::factory()->create([
+            'tour_id' => $tour->id,
+            'user_id' => $user->id,
+            'customer_email' => $user->email,
+            'status' => Booking::STATUS_CONFIRMED,
+            'travel_date' => now()->subDays(2)->toDateString(),
+        ]);
+
+        $response = $this->actingAs($user)->get('/my-bookings')->assertOk();
+        $bookings = $response->viewData('page')['props']['bookings'];
+        $this->assertTrue($bookings[0]['can_share_photos']);
+    }
+
     public function test_gallery_admin_is_admin_only(): void
     {
         $this->get('/admin/gallery')->assertRedirect('/login');
