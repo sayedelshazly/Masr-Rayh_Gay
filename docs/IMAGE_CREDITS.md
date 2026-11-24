@@ -63,3 +63,9 @@ owners; replace with licensed/owned photography before commercial launch if need
 | 4 | Felucca on the Nile at sunset | Sailboat with a tall white sail gliding on the Nile at golden hour | Pexels video 12265427 — https://www.pexels.com/video/12265427/ (Pexels free license) |
 | 5 | Red Sea — coral reef | "Egypt Red Sea — Swimming next to coral fixed on a reef in a tropical sea" | Pexels video 20271099 by Adrien JACTA — https://www.pexels.com/video/egypt-red-sea-bde-swimming-next-to-coral-fixed-on-a-reef-in-a-tropical-sea-20271099/ (Pexels free license) |
 | 6 | Alexandria — Qaitbay Citadel | "Tracking Shot of the Citadel of Qaitbay" | Pexels video 7579787 by The Instagrapher — https://www.pexels.com/video/tracking-shot-of-the-citadel-of-qaitbay-7579787/ (Pexels free license) |
+
+## Guide portraits (placeholders — replace with the real team's photos before launch)
+- guides/ahmed-elshazly.jpg — Pexels photo 13108255 (Amir Saeid Dehghan)
+- guides/mahmoud-hassan.jpg — Pexels photo 7832476
+- guides/sara-nabil.jpg — Pexels photo 38197025 (Tony Zohari)
+- guides/nourhan-ali.jpg — Pexels photo 30004320 (Daniel & Hannah Snipes)

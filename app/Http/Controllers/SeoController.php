@@ -24,6 +24,8 @@ class SeoController extends Controller
                 ['/tours', '0.9', 'daily'],
                 ['/destinations', '0.9', 'weekly'],
                 ['/plan-your-trip', '0.7', 'monthly'],
+                ['/guides', '0.6', 'monthly'],
+                ['/film-your-journey', '0.6', 'monthly'],
                 ['/academy', '0.8', 'weekly'],
                 ['/academy/glyphs', '0.7', 'monthly'],
                 ['/academy/name', '0.7', 'monthly'],

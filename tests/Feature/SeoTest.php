@@ -32,7 +32,7 @@ class SeoTest extends TestCase
         $this->assertStringContainsString('/academy/lessons/', $xml);
         $this->assertStringContainsString('/plan-your-trip', $xml);
         $this->assertStringNotContainsString('/admin', $xml);
-        $this->assertSame(32, substr_count($xml, '<loc>'));
+        $this->assertSame(34, substr_count($xml, '<loc>'));
     }
 
     public function test_robots_disallows_private_areas_and_points_to_the_sitemap(): void

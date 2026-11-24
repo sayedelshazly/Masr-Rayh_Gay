@@ -21,6 +21,7 @@ export default function Footer() {
         { label: t('nav.academy'), href: '/#academy' },
         { label: t('planTrip.title'), href: '/plan-your-trip' },
                         { label: t('film.title'), href: '/film-your-journey' },
+                        { label: t('guides.title'), href: '/guides' },
         { label: t('nav.about'), href: '#' },
     ];
 

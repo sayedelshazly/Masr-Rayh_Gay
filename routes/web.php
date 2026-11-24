@@ -21,6 +21,7 @@ use App\Http\Controllers\MyBookingController;
 use App\Http\Controllers\SeoController;
 use App\Http\Controllers\AssistantController;
 use App\Http\Controllers\FilmRequestController;
+use App\Http\Controllers\GuidesController;
 use App\Http\Controllers\TourController;
 use Illuminate\Support\Facades\Route;
 
@@ -53,6 +54,7 @@ Route::post('/tours/{tour:slug}/bookings', [BookingController::class, 'store'])-
 Route::get('/booking/{booking:reference}', [BookingController::class, 'show'])->name('bookings.show');
 Route::post('/booking/{booking:reference}/review', [ReviewController::class, 'store'])->name('bookings.review');
 
+Route::get('/guides', [GuidesController::class, 'index'])->name('guides.index');
 Route::get('/film-your-journey', [FilmRequestController::class, 'create'])->name('film.create');
 Route::post('/film-your-journey', [FilmRequestController::class, 'store'])->name('film.store');
 
