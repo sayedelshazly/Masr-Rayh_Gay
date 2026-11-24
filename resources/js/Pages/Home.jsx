@@ -421,7 +421,7 @@ function AcademyTeaser() {
     const glyphSize = `clamp(0.95rem, ${(88 / glyphCount).toFixed(2)}vw, ${Math.min(3.25, 26 / glyphCount).toFixed(2)}rem)`;
 
     return (
-        <section id="academy" className="relative scroll-mt-32">
+        <section id="academy" className="relative scroll-mt-32 border-y border-gold-500/15 bg-nile-950/55 backdrop-blur-[2px]">
             <div className="mx-auto max-w-3xl px-4 py-14 text-center sm:px-6">
                 <SectionHeading
                     dark
