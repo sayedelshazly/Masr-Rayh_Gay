@@ -34,6 +34,7 @@ function Hero() {
     const heroLinks = [
         { href: '/tours', label: t('hero.bookTrip'), glyph: null, primary: true },
         { href: '/tours', label: t('hero.exploreTours'), glyph: '𓅃' },
+        { href: '/guides', label: t('guides.title'), glyph: '𓆣' },
         { href: '/plan-your-trip', label: t('hero.planTrip'), glyph: '𓋹' },
         { href: '/film-your-journey', label: t('hero.film'), glyph: '𓂀' },
         { href: '/my-bookings', label: t('hero.myBookings'), glyph: '𓇋' },
@@ -99,14 +100,14 @@ function Hero() {
             {/* Vertical quick-links rail (desktop) */}
             <nav aria-label={t('hero.quickLinks')} className="absolute start-5 top-1/2 z-20 hidden -translate-y-1/2 lg:block xl:start-9">
                 <span aria-hidden="true" className="absolute -start-3 top-1/2 h-[130%] w-px -translate-y-1/2 bg-gradient-to-b from-transparent via-gold-500/40 to-transparent" />
-                <ul className="flex flex-col gap-2.5">
+                <ul className="flex flex-col gap-2">
                     {heroLinks.map((link, index) => (
                         <li key={link.label} className="animate-rail-in" style={{ animationDelay: `${150 + index * 110}ms` }}>
                             <Link
                                 href={link.href}
                                 className={link.primary
-                                    ? 'font-subhead flex min-h-[40px] items-center gap-2 whitespace-nowrap rounded-full bg-gold-500 px-4 py-2 text-[13px] font-bold text-ink-900 shadow-[0_8px_25px_rgba(201,162,75,0.35)] transition hover:bg-gold-300'
-                                    : 'font-subhead flex min-h-[40px] items-center gap-2 whitespace-nowrap rounded-full bg-nile-950/55 px-4 py-2 text-[13px] font-bold text-sand-100 ring-1 ring-white/20 backdrop-blur transition hover:text-gold-300 hover:ring-gold-400/70'}
+                                    ? 'font-subhead flex min-h-[34px] items-center gap-1.5 whitespace-nowrap rounded-full bg-gold-500 px-3.5 py-1.5 text-xs font-bold text-ink-900 shadow-[0_8px_25px_rgba(201,162,75,0.35)] transition hover:bg-gold-300'
+                                    : 'font-subhead flex min-h-[34px] items-center gap-1.5 whitespace-nowrap rounded-full bg-nile-950/55 px-3.5 py-1.5 text-xs font-bold text-sand-100 ring-1 ring-white/20 backdrop-blur transition hover:text-gold-300 hover:ring-gold-400/70'}
                             >
                                 {link.glyph && <span aria-hidden="true" className="font-glyph text-base leading-none text-gold-400">{link.glyph}</span>}
                                 {link.label}
@@ -131,15 +132,15 @@ function Hero() {
                             >
                                 ✕
                             </button>
-                            <ul className="relative flex flex-col items-center gap-3 pt-4">
+                            <ul className="relative flex flex-col items-center gap-2.5 pt-4">
                                 {heroLinks.map((link, index) => (
                                     <li key={link.label} className="animate-carve-in" style={{ animationDelay: `${180 + index * 120}ms` }}>
                                         <Link
                                             href={link.href}
                                             onClick={() => setMenuOpen(false)}
                                             className={link.primary
-                                                ? 'font-subhead flex min-h-[44px] items-center gap-2 whitespace-nowrap rounded-full bg-gold-500 px-6 py-2.5 text-sm font-bold text-ink-900 shadow-[0_8px_25px_rgba(201,162,75,0.35)]'
-                                                : 'font-subhead flex min-h-[44px] items-center gap-2 whitespace-nowrap rounded-full bg-white/5 px-6 py-2.5 text-sm font-bold text-sand-100 ring-1 ring-white/25 backdrop-blur transition hover:text-gold-300 hover:ring-gold-400/70'}
+                                                ? 'font-subhead flex min-h-[40px] items-center gap-2 whitespace-nowrap rounded-full bg-gold-500 px-5 py-2 text-[13px] font-bold text-ink-900 shadow-[0_8px_25px_rgba(201,162,75,0.35)]'
+                                                : 'font-subhead flex min-h-[40px] items-center gap-2 whitespace-nowrap rounded-full bg-white/5 px-5 py-2 text-[13px] font-bold text-sand-100 ring-1 ring-white/25 backdrop-blur transition hover:text-gold-300 hover:ring-gold-400/70'}
                                         >
                                             {link.glyph && <span aria-hidden="true" className="font-glyph text-base leading-none text-gold-400">{link.glyph}</span>}
                                             {link.label}
