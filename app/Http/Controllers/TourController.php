@@ -20,10 +20,12 @@ class TourController extends Controller
             ->with('destination')
             ->when($filters['search'] ?? null, function ($query, $search) {
                 $query->where(function ($query) use ($search) {
-                    $query->where('title_ar', 'like', "%{$search}%")
-                        ->orWhere('title_en', 'like', "%{$search}%")
-                        ->orWhere('summary_ar', 'like', "%{$search}%")
-                        ->orWhere('summary_en', 'like', "%{$search}%");
+                    // Case-insensitive on every driver (ILIKE on PostgreSQL,
+                    // LIKE on MySQL/SQLite), so "luxor" finds "Luxor".
+                    $query->whereLike('title_ar', "%{$search}%")
+                        ->orWhereLike('title_en', "%{$search}%")
+                        ->orWhereLike('summary_ar', "%{$search}%")
+                        ->orWhereLike('summary_en', "%{$search}%");
                 });
             })
             ->when($filters['destination'] ?? null, function ($query, $slug) {

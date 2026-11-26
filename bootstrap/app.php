@@ -16,7 +16,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Production runs behind Vercel's TLS-terminating edge; trusting its
+        // proxy headers keeps $request->isSecure() and generated URLs https.
+        $middleware->trustProxies(at: '*');
+
         $middleware->web(append: [
+            \App\Http\Middleware\SetLocale::class,
             HandleInertiaRequests::class,
             \App\Http\Middleware\SecurityHeaders::class,
         ]);

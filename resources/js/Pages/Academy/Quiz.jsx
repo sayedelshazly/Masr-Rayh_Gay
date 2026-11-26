@@ -4,7 +4,7 @@ import QuizBlock from '../../Components/QuizBlock';
 import Reveal from '../../Components/Reveal';
 import { useLocale } from '../../i18n/LocaleContext';
 
-export default function AcademyQuiz({ questions }) {
+export default function AcademyQuiz({ questions, best = null }) {
     const { t } = useLocale();
     const page = t('academy.page');
 
@@ -27,7 +27,7 @@ export default function AcademyQuiz({ questions }) {
 
             <Reveal>
                 <section className="mx-auto max-w-4xl px-4 pb-16 pt-10 sm:px-6">
-                    <QuizBlock questions={questions} />
+                    <QuizBlock questions={questions} best={best} />
                 </section>
             </Reveal>
         </AppLayout>

@@ -30,7 +30,9 @@ use App\Http\Controllers\GuidesController;
 use App\Http\Controllers\TourController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/assistant/recommend', [AssistantController::class, 'recommend'])->name('assistant.recommend');
+Route::post('/assistant/recommend', [AssistantController::class, 'recommend'])
+    ->middleware('throttle:30,1')
+    ->name('assistant.recommend');
 Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
 Route::get('/robots.txt', [SeoController::class, 'robots'])->name('robots');
 
@@ -55,25 +57,38 @@ Route::middleware('auth')->group(function () {
 Route::get('/tours', [TourController::class, 'index'])->name('tours.index');
 Route::get('/tours/{tour:slug}', [TourController::class, 'show'])->name('tours.show');
 Route::get('/tours/{tour:slug}/book', [BookingController::class, 'create'])->name('bookings.create');
-Route::post('/tours/{tour:slug}/bookings', [BookingController::class, 'store'])->name('bookings.store');
+Route::post('/tours/{tour:slug}/bookings', [BookingController::class, 'store'])
+    ->middleware('throttle:60,1')
+    ->name('bookings.store');
 Route::get('/booking/{booking:reference}', [BookingController::class, 'show'])->name('bookings.show');
-Route::post('/booking/{booking:reference}/review', [ReviewController::class, 'store'])->name('bookings.review');
+Route::post('/booking/{booking:reference}/review', [ReviewController::class, 'store'])
+    ->middleware('throttle:30,1')
+    ->name('bookings.review');
 Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index');
 Route::inertia('/privacy', 'Privacy')->name('privacy');
-Route::post('/booking/{booking:reference}/photos', [GalleryController::class, 'store'])->name('bookings.photos');
+Route::post('/booking/{booking:reference}/photos', [GalleryController::class, 'store'])
+    ->middleware('throttle:30,1')
+    ->name('bookings.photos');
 
 Route::get('/guides', [GuidesController::class, 'index'])->name('guides.index');
 Route::get('/film-your-journey', [FilmRequestController::class, 'create'])->name('film.create');
-Route::post('/film-your-journey', [FilmRequestController::class, 'store'])->name('film.store');
+Route::post('/film-your-journey', [FilmRequestController::class, 'store'])
+    ->middleware('throttle:30,1')
+    ->name('film.store');
 
 Route::get('/plan-your-trip', [TripRequestController::class, 'create'])->name('plan-trip.create');
-Route::post('/plan-your-trip', [TripRequestController::class, 'store'])->name('plan-trip.store');
+Route::post('/plan-your-trip', [TripRequestController::class, 'store'])
+    ->middleware('throttle:30,1')
+    ->name('plan-trip.store');
 
 Route::get('/academy', [AcademyController::class, 'index'])->name('academy.index');
 Route::get('/academy/glyphs', [AcademyController::class, 'glyphs'])->name('academy.glyphs');
 Route::get('/academy/lessons/{lesson:slug}', [AcademyController::class, 'lesson'])->name('academy.lesson');
 Route::get('/academy/name', [AcademyController::class, 'name'])->name('academy.name');
 Route::get('/academy/quiz', [AcademyController::class, 'quiz'])->name('academy.quiz');
+Route::post('/academy/quiz/check', [AcademyController::class, 'check'])
+    ->middleware('throttle:30,1')
+    ->name('academy.quiz.check');
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', AdminDashboardController::class)->name('dashboard');

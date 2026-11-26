@@ -95,7 +95,7 @@ export default function BookingCreate({ tour, initial, departures = [] }) {
                                                 </option>
                                             ))}
                                         </select>
-                                        <FieldError message={errors.departure_id} />
+                                        <FieldError message={errors.departure_id ?? errors.travel_date} />
                                         {selectedDeparture && <p className="mt-1.5 text-xs leading-relaxed text-sand-100/55">{t('booking.holdNote')}</p>}
                                     </div>
                                 ) : (

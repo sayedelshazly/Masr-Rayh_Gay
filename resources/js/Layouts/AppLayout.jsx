@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { usePage } from '@inertiajs/react';
 import Footer from '../Components/Footer';
 import LoginInvite from '../Components/LoginInvite';
@@ -6,6 +7,7 @@ import Navbar, { isOverlayRoute } from '../Components/Navbar';
 import WhatsAppFloat from '../Components/WhatsAppFloat';
 import TripAssistant from '../Components/TripAssistant';
 import CookieNotice from '../Components/CookieNotice';
+import { useLocale } from '../i18n/LocaleContext';
 
 /**
  * Site-wide chrome: fixed navbar on top, footer at the bottom, page
@@ -34,9 +36,20 @@ const DEFAULT_BACKDROP = '/images/destinations/aswan.jpg';
 const HOME_BACKDROP = '/images/destinations/cairo-giza.jpg';
 
 export default function AppLayout({ children, backdrop }) {
-    const { url } = usePage();
+    const { url, props } = usePage();
+    const { t } = useLocale();
     const overlay = isOverlayRoute(url);
     const isHome = url === '/';
+
+    // Rare session errors (an expired page after a long pause) arrive as
+    // `flash.error` and are shown once, in the site's own voice.
+    const flashError = props.flash?.error ?? null;
+    const [dismissedError, setDismissedError] = useState(null);
+    const showFlashError = flashError !== null && dismissedError !== flashError;
+
+    useEffect(() => {
+        setDismissedError(null);
+    }, [flashError]);
 
     const image =
         backdrop ??
@@ -57,6 +70,22 @@ export default function AppLayout({ children, backdrop }) {
                 <main className="flex-1">{children}</main>
                 <Footer />
             </div>
+            {showFlashError && (
+                <div
+                    role="alert"
+                    className="fixed bottom-5 start-1/2 z-[75] w-[min(92vw,26rem)] -translate-x-1/2 rounded-lg bg-nile-950/95 px-4 py-3 pe-10 text-sm font-medium text-sand-100 shadow-2xl shadow-black/50 ring-1 ring-carnelian-600/60 backdrop-blur rtl:translate-x-1/2"
+                >
+                    {flashError === 'page_expired' ? t('common.pageExpired') : flashError}
+                    <button
+                        type="button"
+                        onClick={() => setDismissedError(flashError)}
+                        aria-label={t('hero.close')}
+                        className="absolute end-2 top-2 flex h-6 w-6 items-center justify-center rounded-full text-sand-100/60 transition hover:bg-white/5 hover:text-sand-100"
+                    >
+                        ✕
+                    </button>
+                </div>
+            )}
             <WhatsAppFloat />
             <TripAssistant />
             <CookieNotice />

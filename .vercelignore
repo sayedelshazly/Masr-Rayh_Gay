@@ -1,0 +1,27 @@
+# Never ship local secrets or local-only artefacts to Vercel.
+.env
+.env.*
+!.env.example
+
+node_modules
+vendor
+
+# The Vite dev-server marker and the local storage symlink must never
+# reach a deployment (the marker would point every asset at localhost).
+public/hot
+public/storage
+public/fonts-manifest.dev.json
+
+.history
+.git
+
+tests
+phpunit.xml
+
+storage/logs/*
+storage/framework/cache/data/*
+storage/framework/sessions/*
+storage/framework/views/*
+database/database.sqlite
+
+serve.log
