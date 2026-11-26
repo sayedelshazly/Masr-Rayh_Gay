@@ -51,18 +51,17 @@ owners; replace with licensed/owned photography before commercial launch if need
 
 | Asset | Content | Source |
 |---|---|---|
-| public/videos/egypt-hero.mp4 | Multi-shot Egypt montage (27s, 720p loop, 6 shots × ~4.5s in order below) | Edited with ffmpeg from the clips listed in the next table |
+| public/videos/egypt-hero.mp4 | Luxury multi-shot Egypt montage (25.2s, 1080p loop, 5 shots × 6s with 1.2s crossfades, warm cinematic grade + vignette) — replaced the earlier 720p montage on 2026-11-26 | Edited with ffmpeg from the clips listed in the next table |
 
 ### Hero montage clips (in playback order)
 
 | # | Place | Clip | Source |
 |---|---|---|---|
-| 1 | Pyramids of Giza | Panoramic view of the Pyramids of Giza at sunset (shot reused from the previous hero video) | Pexels video 4174112 by Rafael Castro — https://www.pexels.com/video/egipto-4174112/ (Pexels free license) |
-| 2 | Luxor — temple colonnade (Karnak-style columns) | "The remainder of a once-great temple in Egypt" | Mixkit video 47389 — https://mixkit.co/free-stock-video/the-remainder-of-a-once-great-temple-in-egypt-47389/ (Mixkit free license) |
-| 3 | Nile cruising (sailboats + river ship) — used in place of a Luxor balloon shot, for which no suitable free clip was found | Aerial view of sailboats and a ship on the Nile | Pexels video 12265469 — https://www.pexels.com/video/12265469/ (Pexels free license) |
-| 4 | Felucca on the Nile at sunset | Sailboat with a tall white sail gliding on the Nile at golden hour | Pexels video 12265427 — https://www.pexels.com/video/12265427/ (Pexels free license) |
-| 5 | Red Sea — coral reef | "Egypt Red Sea — Swimming next to coral fixed on a reef in a tropical sea" | Pexels video 20271099 by Adrien JACTA — https://www.pexels.com/video/egypt-red-sea-bde-swimming-next-to-coral-fixed-on-a-reef-in-a-tropical-sea-20271099/ (Pexels free license) |
-| 6 | Alexandria — Qaitbay Citadel | "Tracking Shot of the Citadel of Qaitbay" | Pexels video 7579787 by The Instagrapher — https://www.pexels.com/video/tracking-shot-of-the-citadel-of-qaitbay-7579787/ (Pexels free license) |
+| 1 | Pyramids of Giza | Panoramic view of the Pyramids of Giza in soft morning light (1080p master of the clip the previous montage used at 720p) | Pexels video 4174112 by Rafael Castro — https://www.pexels.com/video/egipto-4174112/ (Pexels free license) |
+| 2 | Luxor — Mortuary Temple of Hatshepsut (Deir el-Bahari) | Sunlit temple terrace, statue and columns with sun flare (4K cinematic 4096×1720, centre-cropped) | Pexels video 11276525 — https://www.pexels.com/video/entrance-to-ancient-egyptian-building-11276525/ (Pexels free license) |
+| 3 | Luxor — Karnak Temple | Hieroglyph-carved wall in dramatic light and shadow (4K) | Pexels video 38144359 by BOB DK — https://www.pexels.com/video/ancient-egyptian-hieroglyphs-in-karnak-temple-38144359/ (Pexels free license) |
+| 4 | Nile cruising (sailboats + river ship) — used in place of a Luxor balloon shot, for which no suitable free clip was found | Aerial view of sailboats and a ship on the Nile (1080p master) | Pexels video 12265469 — https://www.pexels.com/video/12265469/ (Pexels free license) |
+| 5 | Felucca on the Nile at sunset | Sailboat silhouetted against the sun on the Nile at golden hour (1080p master) | Pexels video 12265427 — https://www.pexels.com/video/12265427/ (Pexels free license) |
 
 ## Guide portraits (placeholders — replace with the real team's photos before launch)
 - guides/ahmed-elshazly.jpg — Pexels photo 13108255 (Amir Saeid Dehghan)
