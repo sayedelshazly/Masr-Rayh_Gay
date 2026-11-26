@@ -49,7 +49,7 @@ export default function AdminSettings({ settings }) {
                     <section className="rounded-lg bg-white p-5 shadow-sm ring-1 ring-sand-300">
                         <div>
                             <label htmlFor="whatsapp_number" className="text-sm font-bold text-ink-900">{t('admin.settingsAdmin.whatsapp')}</label>
-                            <input id="whatsapp_number" dir="ltr" className={inputCls} value={form.data.whatsapp_number} onChange={(e) => form.setData('whatsapp_number', e.target.value)} placeholder="+20 109 968 7092" />
+                            <input id="whatsapp_number" dir="ltr" className={inputCls} value={form.data.whatsapp_number} onChange={(e) => form.setData('whatsapp_number', e.target.value)} placeholder="+20 109 968 7091" />
                             <p className="mt-1 text-xs text-ink-500">{t('admin.settingsAdmin.whatsappHint')}</p>
                             {form.errors.whatsapp_number && <p className="mt-1 text-xs font-medium text-carnelian-600">{form.errors.whatsapp_number}</p>}
                         </div>

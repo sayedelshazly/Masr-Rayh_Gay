@@ -21,7 +21,7 @@ class Seo
             'url' => url('/'),
             'logo' => url('/favicon.svg'),
             'image' => url('/images/destinations/cairo-giza.jpg'),
-            'telephone' => '+20 109 968 7092',
+            'telephone' => '+20 109 968 7091',
             'priceRange' => 'EGP',
             'address' => ['@type' => 'PostalAddress', 'addressCountry' => 'EG'],
         ];
